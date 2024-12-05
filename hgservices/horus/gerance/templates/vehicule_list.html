@@ -1,0 +1,121 @@
+<div>
+    <marquee behavior="scroll" direction="left" class="text-white bg-primary py-2">
+        <strong>Horus Global Services : Simplifiez la gestion de vos bureaux, Apporteurs, clients et polices d'assurances!</strong>
+    </marquee>
+</div>
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    table {
+        font-size: 0.9rem; /* Diminue la taille du texte */
+    }
+    th, td {
+        padding: 0.5rem;
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center">Liste des Véhicules</h2>
+        </div>
+        <a href="{% url 'gestion' %}" class="btn btn-secondary my-3">Retour</a>
+        <div class="card-body">
+            <a href="{% url 'vehicule_create' %}" class="btn btn-success mb-3">
+                <i class="fas fa-plus-circle"></i> Ajouter un véhicule
+            </a>
+
+
+            <!-- Tableau des véhicules -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Apporteur</th>
+                            <th>Souscripteur</th>
+                            <th>Immatriculation</th>
+                            <th>Marque et Modèle</th>
+                            <th>Police</th>
+                            <th>Durée (mois)</th>
+                            <th>Date d'effet</th>
+                            <th>Date d'échéance</th>
+                            <th>Catégorie</th>
+                            <th>Puissance Fiscale</th>
+                            <th>Nombre de Places</th>
+                            <th>Nom du Client</th>
+                            <th>Prénom du Client</th>
+                            <th>Adresse</th>
+                            <th>Téléphone</th>
+                            <th>Email</th>
+                            <th>Avance</th>
+                            <th>Reste</th>
+                            <th>Payé</th>
+                            <th>Note</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vehicule in vehicules %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ vehicule.apporteur }}</td>
+                            <td>{{ vehicule.souscripteur }}</td>
+                            <td>{{ vehicule.immatriculation }}</td>
+                            <td>{{ vehicule.marque_et_modele }}</td>
+                            <td>{{ vehicule.police }}</td>
+                            <td>{{ vehicule.duree_en_mois}}</td>
+                            <td>{{ vehicule.date_effet|date:"d/m/Y" }}</td>
+                            <td>{{ vehicule.date_echeances|date:"d/m/Y"  }}</td>
+                            <td>{{ vehicule.categorie }}</td>
+                            <td>{{ vehicule.puissance_fiscale }}</td>
+                            <td>{{ vehicule.nombre_de_place }}</td>
+                            <td>{{ vehicule.nom_du_client }}</td>
+                            <td>{{ vehicule.prenom_du_client }}</td>
+                            <td>{{ vehicule.adresse }}</td>
+                            <td>{{ vehicule.telephone }}</td>
+                            <td>{{ vehicule.mail }}</td>
+                            <td>{{ vehicule.avance }}</td>
+                            <td>{{ vehicule.reste }}</td>
+                            <td>{% if vehicule.payer %} Oui {% else %} Non {% endif %}</td>
+                            <td>{{ vehicule.note }}</td>
+                            <td>
+                                <a href="{% url 'vehicule_update' vehicule.id %}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                                <a href="{% url 'vehicule_delete' vehicule.id %}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo; Premier</a>
+      <a href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">Dernier &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+
+{% endblock %}

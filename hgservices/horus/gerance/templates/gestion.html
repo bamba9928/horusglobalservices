@@ -1,0 +1,32 @@
+<!-- Texte défilant tout en haut -->
+<div>
+  <marquee behavior="scroll" direction="left" class="text-white bg-primary py-2">
+    <strong>Horus Global Services : Simplifiez la gestion de vos bureaux, clients et polices d'assurances !</strong>
+  </marquee>
+</div>
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex vh-100 align-items-center justify-content-center">
+  <div class="text-center">
+    <!-- Bouton Nouvelle Affaire -->
+    <a href="{% url 'vehicule_create' %}" class="btn btn-primary btn-lg my-3 shadow">
+      <i class="fas fa-plus-circle"></i> Nouvelle Affaire
+    </a>
+    <!-- Bouton Gestion des Véhicules -->
+    <a href="{% url 'vehicule_list' %}" class="btn btn-primary btn-lg my-3 shadow">
+      <i class="fas fa-car"></i> Gestion Véhicules
+    </a>
+    <!-- Bouton Déconnexion -->
+    {% if user.is_authenticated %}
+      <form id="logout-form" action="{% url 'logout' %}" method="post" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-lg my-3 shadow">
+          <i class="fas fa-sign-out-alt"></i> Déconnexion
+        </button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+<div class="container mt-4">
+    <div class="mb-3">
+        <marquee behavior="scroll" direction="left" class="text-white bg-primary py-2">
+            <strong>Horus Global Services : Simplifiez la gestion de vos bureaux, apporteurs, clients et polices d'assurances !</strong>
+        </marquee>
+    </div>
+
+{% block content %}
+
+    <!-- Titre -->
+    <h2 class="text-center mb-5">Résultats de recherche pour : "{{ query }}"</h2>
+<div class="d-flex justify-content-end mb-3">
+  <a href="{% url 'export_vehicules_csv' %}?immatriculation={{ request.GET.immatriculation }}&nom_client={{ request.GET.nom_client }}" class="btn btn-primary me-2">
+    Exporter en CSV
+  </a>
+  <a href="{% url 'export_vehicules_pdf' %}?immatriculation={{ request.GET.immatriculation }}&nom_client={{ request.GET.nom_client }}" class="btn btn-danger">
+    Exporter en PDF
+  </a>
+</div>
+
+    <!-- Résultats de recherche -->
+    {% if vehicules %}
+    <div class="table-responsive shadow-lg">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th>#</th>
+                    <th>Immatriculation</th>
+                    <th>Marque et Modèle</th>
+                    <th>Police</th>
+                    <th>Souscripteur</th>
+                    <th>Nom du Client</th>
+                    <th>Prénom du Client</th>
+                    <th>Téléphone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicule in vehicules %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>{{ vehicule.immatriculation }}</td>
+                    <td>{{ vehicule.marque_et_modele }}</td>
+                    <td>{{ vehicule.police }}</td>
+                    <td>{{ vehicule.souscripteur }}</td>
+                    <td>{{ vehicule.nom_du_client }}</td>
+                    <td>{{ vehicule.prenom_du_client }}</td>
+                    <td>{{ vehicule.telephone }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'vehicule_update' vehicule.id %}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                        <a href="{% url 'vehicule_delete' vehicule.id %}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i> Supprimer
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center mt-4">
+        Aucun résultat trouvé pour votre recherche : <strong>"{{ query }}"</strong>.
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

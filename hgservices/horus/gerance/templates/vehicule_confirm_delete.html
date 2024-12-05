@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+      <div>
+      <marquee behavior="scroll" direction="left" class="text-white bg-primary py-2">
+          <strong>Horus Global Services : Simplifiez la gestion de vos bureaux ,Apporteurs, clients et polices d'assurances!</strong>
+      </marquee>
+  </div>
+<div class="container mt-5">
+    <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+            <h2>Confirmation de suppression</h2>
+        </div>
+        <div class="card-body">
+            <p>Êtes-vous sûr de vouloir supprimer ce véhicule ?</p>
+            <ul>
+                <li><strong>Marque et modèle :</strong> {{ object.marque_et_modele }}</li>
+                <li><strong>Immatriculation :</strong> {{ object.immatriculation }}</li>
+                <li><strong>Police :</strong> {{ object.police }}</li>
+            </ul>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+                <a href="{% url 'vehicule_list' %}" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

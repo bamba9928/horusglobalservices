@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bienvenue{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hero {
+            background: linear-gradient(to right, #0d6efd, #6610f2);
+            color: white;
+            padding: 60px 20px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .hero p {
+            font-size: 1.25rem;
+        }
+        .info-section {
+            padding: 40px 20px;
+        }
+        .info-section .card {
+            border: none;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .info-section .card:hover {
+            transform: translateY(-5px);
+        }
+        footer {
+            background-color: #212529;
+            color: white;
+            padding: 40px 20px;
+        }
+        footer a {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <!-- Texte défilant tout en haut -->
+    <div class="bg-primary text-white py-2">
+        <marquee behavior="scroll" direction="left">
+            <strong>Horus Global Services : Simplifiez la gestion de vos bureaux, apporteurs, clients et polices d'assurances !</strong>
+        </marquee>
+    </div>
+
+    <!-- Section principale -->
+    <div class="hero text-center">
+        <h1>Horus Global Services</h1>
+        <p class="lead">Gestion centralisée et optimisée des bureaux, des clients, des véhicules, des apporteurs, des transactions et des performances financières.</p>
+    </div>
+
+    <!-- Section d'information -->
+    <div class="info-section container my-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Gestion des Bureaux</h5>
+                        <p class="card-text">Centralisez et suivez toutes les informations liées à vos bureaux et apporteurs.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Gestion des Clients</h5>
+                        <p class="card-text">Assurez une gestion complète des clients et de leurs polices d'assurance.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Analyse Financière</h5>
+                        <p class="card-text">Évaluez les performances financières et optimisez vos transactions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Horus Global Services</h5>
+                    <p>Simplifiez la gestion de vos clients, véhicules, bureaux et transactions avec une plateforme complète.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Liens rapides</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Accueil</a></li>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Nous contacter</h5>
+                    <p><i class="bi bi-telephone"></i> Téléphone : +221 77 249 05 20</p>
+                    <p><i class="bi bi-envelope"></i> Email : bigrip2016@gmail.com</p>
+                    <p><i class="bi bi-geo-alt"></i> Adresse : Dakar, Sénégal</p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2024 Horus Global Services. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

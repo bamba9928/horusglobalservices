@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtres - Horus Global Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <!-- Titre de la page -->
+        <h1 class="text-center mb-4">Filtres de Recherche</h1>
+
+        <!-- Navigation des filtres -->
+        <nav id="changelist-filter" aria-labelledby="changelist-filter-header" class="card shadow p-4">
+            <h2 id="changelist-filter-header" class="h5 mb-3">Filtre</h2>
+            <div id="changelist-filter-extra-actions" class="mb-4">
+                <h3 class="h6">
+                    <a href="?_facets=True&date_effet__gte=2024-12-03&date_effet__lt=2024-12-04" class="btn btn-primary btn-sm">Afficher les nombres</a>
+                </h3>
+                <h3 class="h6 mt-2">
+                    <a href="?" class="btn btn-danger btn-sm">✖ Effacer tous les filtres</a>
+                </h3>
+            </div>
+
+            <!-- Filtres par Date Effet -->
+            <details data-filter-title="Date Effet" open="" class="mb-3">
+                <summary><strong>Par Date Effet</strong></summary>
+                <ul class="list-unstyled mt-2">
+                    <li><a href="?">Toutes les dates</a></li>
+                    <li class="selected"><a href="?date_effet__gte=2024-12-03&date_effet__lt=2024-12-04">Aujourd'hui</a></li>
+                    <li><a href="?date_effet__gte=2024-11-26&date_effet__lt=2024-12-04">7 derniers jours</a></li>
+                    <li><a href="?date_effet__gte=2024-12-01&date_effet__lt=2025-01-01">Ce mois-ci</a></li>
+                    <li><a href="?date_effet__gte=2024-01-01&date_effet__lt=2025-01-01">Cette année</a></li>
+                </ul>
+            </details>
+
+            <!-- Filtres par Date Échéances -->
+            <details data-filter-title="Date Échéances" open="" class="mb-3">
+                <summary><strong>Par Date Échéances</strong></summary>
+                <ul class="list-unstyled mt-2">
+                    <li class="selected"><a href="?date_effet__gte=2024-12-03&date_effet__lt=2024-12-04">Toutes les dates</a></li>
+                    <li><a href="?date_echeances__gte=2024-12-03&date_echeances__lt=2024-12-04">Aujourd'hui</a></li>
+                    <li><a href="?date_echeances__gte=2024-11-26&date_echeances__lt=2024-12-04">7 derniers jours</a></li>
+                    <li><a href="?date_echeances__gte=2024-12-01&date_echeances__lt=2025-01-01">Ce mois-ci</a></li>
+                    <li><a href="?date_echeances__gte=2024-01-01&date_echeances__lt=2025-01-01">Cette année</a></li>
+                </ul>
+            </details>
+
+            <!-- Filtres par Immatriculation -->
+            <details data-filter-title="Immatriculation" open="" class="mb-3">
+                <summary><strong>Par Immatriculation</strong></summary>
+                <ul class="list-unstyled mt-2">
+                    <li class="selected"><a href="?date_effet__gte=2024-12-03&date_effet__lt=2024-12-04">Tous</a></li>
+                    <li><a href="?immatriculation=AA-123-FR">AA-123-FR</a></li>
+                    <li><a href="?immatriculation=AA-456-HT">AA-456-HT</a></li>
+                    <li><a href="?immatriculation=DL-2345-J">DL-2345-J</a></li>
+                </ul>
+            </details>
+
+            <!-- Filtres par Police -->
+            <details data-filter-title="Police" open="" class="mb-3">
+                <summary><strong>Par Police</strong></summary>
+                <ul class="list-unstyled mt-2">
+                    <li class="selected"><a href="?">Tous</a></li>
+                    <li><a href="?police=0012345-HGJJ-78">0012345-HGJJ-78</a></li>
+                    <li><a href="?police=123455">123455</a></li>
+                    <li><a href="?police=578H-KLMD89-POL">578H-KLMD89-POL</a></li>
+                </ul>
+            </details>
+
+            <!-- Filtres par Souscripteur -->
+            <details data-filter-title="Souscripteur" open="" class="mb-3">
+                <summary><strong>Par Souscripteur</strong></summary>
+                <ul class="list-unstyled mt-2">
+                    <li class="selected"><a href="?">Tous</a></li>
+                    <li><a href="?souscripteur=DIOP+NDIAGA">DIOP NDIAGA</a></li>
+                    <li><a href="?souscripteur=FATOU+GUEYE">FATOU GUEYE</a></li>
+                    <li><a href="?souscripteur=SA+BA">SA BA</a></li>
+                </ul>
+            </details>
+
+            <!-- Filtres par Payé -->
+            <details data-filter-title="Payé" open="" class="mb-3">
+                <summary><strong>Par Payé</strong></summary>
+                <ul class="list-unstyled mt-2">
+                    <li class="selected"><a href="?">Tous</a></li>
+                    <li><a href="?payer__exact=1">Oui</a></li>
+                    <li><a href="?payer__exact=0">Non</a></li>
+                </ul>
+            </details>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

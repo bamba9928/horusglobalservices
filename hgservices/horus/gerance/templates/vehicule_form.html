@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block content %}
+  <!-- Inclure le CSS et le JS de flatpickr -->
+
+    </script>
+  <h2 class="text-center">Ajouter un Véhicule</h2>
+  <form method="post" class="container mt-4">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-primary">Enrigistrer</button>
+      <button class="btn btn-secondary" onclick="history.back()">Retour</button>
+
+    </div>
+  </form>
+
+
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr('.flatpickr', {
+            locale: 'fr',
+            dateFormat: 'd/m/Y',
+        });
+    });
+</script>
+{% endblock %}
