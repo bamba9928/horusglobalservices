@@ -20,13 +20,13 @@
         vertical-align: middle;
     }
 </style>
+<button class="btn btn-secondary" onclick="history.back()">Retour</button>
 
 <div class="container">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
             <h2 class="text-center">Liste des Véhicules</h2>
         </div>
-        <a href="{% url 'gestion' %}" class="btn btn-secondary my-3">Retour</a>
         <div class="card-body">
             <a href="{% url 'vehicule_create' %}" class="btn btn-success mb-3">
                 <i class="fas fa-plus-circle"></i> Ajouter un véhicule

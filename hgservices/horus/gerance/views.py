@@ -1,7 +1,10 @@
-from django.contrib.auth import authenticate, login
+# ....Mouhamadou Bamba Dieng ... 2024  Horus Global Services ...
+#..... +221 77 249 05 30 bigrip2016@gmail.com ....
+
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
@@ -18,7 +21,7 @@ from .messages import (
     NO_RESULTS_FOUND,
     ENTER_SEARCH_TERM,
 )
-
+from django.conf.urls import handler404
 
 # Exportation des véhicules en CSV
 @login_required
@@ -222,3 +225,7 @@ def export_vehicules_pdf(request):
 
     p.save()
     return response
+
+
+def custom_page_not_found_view(request, exception):
+    return render(request, '404.html', status=404)

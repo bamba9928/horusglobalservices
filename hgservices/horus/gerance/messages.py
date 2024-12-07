@@ -1,3 +1,6 @@
+# ....Mouhamadou Bamba Dieng ... 2024  Horus Global Services ...
+#..... +221 77 249 05 30 bigrip2016@gmail.com ....
+
 # messages.py
 
 VEHICLE_CREATED_SUCCESS = "Le véhicule a été ajouté avec succès."

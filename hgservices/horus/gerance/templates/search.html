@@ -10,6 +10,7 @@
 
     <!-- Titre -->
     <h2 class="text-center mb-5">Résultats de recherche pour : "{{ query }}"</h2>
+    <button class="btn btn-secondary" onclick="history.back()">Retour</button>
 <div class="d-flex justify-content-end mb-3">
   <a href="{% url 'export_vehicules_csv' %}?immatriculation={{ request.GET.immatriculation }}&nom_client={{ request.GET.nom_client }}" class="btn btn-primary me-2">
     Exporter en CSV

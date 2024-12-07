@@ -1,3 +1,7 @@
+# ....Mouhamadou Bamba Dieng ... 2024  Horus Global Services ...
+#..... +221 77 249 05 30 bigrip2016@gmail.com ....
+
+
 from django.contrib import admin
 from django.http import HttpResponse
 import openpyxl
@@ -141,7 +145,7 @@ class VehiculeAdmin(admin.ModelAdmin):
     )
     list_filter = ('apporteur', 'date_effet', 'date_echeances')
     search_fields = (
-        'apporteur',
+        'apporteur__username',  # Recherchera le nom d'utilisateur de l'apporteur
         'immatriculation',
         'police',
         'souscripteur',

@@ -4,7 +4,7 @@
 
 {% block content %}
   <!-- Inclure le CSS et le JS de flatpickr -->
-
+<button class="btn btn-secondary" onclick="history.back()">Retour</button>
     </script>
   <h2 class="text-center">Ajouter un Véhicule</h2>
   <form method="post" class="container mt-4">
@@ -12,8 +12,6 @@
     {{ form|crispy }}
     <div class="text-center mt-4">
       <button type="submit" class="btn btn-primary">Enrigistrer</button>
-      <button class="btn btn-secondary" onclick="history.back()">Retour</button>
-
     </div>
   </form>
 

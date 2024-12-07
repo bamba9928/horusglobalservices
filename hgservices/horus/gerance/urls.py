@@ -1,3 +1,6 @@
+# ....Mouhamadou Bamba Dieng ... 2024  Horus Global Services ...
+#..... +221 77 249 05 30 bigrip2016@gmail.com ....
+
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from . import views
@@ -8,6 +11,11 @@ from .views import (
     VehiculeDeleteView,
     VehiculeListView,
 )
+
+
+
+handler404 = 'gerance.views.custom_page_not_found_view'
+
 
 urlpatterns = [
     # Page d'accueil

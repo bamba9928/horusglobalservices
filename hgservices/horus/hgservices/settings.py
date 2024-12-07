@@ -1,45 +1,29 @@
 """
+# Mouhamadou Bamba Dieng - 2024
+# Horus Global Services - +221 77 249 05 30 - bigrip2016@gmail.com
+
 Django settings for hgservices project.
-
-
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.1/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/5.1/ref/settings/
+For more information, see https://docs.djangoproject.com/en/5.1/topics/settings/
 """
+
 import os
 from pathlib import Path
-import dj_database_url
-
 from django.contrib.messages import constants as messages
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from dotenv import load_dotenv
+
+
+# Chargement des variables d'environnement
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv()  # Un seul appel suffit
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+# Hôtes autorisés
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'horuservices.pythonanywhere.com']
 
-# SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-xlsqw1l#j@y$9s+th9jd25js8sj*n_m)@#@xb@h77xjg(-%eh^'
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-&psk#na5l=p3q8_a+-$4w1f^lt3lx1c@d*p4x$ymm_rn7pwb87'
-
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-&psk#na5l=p3q8_a+-$4w1f^lt3lx1c@d*p4x$ymm_rn7pwb87')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-
-
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
-
-# Application definition
-
+# Applications installées
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -59,11 +43,14 @@ INSTALLED_APPS = [
     'django_filters',
     'crispy_forms',
     'bootstrap5',
-    'crispy_bootstrap5'
+    'crispy_bootstrap5',
 ]
+
+# Configuration des formulaires
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
+# Jazzmin settings
 JAZZMIN_SETTINGS = {
     "site_title": "Horus Admin",
     "site_header": "Horus Global Services",
@@ -72,7 +59,6 @@ JAZZMIN_SETTINGS = {
     "search_model": "auth.User",
     "topmenu_links": [
         {"name": "Accueil", "url": "admin:index", "permissions": ["auth.view_user"]},
-
     ],
     "user_avatar": None,
     "show_sidebar": True,
@@ -82,40 +68,23 @@ JAZZMIN_SETTINGS = {
     "show_ui_builder": False,
 }
 
-# Support env variables from .env file if defined
-
-from dotenv import load_dotenv
-env_path = load_dotenv(os.path.join(BASE_DIR, '.env'))
-load_dotenv(env_path)
-
-
-from django.contrib.messages import constants as messages
-
-MESSAGE_TAGS = {
-    messages.DEBUG: 'debug',
-    messages.INFO: 'info',
-    messages.SUCCESS: 'success',
-    messages.WARNING: 'warning',
-    messages.ERROR: 'danger',
-}
-
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     "allauth.account.middleware.AccountMiddleware",
 ]
 
+# URL Configuration
 ROOT_URLCONF = 'hgservices.urls'
 
-
-
-
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -132,29 +101,43 @@ TEMPLATES = [
     },
 ]
 
-
-DATABASES = {
-    'default': dj_database_url.config(default='sqlite:///db.sqlite3')
-}
-
-
+# WSGI Application
 WSGI_APPLICATION = 'hgservices.wsgi.application'
 
+# Base de données
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'cle_par_defaut')
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME', 'fallback_db_name'),
+        'USER': os.getenv('DB_USER', 'fallback_db_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'fallback_db_password'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '3306'),
     }
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
+
+# Authentification
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+SITE_ID = 1
+LOGIN_URL = 'login/'
+LOGIN_REDIRECT_URL = '/gestion/'
+LOGOUT_REDIRECT_URL = 'login'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+
+# Validation des mots de passe
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -170,59 +153,41 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
+# Internationalisation
 LANGUAGE_CODE = 'fr-fr'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-# settings.py
-import os
-
+# Fichiers statiques et médias
 STATIC_URL = '/static/'
-
-# Ajoutez ce répertoire pour le développement
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-# Répertoire de collecte des fichiers statiques
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Compression et cache pour les fichiers statiques
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Messages
+MESSAGE_TAGS = {
+    messages.DEBUG: 'debug',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
+}
+
+
+# Format des dates
+DATE_FORMAT = "d/m/Y"
+
+# Clé primaire par défaut
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Media files (Uploaded by users)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
-
-SITE_ID = 1
-
-LOGIN_URL = 'login/'
-LOGIN_REDIRECT_URL = '/gestion/'
-LOGOUT_REDIRECT_URL = 'login'
-
-
-
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-
-
-DATE_FORMAT = "d/m/Y"
-
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
