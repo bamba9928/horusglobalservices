@@ -1,90 +1,45 @@
-"""
-# Mouhamadou Bamba Dieng - 2024
-# Horus Global Services - +221 77 249 05 30 - bigrip2016@gmail.com
-
-Django settings for hgservices project.
-For more information, see https://docs.djangoproject.com/en/5.1/topics/settings/
-"""
-
-import os
 from pathlib import Path
-from django.contrib.messages import constants as messages
-from dotenv import load_dotenv
+import os
 
-
-# Chargement des variables d'environnement
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv()  # Un seul appel suffit
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-mue%uy$zcfu6d)v!zm=-zrm01n$bzi8jv75aa))o(l+3_snm#1')
+
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
+ALLOWED_HOSTS = ['horuservices.pythonanywhere.com', 'localhost', '127.0.0.1']
 
-# Hôtes autorisés
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'horuservices.pythonanywhere.com']
-
-# Applications installées
+# Application definition
 INSTALLED_APPS = [
-    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'import_export',
-    'authentication',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'django.contrib.humanize',
-    'allauth.usersessions',
+    # Ajoutez vos applications ici
     'gerance',
-    'django_filters',
-    'crispy_forms',
-    'bootstrap5',
-    'crispy_bootstrap5',
+    'authentication',
 ]
 
-# Configuration des formulaires
-CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
-CRISPY_TEMPLATE_PACK = 'bootstrap5'
-
-# Jazzmin settings
-JAZZMIN_SETTINGS = {
-    "site_title": "Horus Admin",
-    "site_header": "Horus Global Services",
-    "welcome_sign": "Bienvenue sur Horus Admin",
-    "copyright": "Horus Global Services",
-    "search_model": "auth.User",
-    "topmenu_links": [
-        {"name": "Accueil", "url": "admin:index", "permissions": ["auth.view_user"]},
-    ],
-    "user_avatar": None,
-    "show_sidebar": True,
-    "navigation_expanded": True,
-    "hide_apps": [],
-    "hide_models": [],
-    "show_ui_builder": False,
-}
-
-# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
-# URL Configuration
-ROOT_URLCONF = 'hgservices.urls'
+ROOT_URLCONF = 'horusgestion.urls'
 
-# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -101,43 +56,19 @@ TEMPLATES = [
     },
 ]
 
-# WSGI Application
-WSGI_APPLICATION = 'hgservices.wsgi.application'
+WSGI_APPLICATION = 'horusgestion.wsgi.application'
 
-# Base de données
-
-
-load_dotenv(os.path.join(BASE_DIR, '.env'))
-
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'cle_par_defaut')
-DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
-
+# Database
+# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', 'fallback_db_name'),
-        'USER': os.getenv('DB_USER', 'fallback_db_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'fallback_db_password'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '3306'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-
-
-
-# Authentification
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
-SITE_ID = 1
-LOGIN_URL = 'login/'
-LOGIN_REDIRECT_URL = '/gestion/'
-LOGOUT_REDIRECT_URL = 'login'
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-
-# Validation des mots de passe
+# Password validation
+# https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -153,41 +84,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalisation
+# Internationalization
+# https://docs.djangoproject.com/en/4.0/topics/i18n/
 LANGUAGE_CODE = 'fr-fr'
+
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
+
 USE_TZ = True
 
-# Fichiers statiques et médias
+# Static and Media Files
+# https://docs.djangoproject.com/en/4.0/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_ROOT = '/home/horuservices/horusgestion/static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/home/horuservices/horusgestion/media'
 
-# Messages
-MESSAGE_TAGS = {
-    messages.DEBUG: 'debug',
-    messages.INFO: 'info',
-    messages.SUCCESS: 'success',
-    messages.WARNING: 'warning',
-    messages.ERROR: 'danger',
-}
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-
-# Format des dates
-DATE_FORMAT = "d/m/Y"
-
-# Clé primaire par défaut
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
