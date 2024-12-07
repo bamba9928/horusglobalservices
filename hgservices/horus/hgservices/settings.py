@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-mue%uy$zcfu6d)v!zm=-zrm01n$bzi8jv75aa))o(l+3_snm#1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = 'False"
 
 ALLOWED_HOSTS = ['horuservices.pythonanywhere.com', 'localhost', '127.0.0.1']
 
