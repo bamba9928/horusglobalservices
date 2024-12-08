@@ -1,45 +1,79 @@
-from pathlib import Path
-import os
+"""
+Django settings for hgservices project.
+# Mouhamadou Bamba Dieng - 2024
+# Horus Global Services - +221 77 249 05 30 - bigrip2016@gmail.com
+"""
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import os
+from pathlib import Path
+import dj_database_url
+from django.contrib.messages import constants as messages
+
+# Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+# Secret Key
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-&psk#na5l=p3q8_a+-$4w1f^lt3lx1c@d*p4x$ymm_rn7pwb87')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-mue%uy$zcfu6d)v!zm=-zrm01n$bzi8jv75aa))o(l+3_snm#1')
+# Debug Mode
+DEBUG = True
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'False"
+# Allowed Hosts
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost'
+]
 
-ALLOWED_HOSTS = ['horuservices.pythonanywhere.com', 'localhost', '127.0.0.1']
-
-# Application definition
+# Installed Applications
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Ajoutez vos applications ici
-    'gerance',
+    'import_export',
     'authentication',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'django.contrib.humanize',
+    'gerance',
+    'django_filters',
+    'crispy_forms',
+    'bootstrap5',
+    'crispy_bootstrap5',
 ]
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+# Jazzmin Settings
+JAZZMIN_SETTINGS = {
+    "site_title": "Horus Admin",
+    "site_header": "Horus Global Services",
+    "welcome_sign": "Bienvenue sur Horus Admin",
+    "copyright": "Horus Global Services",
+}
+
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
-ROOT_URLCONF = 'horusgestion.urls'
+# Root URLs
+ROOT_URLCONF = 'hgservices.urls'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -56,52 +90,50 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'horusgestion.wsgi.application'
+# WSGI Application
+WSGI_APPLICATION = 'hgservices.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+# SQLite Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',  # This will create a db.sqlite3 file in your base directory
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
+# Password Validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/4.0/topics/i18n/
 LANGUAGE_CODE = 'fr-fr'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-# Static and Media Files
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
+# Static Files
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/horuservices/horusgestion/static'
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/horuservices/horusgestion/media'
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Media Files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Authentication
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+LOGIN_URL = 'login/'
+LOGIN_REDIRECT_URL = '/gestion/'
+LOGOUT_REDIRECT_URL = 'login/'
+
+
