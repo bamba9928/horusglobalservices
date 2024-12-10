@@ -21,9 +21,9 @@ DEBUG = False
 # Allowed Hosts
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'localhost'
-    'horuservices.cloud'
-    '54.37.50.100'
+    'localhost',
+    'horuservices.cloud',
+    '54.37.50.100',
 ]
 
 # Installed Applications
@@ -79,7 +79,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        'APP_DIRS': True,  # Utilisation des répertoires de templates intégrés
         'OPTIONS': {
             'context_processors': [
                 # 'django.template.context_processors.debug',  # Désactivé en production
@@ -87,16 +87,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-            'loaders': [
-                ('django.template.loaders.cached.Loader', [
-                    'django.template.loaders.filesystem.Loader',
-                    'django.template.loaders.app_directories.Loader',
-                ]),
-            ],
         },
     },
 ]
-
 
 # WSGI Application
 WSGI_APPLICATION = 'hgservices.wsgi.application'
@@ -105,7 +98,7 @@ WSGI_APPLICATION = 'hgservices.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',  # This will create a db.sqlite3 file in your base directory
+        'NAME': BASE_DIR / 'db.sqlite3',  # Création d'une base SQLite par défaut
     }
 }
 
@@ -143,5 +136,6 @@ SITE_ID = 1
 LOGIN_URL = 'login/'
 LOGIN_REDIRECT_URL = '/gestion/'
 LOGOUT_REDIRECT_URL = 'login/'
+
 
 
