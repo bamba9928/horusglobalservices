@@ -16,12 +16,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-&psk#na5l=p3q8_a+-$4w1f^lt3lx1c@d*p4x$ymm_rn7pwb87')
 
 # Debug Mode
-DEBUG = True
+DEBUG = False
 
 # Allowed Hosts
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost'
+    'horuservices.cloud'
+    '54.37.50.100'
 ]
 
 # Installed Applications
@@ -80,14 +82,21 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
+                # 'django.template.context_processors.debug',  # Désactivé en production
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'loaders': [
+                ('django.template.loaders.cached.Loader', [
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                ]),
+            ],
         },
     },
 ]
+
 
 # WSGI Application
 WSGI_APPLICATION = 'hgservices.wsgi.application'
