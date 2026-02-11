@@ -1,0 +1,432 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Stack Technique — Django, Python, PostgreSQL{% endblock %}
+{% block description %}Technologies et outils : Python, Django, PostgreSQL, REST Framework, HTMX, TailwindCSS. Stack moderne pour applications web performantes.{% endblock %}
+
+{% block extra_css %}
+<style>
+  .skillCategory {
+    margin-bottom: 32px;
+  }
+
+  .skillCategoryTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .skillGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .skillItem {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .skillItem:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .skillName {
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 1.125rem;
+  }
+
+  .skillDesc {
+    color: var(--muted);
+    font-size: 0.875rem;
+    flex-grow: 1;
+  }
+
+  .skillLevel {
+    display: flex;
+    gap: 4px;
+    margin-top: 12px;
+  }
+
+  .skillDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--line);
+  }
+
+  .skillDot.filled {
+    background: var(--accent);
+  }
+
+  .expCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .expTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .expMeta {
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 740px) {
+    .skillGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- HEADER -->
+<section class="xCard" style="padding: 60px 24px; text-align: center;">
+  <h1 class="xHeroTitle" style="font-size: 2.5rem; margin-bottom: 16px;">Stack Technique</h1>
+  <p class="xHeroText" style="max-width: 700px; margin: 0 auto;">
+    Technologies modernes pour créer des applications web robustes, sécurisées et évolutives.
+  </p>
+</section>
+
+<!-- STACK PRINCIPAL -->
+<section class="xSection">
+  <div class="xSectionHead">
+    <h2>Stack principal</h2>
+    <span>Technologies core</span>
+  </div>
+
+  <div class="xCard">
+    <!-- Backend -->
+    <div class="skillCategory">
+      <h3 class="skillCategoryTitle">⚙️ Backend & Frameworks</h3>
+      <div class="skillGrid">
+        <div class="skillItem">
+          <div class="skillName">Python</div>
+          <div class="skillDesc">Langage principal, POO, async</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">Django</div>
+          <div class="skillDesc">Framework web, ORM, admin</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">Django REST</div>
+          <div class="skillDesc">API, serializers, viewsets</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">HTMX</div>
+          <div class="skillDesc">Interactivité sans JS lourd</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Frontend -->
+    <div class="skillCategory">
+      <h3 class="skillCategoryTitle">🎨 Frontend & UI</h3>
+      <div class="skillGrid">
+        <div class="skillItem">
+          <div class="skillName">HTML/CSS</div>
+          <div class="skillDesc">Sémantique, responsive, A11y</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">JavaScript</div>
+          <div class="skillDesc">ES6+, DOM, fetch, async</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">TailwindCSS</div>
+          <div class="skillDesc">Utility-first, design systems</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">Alpine.js</div>
+          <div class="skillDesc">Réactivité légère</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Base de données -->
+    <div class="skillCategory">
+      <h3 class="skillCategoryTitle">💾 Bases de données</h3>
+      <div class="skillGrid">
+        <div class="skillItem">
+          <div class="skillName">PostgreSQL</div>
+          <div class="skillDesc">SGBD relationnel principal</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">SQLite</div>
+          <div class="skillDesc">Dev, prototypage</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">Redis</div>
+          <div class="skillDesc">Cache, sessions, queues</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DevOps -->
+    <div class="skillCategory">
+      <h3 class="skillCategoryTitle">🚀 DevOps & Déploiement</h3>
+      <div class="skillGrid">
+        <div class="skillItem">
+          <div class="skillName">Linux</div>
+          <div class="skillDesc">Ubuntu, Debian, bash</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">Docker</div>
+          <div class="skillDesc">Conteneurisation, compose</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">Nginx</div>
+          <div class="skillDesc">Reverse proxy, SSL</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">Git</div>
+          <div class="skillDesc">Versioning, GitHub, GitLab</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Outils -->
+    <div class="skillCategory">
+      <h3 class="skillCategoryTitle">🛠️ Outils & Librairies</h3>
+      <div class="skillGrid">
+        <div class="skillItem">
+          <div class="skillName">Celery</div>
+          <div class="skillDesc">Tâches asynchrones</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">Pandas</div>
+          <div class="skillDesc">Manipulation de données</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">ReportLab</div>
+          <div class="skillDesc">Génération PDF</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+        <div class="skillItem">
+          <div class="skillName">Pytest</div>
+          <div class="skillDesc">Tests unitaires & intégration</div>
+          <div class="skillLevel">
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot filled"></div>
+            <div class="skillDot"></div>
+            <div class="skillDot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISES MÉTIER -->
+<section class="xSection">
+  <div class="xSectionHead">
+    <h2>Expertises métier</h2>
+    <span>Domaines d'application</span>
+  </div>
+  <div class="xCard">
+    <div class="expCard">
+      <h3 class="expTitle">📊 Applications de gestion</h3>
+      <p class="expMeta">ERP, CRM, dashboards, reporting</p>
+      <p class="xMuted">
+        Modélisation de bases de données complexes, workflows métiers, génération de documents (PDF, Excel),
+        gestion multi-utilisateurs avec permissions granulaires.
+      </p>
+    </div>
+
+    <div class="expCard">
+      <h3 class="expTitle">🔌 Intégrations API</h3>
+      <p class="expMeta">REST, webhooks, synchronisation</p>
+      <p class="xMuted">
+        Consommation et exposition d'API, authentification OAuth2/JWT, synchronisation de données tierces,
+        gestion de webhooks, intégration paiement mobile (Orange Money, Wave, etc.).
+      </p>
+    </div>
+
+    <div class="expCard">
+      <h3 class="expTitle">⚡ Performance & Scalabilité</h3>
+      <p class="expMeta">Optimisation, cache, monitoring</p>
+      <p class="xMuted">
+        Optimisation requêtes ORM, mise en cache Redis, lazy loading, pagination efficace,
+        monitoring avec Sentry, logs structurés.
+      </p>
+    </div>
+
+    <div class="expCard">
+      <h3 class="expTitle">🔐 Sécurité</h3>
+      <p class="expMeta">HTTPS, CSRF, XSS, RGPD</p>
+      <p class="xMuted">
+        Protection contre les vulnérabilités courantes (OWASP Top 10), chiffrement des données sensibles,
+        conformité RGPD, audit de sécurité.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS / FORMATIONS -->
+<section class="xSection">
+  <div class="xSectionHead">
+    <h2>Formation continue</h2>
+    <span>Veille technologique</span>
+  </div>
+  <div class="xCard">
+    <ul class="xList">
+      <li><strong>Documentation officielle</strong> : Django, Python, PostgreSQL (lecture quotidienne)</li>
+      <li><strong>Communautés</strong> : Django Forum, Reddit /r/django, Stack Overflow</li>
+      <li><strong>Projets open-source</strong> : Contribution et lecture de code</li>
+      <li><strong>Conférences</strong> : Djangocon, Pycon (replay)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="xCard" style="text-align: center;">
+  <h2 style="font-size: 1.75rem; margin-bottom: 16px;">Vous avez un projet technique ?</h2>
+  <p class="xMuted mb-20">Discutons des technologies adaptées à vos besoins.</p>
+  <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+    <a class="xBtn xBtnPrimary" href="{% url 'contact' %}">Parler de mon projet</a>
+    <a class="xBtn xBtnGhost" href="{% url 'services' %}">Voir les services</a>
+  </div>
+</section>
+{% endblock %}

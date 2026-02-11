@@ -1,0 +1,220 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Services — Développement Django & API REST{% endblock %}
+{% block description %}Applications métier sur mesure, API REST, landing pages performantes. Solutions Django professionnelles pour vos projets.{% endblock %}
+
+{% block extra_css %}
+<style>
+  .serviceCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: var(--transition);
+  }
+
+  .serviceCard:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent);
+  }
+
+  .serviceIcon {
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    color: #000;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .serviceTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .serviceDesc {
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  .serviceFeatures {
+    list-style: none;
+    padding: 0;
+  }
+
+  .serviceFeatures li {
+    padding: 8px 0;
+    color: var(--muted);
+    display: flex;
+    align-items: start;
+  }
+
+  .serviceFeatures li::before {
+    content: '✓';
+    color: var(--accent);
+    font-weight: bold;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  .priceTag {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 999px;
+    display: inline-block;
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-top: 16px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- HEADER -->
+<section class="xCard" style="padding: 60px 24px; text-align: center;">
+  <h1 class="xHeroTitle" style="font-size: 2.5rem; margin-bottom: 16px;">Services & Solutions</h1>
+  <p class="xHeroText" style="max-width: 700px; margin: 0 auto;">
+    Développement sur mesure pour transformer vos idées en applications professionnelles.
+  </p>
+</section>
+
+<!-- SERVICES DÉTAILLÉS -->
+<section class="xSection">
+  <div class="xSectionHead">
+    <h2>Mes services</h2>
+    <span>Expertise métier</span>
+  </div>
+
+  <div class="xCard">
+    <!-- Applications Métier -->
+    <div class="serviceCard">
+      <div class="serviceIcon">⚡</div>
+      <h3 class="serviceTitle">Applications Métier</h3>
+      <p class="serviceDesc">
+        Solutions web complètes adaptées à vos processus métiers. De la conception à la mise en production.
+      </p>
+      <ul class="serviceFeatures">
+        <li><strong>Dashboards interactifs</strong> : Visualisation temps réel de vos données</li>
+        <li><strong>ERP personnalisés</strong> : Gestion complète de votre activité</li>
+        <li><strong>Gestion documentaire</strong> : Génération PDF, attestations, rapports</li>
+        <li><strong>Workflows automatisés</strong> : Validation, notifications, synchronisation</li>
+        <li><strong>CustomUser Django</strong> : Authentification multi-rôles sur mesure</li>
+      </ul>
+      <div class="priceTag">À partir de 1 500 000 FCFA · Délai : 3-6 semaines</div>
+    </div>
+
+    <!-- API REST -->
+    <div class="serviceCard">
+      <div class="serviceIcon">🔌</div>
+      <h3 class="serviceTitle">API REST & Intégrations</h3>
+      <p class="serviceDesc">
+        Architectures backend robustes avec Django REST Framework. Documentation automatique incluse.
+      </p>
+      <ul class="serviceFeatures">
+        <li><strong>API RESTful</strong> : Endpoints sécurisés, versionnés, documentés</li>
+        <li><strong>Authentification</strong> : JWT, OAuth2, permissions granulaires</li>
+        <li><strong>Intégrations externes</strong> : Paiement, SMS, cartographie, etc.</li>
+        <li><strong>Synchronisation de données</strong> : Import/export, webhooks</li>
+        <li><strong>Tests automatisés</strong> : Couverture complète, CI/CD</li>
+      </ul>
+      <div class="priceTag">À partir de 800 000 FCFA · Délai : 2-4 semaines</div>
+    </div>
+
+    <!-- Landing Pages -->
+    <div class="serviceCard">
+      <div class="serviceIcon">🎨</div>
+      <h3 class="serviceTitle">Landing Pages & Sites Vitrine</h3>
+      <p class="serviceDesc">
+        Pages performantes optimisées pour la conversion. Design moderne, responsive, rapide.
+      </p>
+      <ul class="serviceFeatures">
+        <li><strong>Design sur mesure</strong> : Dark mode, animations fluides</li>
+        <li><strong>SEO optimisé</strong> : Meta tags, schema.org, sitemap</li>
+        <li><strong>Performance</strong> : Temps de chargement < 2 secondes</li>
+        <li><strong>Formulaires intelligents</strong> : Validation, anti-spam, notifications</li>
+        <li><strong>Analytics</strong> : Suivi conversions, heatmaps</li>
+      </ul>
+      <div class="priceTag">À partir de 300 000 FCFA · Délai : 1-2 semaines</div>
+    </div>
+
+    <!-- Maintenance -->
+    <div class="serviceCard">
+      <div class="serviceIcon">🛠️</div>
+      <h3 class="serviceTitle">Maintenance & Support</h3>
+      <p class="serviceDesc">
+        Accompagnement continu pour garantir la stabilité et l'évolution de vos applications.
+      </p>
+      <ul class="serviceFeatures">
+        <li><strong>Monitoring</strong> : Surveillance 24/7, alertes automatiques</li>
+        <li><strong>Mises à jour</strong> : Sécurité, dépendances, fonctionnalités</li>
+        <li><strong>Optimisations</strong> : Performance, base de données, requêtes</li>
+        <li><strong>Support prioritaire</strong> : Réponse < 24h, hotfixes rapides</li>
+        <li><strong>Documentation</strong> : Guides utilisateur, documentation technique</li>
+      </ul>
+      <div class="priceTag">Forfait mensuel à partir de 150 000 FCFA</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSUS -->
+<section class="xSection">
+  <div class="xSectionHead">
+    <h2>Processus</h2>
+    <span>Étapes</span>
+  </div>
+  <div class="xCard">
+    <div style="display: grid; gap: 24px;">
+      <div>
+        <h3 style="margin-bottom: 8px;">1. 📋 Découverte</h3>
+        <p class="xMuted">Échange sur vos besoins, contraintes, objectifs. Proposition technique et devis gratuit.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 8px;">2. 🎨 Conception</h3>
+        <p class="xMuted">Maquettes, architecture, modélisation base de données. Validation avant développement.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 8px;">3. ⚙️ Développement</h3>
+        <p class="xMuted">Code propre, tests, revues régulières. Accès démo pour suivre l'avancement.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 8px;">4. 🚀 Livraison</h3>
+        <p class="xMuted">Déploiement en production, formation, documentation complète. Support post-lancement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIES -->
+<section class="xSection">
+  <div class="xSectionHead">
+    <h2>Garanties</h2>
+    <span>Engagement qualité</span>
+  </div>
+  <div class="xCard">
+    <ul class="xList">
+      <li><strong>Code professionnel</strong> : Standards Django, PEP8, tests unitaires</li>
+      <li><strong>Sécurité</strong> : Protection CSRF, XSS, injection SQL, conformité RGPD</li>
+      <li><strong>Performance</strong> : Optimisation requêtes, cache, CDN</li>
+      <li><strong>Documentation</strong> : Code commenté, guides utilisateur, README complet</li>
+      <li><strong>Support</strong> : 30 jours de garantie gratuite après livraison</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="xCard" style="text-align: center;">
+  <h2 style="font-size: 1.75rem; margin-bottom: 16px;">Discutons de votre projet</h2>
+  <p class="xMuted mb-20">Devis gratuit sous 24h. Premier échange sans engagement.</p>
+  <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+    <a class="xBtn xBtnPrimary" href="{% url 'contact' %}">Demander un devis</a>
+    <a class="xBtn xBtnGhost" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Horus Global Service — Développeur Django & Python au Sénégal{% endblock %}
+{% block description %}Développeur Full-Stack spécialisé Django. Applications métier, API REST, dashboards. Livraison rapide, code professionnel.{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="xCard xHero" aria-label="Présentation">
+  <h1 class="xHeroTitle">Sites, apps & APIs Django.</h1>
+  <p class="xHeroText">Livraison rapide, code propre, design dark. Expertise métier au service de vos idées.</p>
+  <div class="xHeroCta">
+    <a class="xBtn xBtnPrimary" href="{% url 'contact' %}">Démarrer un projet</a>
+    <a class="xBtn xBtnGhost" href="{% url 'services' %}">Voir les services</a>
+  </div>
+</section>
+
+<!-- APERÇU SERVICES -->
+<section class="xSection">
+  <div class="xSectionHead">
+    <h2>Services</h2>
+    <span><a href="{% url 'services' %}" style="color: var(--muted); text-decoration: none;">Voir tout →</a></span>
+  </div>
+  <article class="xCard">
+    <ul class="xList">
+      <li><strong>Applications métier</strong> : Dashboards, gestion de contrats, ERP sur mesure.</li>
+      <li><strong>API REST</strong> : Architectures robustes avec Django REST Framework.</li>
+      <li><strong>Landing Pages</strong> : Performance et conversion optimisée.</li>
+    </ul>
+    <a class="xBtn xBtnGhost xBtnFull" href="{% url 'services' %}">En savoir plus</a>
+  </article>
+</section>
+
+<!-- STACK RAPIDE -->
+<section class="xSection">
+  <div class="xSectionHead">
+    <h2>Technologies</h2>
+    <span><a href="{% url 'skills' %}" style="color: var(--muted); text-decoration: none;">Stack complète →</a></span>
+  </div>
+  <div class="xCard">
+    <p style="font-size: 1.125rem; margin-bottom: 16px;">
+      <strong>Python · Django · PostgreSQL · REST · HTMX</strong>
+    </p>
+    <p class="xMuted">
+      Stack moderne pour applications web performantes et évolutives.
+    </p>
+  </div>
+</section>
+
+<!-- PROJETS HIGHLIGHT -->
+<section class="xSection">
+  <div class="xSectionHead">
+    <h2>Projets récents</h2>
+    <span>Réalisations</span>
+  </div>
+  <div class="xCard">
+    <div style="display: grid; gap: 20px;">
+      <div>
+        <h3 style="margin-bottom: 8px;">⚡ ERP Cabinet Comptable</h3>
+        <p class="xMuted">Gestion contrats, génération attestations PDF, dashboards interactifs.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 8px;">📊 Dashboard Logistique</h3>
+        <p class="xMuted">Suivi temps réel, synchronisation API, reporting automatisé.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 8px;">🛒 API E-commerce</h3>
+        <p class="xMuted">REST API Django, intégration paiement, gestion stock.</p>
+      </div>
+    </div>
+    <p class="xTiny mt-20">Sur demande – études de cas et démos disponibles.</p>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="xCard" style="text-align: center;">
+  <h2 style="font-size: 1.75rem; margin-bottom: 16px;">Prêt à démarrer ?</h2>
+  <p class="xMuted mb-20">Discutons de votre projet et de vos délais.</p>
+  <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+    <a class="xBtn xBtnPrimary" href="{% url 'contact' %}">Demander un devis</a>
+    <a class="xBtn xBtnGhost" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer">WhatsApp direct</a>
+  </div>
+</section>
+{% endblock %}
