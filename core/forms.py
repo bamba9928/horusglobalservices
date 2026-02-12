@@ -1,9 +1,8 @@
 from django import forms
 from .models import Contact
 
-
 class ContactForm(forms.ModelForm):
-    """Formulaire de contact avec validation personnalisée"""
+    """Formulaire de contact stylisé avec Tailwind CSS"""
 
     class Meta:
         model = Contact
@@ -12,31 +11,33 @@ class ContactForm(forms.ModelForm):
             'name': forms.TextInput(attrs={
                 'placeholder': 'Jean Dupont',
                 'autocomplete': 'name',
+                'class': 'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all'
             }),
             'email': forms.EmailInput(attrs={
                 'placeholder': 'jean@example.com',
                 'autocomplete': 'email',
+                'class': 'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all'
             }),
             'phone': forms.TextInput(attrs={
-                'placeholder': '+221 XX XXX XX XX',
+                'placeholder': '+221 77 123 45 67',
                 'autocomplete': 'tel',
+                'class': 'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all'
             }),
             'message': forms.Textarea(attrs={
-                'placeholder': 'Décrivez votre projet : type d\'application, fonctionnalités souhaitées, délais, budget estimé...',
-                'rows': 6,
+                'placeholder': 'Décrivez votre projet : type d\'application, fonctionnalités souhaitées, délais...',
+                'rows': 5,
+                'class': 'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all resize-none'
             }),
         }
 
     def clean_name(self):
-        """Validation du nom"""
         name = self.cleaned_data.get('name')
         if len(name) < 2:
             raise forms.ValidationError("Le nom doit contenir au moins 2 caractères.")
         return name
 
     def clean_message(self):
-        """Validation du message"""
         message = self.cleaned_data.get('message')
         if len(message) < 10:
-            raise forms.ValidationError("Le message doit contenir au moins 10 caractères.")
+            raise forms.ValidationError("Le message est un peu court (min. 10 caractères).")
         return message

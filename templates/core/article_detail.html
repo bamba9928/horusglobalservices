@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ article.title }} — Blog Horus{% endblock %}
+{% block description %}{{ article.summary }}{% endblock %}
+
+{% block content %}
+<article class="pt-20 pb-24">
+    <header class="px-6 md:px-12 text-center max-w-4xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-gray-400 mb-6">
+            Publié le {{ article.created_at|date:"d F Y" }}
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-8">
+            {{ article.title }}
+        </h1>
+
+        {% if article.image %}
+        <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-border shadow-2xl">
+            <img src="{{ article.image.url }}" alt="{{ article.title }}" class="w-full h-full object-cover">
+        </div>
+        {% endif %}
+    </header>
+
+    <div class="px-6 md:px-12 max-w-3xl mx-auto">
+        <div class="prose prose-invert prose-lg max-w-none text-gray-300">
+            {{ article.content|safe }}
+        </div>
+
+        <div class="mt-16 pt-8 border-t border-gray-800 flex justify-between items-center">
+            <a href="{% url 'blog' %}" class="text-gray-400 hover:text-white font-medium flex items-center gap-2 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Retour aux articles
+            </a>
+            <a href="{% url 'contact' %}" class="px-6 py-3 bg-white text-black font-bold rounded-full text-sm hover:bg-gray-200 transition-colors">
+                Discuter de ce sujet
+            </a>
+        </div>
+    </div>
+</article>
+{% endblock %}

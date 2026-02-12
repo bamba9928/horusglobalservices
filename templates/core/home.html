@@ -1,83 +1,76 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Horus Global Service — Développeur Django & Python au Sénégal{% endblock %}
-{% block description %}Développeur Full-Stack spécialisé Django. Applications métier, API REST, dashboards. Livraison rapide, code professionnel.{% endblock %}
-
 {% block content %}
-<!-- HERO -->
-<section class="xCard xHero" aria-label="Présentation">
-  <h1 class="xHeroTitle">Sites, apps & APIs Django.</h1>
-  <p class="xHeroText">Livraison rapide, code propre, design dark. Expertise métier au service de vos idées.</p>
-  <div class="xHeroCta">
-    <a class="xBtn xBtnPrimary" href="{% url 'contact' %}">Démarrer un projet</a>
-    <a class="xBtn xBtnGhost" href="{% url 'services' %}">Voir les services</a>
-  </div>
-</section>
+<div class="relative pt-20 pb-16 md:pt-32 md:pb-24 px-6 md:px-12 max-w-5xl mx-auto text-center">
+    <h1 class="text-4xl md:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+        HORUS GLOBAL<br class="hidden md:block" /> SERVICE
+    </h1>
 
-<!-- APERÇU SERVICES -->
-<section class="xSection">
-  <div class="xSectionHead">
-    <h2>Services</h2>
-    <span><a href="{% url 'services' %}" style="color: var(--muted); text-decoration: none;">Voir tout →</a></span>
-  </div>
-  <article class="xCard">
-    <ul class="xList">
-      <li><strong>Applications métier</strong> : Dashboards, gestion de contrats, ERP sur mesure.</li>
-      <li><strong>API REST</strong> : Architectures robustes avec Django REST Framework.</li>
-      <li><strong>Landing Pages</strong> : Performance et conversion optimisée.</li>
-    </ul>
-    <a class="xBtn xBtnGhost xBtnFull" href="{% url 'services' %}">En savoir plus</a>
-  </article>
-</section>
-
-<!-- STACK RAPIDE -->
-<section class="xSection">
-  <div class="xSectionHead">
-    <h2>Technologies</h2>
-    <span><a href="{% url 'skills' %}" style="color: var(--muted); text-decoration: none;">Stack complète →</a></span>
-  </div>
-  <div class="xCard">
-    <p style="font-size: 1.125rem; margin-bottom: 16px;">
-      <strong>Python · Django · PostgreSQL · REST · HTMX</strong>
+    <p class="text-lg md:text-xl text-muted max-w-2xl mx-auto leading-relaxed mb-10">
+        Je construis des applications web complexes, sécurisées et scalables.
+        Expertise technique pointue basée au Sénégal, normes internationales.
     </p>
-    <p class="xMuted">
-      Stack moderne pour applications web performantes et évolutives.
-    </p>
-  </div>
-</section>
-
-<!-- PROJETS HIGHLIGHT -->
-<section class="xSection">
-  <div class="xSectionHead">
-    <h2>Projets récents</h2>
-    <span>Réalisations</span>
-  </div>
-  <div class="xCard">
-    <div style="display: grid; gap: 20px;">
-      <div>
-        <h3 style="margin-bottom: 8px;">⚡ ERP Cabinet Comptable</h3>
-        <p class="xMuted">Gestion contrats, génération attestations PDF, dashboards interactifs.</p>
-      </div>
-      <div>
-        <h3 style="margin-bottom: 8px;">📊 Dashboard Logistique</h3>
-        <p class="xMuted">Suivi temps réel, synchronisation API, reporting automatisé.</p>
-      </div>
-      <div>
-        <h3 style="margin-bottom: 8px;">🛒 API E-commerce</h3>
-        <p class="xMuted">REST API Django, intégration paiement, gestion stock.</p>
-      </div>
+    <div class="flex flex-col md:flex-row gap-4 justify-center">
+        <a href="{% url 'contact' %}" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">
+            Démarrer un projet
+        </a>
+        <a href="{% url 'services' %}" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors">
+            Voir mes services
+        </a>
     </div>
-    <p class="xTiny mt-20">Sur demande – études de cas et démos disponibles.</p>
-  </div>
-</section>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 px-6 md:px-12 max-w-6xl mx-auto border-y border-border py-8">
+    <div class="text-center">
+        <div class="text-2xl md:text-3xl font-bold text-white">10+</div>
+        <div class="text-xs text-muted uppercase tracking-wider mt-1">Années Exp.</div>
+    </div>
+    <div class="text-center">
+        <div class="text-2xl md:text-3xl font-bold text-white">100%</div>
+        <div class="text-xs text-muted uppercase tracking-wider mt-1">Satisfaction</div>
+    </div>
+    <div class="text-center">
+        <div class="text-2xl md:text-3xl font-bold text-white">Python</div>
+        <div class="text-xs text-muted uppercase tracking-wider mt-1">Language</div>
+    </div>
+    <div class="text-center">
+        <div class="text-2xl md:text-3xl font-bold text-white">REST</div>
+        <div class="text-xs text-muted uppercase tracking-wider mt-1">API Specialist</div>
+    </div>
+</div>
+<section class="py-20 px-6 md:px-12 max-w-6xl mx-auto">
+    <div class="flex justify-between items-end mb-12">
+        <div>
+            <h2 class="text-3xl font-bold mb-2 text-white">Veille Technologique</h2>
+            <p class="text-muted">Dernières publications sur le développement.</p>
+        </div>
+        <a href="{% url 'blog' %}" class="text-sm font-semibold text-white hover:underline">Voir tout →</a>
+    </div>
 
-<!-- CTA FINAL -->
-<section class="xCard" style="text-align: center;">
-  <h2 style="font-size: 1.75rem; margin-bottom: 16px;">Prêt à démarrer ?</h2>
-  <p class="xMuted mb-20">Discutons de votre projet et de vos délais.</p>
-  <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-    <a class="xBtn xBtnPrimary" href="{% url 'contact' %}">Demander un devis</a>
-    <a class="xBtn xBtnGhost" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer">WhatsApp direct</a>
-  </div>
+    <div class="grid md:grid-cols-3 gap-6">
+        {% for article in recent_articles %}
+        <a href="{% url 'article_detail' article.slug %}" class="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-white/20 transition-all hover:-translate-y-1">
+            <div class="h-48 bg-gray-800 relative overflow-hidden">
+                {% if article.image %}
+                    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center bg-white/5 text-muted">
+                        <svg class="w-12 h-12 opacity-20" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/></svg>
+                    </div>
+                {% endif %}
+                <div class="absolute top-4 left-4 bg-black/50 backdrop-blur text-xs font-bold px-3 py-1 rounded-full text-white border border-white/10">
+                    {{ article.created_at|date:"d M Y" }}
+                </div>
+            </div>
+            <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 text-white group-hover:text-blue-400 transition-colors">{{ article.title }}</h3>
+                <p class="text-muted text-sm line-clamp-3">{{ article.summary }}</p>
+            </div>
+        </a>
+        {% empty %}
+        <div class="col-span-3 text-center py-12 bg-card border border-border rounded-2xl border-dashed">
+            <p class="text-muted">Aucun article publié pour le moment.</p>
+        </div>
+        {% endfor %}
+    </div>
 </section>
 {% endblock %}

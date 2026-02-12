@@ -1,652 +1,441 @@
 <!doctype html>
 {% load static %}
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-
-  <title>{% block title %}Horus Global Service — Développeur Web & API Django{% endblock %}</title>
-  <meta name="description" content="{% block description %}Développeur Full-Stack Django & Python. Applications métier, API REST et solutions sur mesure au Sénégal.{% endblock %}">
-  <meta name="theme-color" content="#000000">
-
-  <link rel="icon" type="image/png" href="{% static 'core/favicon.png' %}">
-
-  <!-- CSS intégré -->
-  <style>
-    /* ---------- RESET & VARIABLES ---------- */
-    :root {
-      --bg: #000000;
-      --panel: #000000;
-      --text: #ffffff;
-      --muted: rgba(255, 255, 255, 0.65);
-      --line: #2f3336;
-      --hover: rgba(255, 255, 255, 0.08);
-      --accent: #ffffff;
-      --radius: 18px;
-      --max: 1200px;
-      --transition: 0.2s ease;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      -webkit-text-size-adjust: 100%;
-      scroll-behavior: smooth;
-    }
-
-    body.x {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border-width: 0;
-    }
-
-    /* ---------- LAYOUT ---------- */
-    .xLayout {
-      max-width: var(--max);
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 88px 1fr;
-      min-height: 100vh;
-      box-shadow: 0 0 0 100vw var(--panel);
-      clip-path: inset(0 -100vw);
-    }
-
-    /* ---------- SIDEBAR ---------- */
-    .xSidebar {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      border-right: 1px solid var(--line);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 12px 8px;
-      background: var(--bg);
-    }
-
-    .xLogo {
-      width: 50px;
-      height: 50px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
-      text-decoration: none;
-      transition: var(--transition);
-      margin-bottom: 8px;
-    }
-
-    .xLogo:hover,
-    .xLogo:focus {
-      background: var(--hover);
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .xLogo svg {
-      width: 26px;
-      height: 26px;
-    }
-
-    .xNav {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      width: 100%;
-      align-items: center;
-    }
-
-    .xNavItem {
-      width: 50px;
-      height: 50px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
-      text-decoration: none;
-      transition: var(--transition);
-      position: relative;
-    }
-
-    .xNavItem:hover,
-    .xNavItem:focus {
-      background: var(--hover);
-    }
-
-    .xNavItem.active {
-      background: var(--hover);
-    }
-
-    .xNavItem.active::after {
-      content: '';
-      position: absolute;
-      left: -8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 3px;
-      height: 24px;
-      background: var(--accent);
-      border-radius: 999px;
-    }
-
-    .xNavItem .xIcon {
-      width: 24px;
-      height: 24px;
-    }
-
-    .xSidebarCta {
-      margin-top: auto;
-      padding-bottom: 20px;
-    }
-
-    /* ---------- MAIN ---------- */
-    .xMain {
-      min-width: 0;
-      background: var(--bg);
-    }
-
-    /* ---------- TOPBAR ---------- */
-    .xTopbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(0, 0, 0, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .xTitle {
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .xSubtitle {
-      font-size: 0.8125rem;
-      color: var(--muted);
-    }
-
-    .xSmallBtn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 16px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: transparent;
-      color: var(--text);
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .xSmallBtn:hover,
-    .xSmallBtn:focus {
-      background: var(--hover);
-      border-color: var(--accent);
-    }
-
-    /* ---------- MESSAGES ---------- */
-    .xToastWrap {
-      padding: 16px 20px 0;
-    }
-
-    .xToast {
-      padding: 12px 20px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      font-size: 0.9375rem;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    /* ---------- CARTES ---------- */
-    .xCard {
-      padding: 24px 20px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .xSection {
-      scroll-margin-top: 80px;
-    }
-
-    .xSectionHead {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      padding: 16px 20px 8px;
-    }
-
-    .xSectionHead h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-
-    .xSectionHead span {
-      color: var(--muted);
-      font-size: 0.875rem;
-    }
-
-    /* ---------- HERO ---------- */
-    .xHero {
-      padding: 80px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .xHeroTitle {
-      font-size: clamp(2rem, 6vw, 3.5rem);
-      font-weight: 800;
-      margin-bottom: 20px;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      max-width: 700px;
-    }
-
-    .xHeroText {
-      font-size: clamp(1.125rem, 4vw, 1.375rem);
-      color: var(--muted);
-      margin-bottom: 32px;
-      max-width: 600px;
-    }
-
-    .xHeroCta {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* ---------- BOUTONS ---------- */
-    .xBtn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 28px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 1rem;
-      text-decoration: none;
-      border: 1px solid var(--line);
-      transition: all 0.2s;
-      cursor: pointer;
-      background: transparent;
-      color: var(--text);
-    }
-
-    .xBtnPrimary {
-      background: var(--accent);
-      color: #000000;
-      border-color: var(--accent);
-    }
-
-    .xBtnPrimary:hover,
-    .xBtnPrimary:focus {
-      opacity: 0.9;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-    }
-
-    .xBtnGhost:hover,
-    .xBtnGhost:focus {
-      background: var(--hover);
-      border-color: var(--accent);
-    }
-
-    .xBtnFull {
-      width: 100%;
-      margin-top: 16px;
-    }
-
-    /* ---------- GRILLE ---------- */
-    .xGrid2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
-
-    /* ---------- LISTES ---------- */
-    .xList {
-      padding-left: 20px;
-      color: var(--muted);
-    }
-
-    .xList li {
-      margin-bottom: 10px;
-    }
-
-    .xList strong {
-      color: var(--text);
-    }
-
-    /* ---------- FORMULAIRE ---------- */
-    .xForm {
-      width: 100%;
-    }
-
-    .xField {
-      margin-bottom: 20px;
-    }
-
-    .xField label {
-      display: block;
-      font-size: 0.8125rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .xField input,
-    .xField textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1.5px solid var(--line);
-      background: #0a0a0a;
-      color: var(--text);
-      font-size: 1rem;
-      transition: var(--transition);
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .xField input:focus,
-    .xField textarea:focus {
-      border-color: var(--accent);
-      outline: none;
-      background: #111111;
-    }
-
-    .xField textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    /* ---------- TEXTE ---------- */
-    .xMuted {
-      color: var(--muted);
-    }
-
-    .xTiny {
-      font-size: 0.8125rem;
-      color: var(--muted);
-    }
-
-    /* ---------- FOOTER ---------- */
-    .xFooter {
-      padding: 48px 20px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.875rem;
-      border-top: 1px solid var(--line);
-    }
-
-    /* ---------- UTILITAIRES ---------- */
-    .mt-20 { margin-top: 20px; }
-    .mb-20 { margin-bottom: 20px; }
-    .text-center { text-align: center; }
-
-    /* ---------- RESPONSIVE ---------- */
-    @media (max-width: 740px) {
-      .xLayout {
-        grid-template-columns: 1fr;
-      }
-
-      .xSidebar {
-        position: fixed;
-        bottom: 0;
-        top: auto;
-        height: 70px;
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        border-top: 1px solid var(--line);
-        border-right: none;
-        background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        z-index: 100;
-        padding: 8px 16px;
-      }
-
-      .xSidebarCta,
-      .xLogo {
-        display: none;
-      }
-
-      .xNav {
-        flex-direction: row;
-        justify-content: space-around;
-        width: 100%;
-      }
-
-      .xNavItem {
-        width: 48px;
-        height: 48px;
-      }
-
-      .xNavItem.active::after {
-        left: 50%;
-        transform: translateX(-50%);
-        top: -8px;
-        width: 24px;
-        height: 3px;
-      }
-
-      .xMain {
-        padding-bottom: 80px;
-      }
-
-      .xGrid2 {
-        grid-template-columns: 1fr;
-      }
-
-      .xHero {
-        padding: 60px 20px;
-      }
-
-      .xHeroCta {
-        flex-direction: column;
-        width: 100%;
-        max-width: 320px;
-      }
-
-      .xBtn {
-        width: 100%;
-      }
-
-      .xCard {
-        padding: 20px 16px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .xHero {
-        padding: 40px 16px;
-      }
-
-      .xHeroTitle {
-        font-size: 1.75rem;
-      }
-
-      .xHeroText {
-        font-size: 1rem;
-      }
-
-      .xTopbar {
-        padding: 10px 16px;
-      }
-
-      .xTitle {
-        font-size: 1.125rem;
-      }
-    }
-
-    {% block extra_css %}{% endblock %}
-  </style>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Horus Global Service",
-    "url": "https://horuservices.cloud",
-    "logo": "{% static 'core/favicon.png' %}",
-    "description": "Développeur Full-Stack Django & Python. Applications métier, API REST et solutions sur mesure au Sénégal.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "SN"
-    }
-  }
-  </script>
-</head>
-
-<body class="x">
-  <div class="xLayout">
-
-    <!-- SIDEBAR -->
-    <aside class="xSidebar" aria-label="Navigation principale">
-      <a class="xLogo" href="{% url 'home' %}" aria-label="Horus Global Service - Accueil">
-        <svg viewBox="0 0 24 24" class="xIcon" aria-hidden="true" focusable="false">
-          <path fill="currentColor" d="M18.9 2H22l-6.7 7.6L23 22h-6.7l-5.3-7.1L4.7 22H2l7.3-8.3L1 2h6.8l4.8 6.4L18.9 2Zm-1.2 18h1.8L7.4 4H5.5l12.2 16Z"/>
-        </svg>
-        <span class="sr-only">Horus Global Service</span>
-      </a>
-
-      <nav class="xNav" aria-label="Navigation">
-        <a class="xNavItem {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}" title="Accueil">
-          <svg viewBox="0 0 24 24" class="xIcon" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M12 3l10 9h-3v9h-6v-6H11v6H5v-9H2l10-9z"/>
-          </svg>
-          <span class="sr-only">Accueil</span>
-        </a>
-        <a class="xNavItem {% if request.resolver_match.url_name == 'services' %}active{% endif %}" href="{% url 'services' %}" title="Services">
-          <svg viewBox="0 0 24 24" class="xIcon" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M12 2 2 7v10l10 5 10-5V7L12 2Zm8 6.2-8 4-8-4L12 4l8 4.2ZM4 17V9.6l8 4v7.2L4 17Zm10 3.8v-7.2l8-4V17l-8 3.8Z"/>
-          </svg>
-          <span class="sr-only">Services</span>
-        </a>
-        <a class="xNavItem {% if request.resolver_match.url_name == 'skills' %}active{% endif %}" href="{% url 'skills' %}" title="Compétences">
-          <svg viewBox="0 0 24 24" class="xIcon" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M9 3h6v2H9V3Zm-4 6h14v2H5V9Zm0 6h14v2H5v-2Zm0 6h14v2H5v-2Z"/>
-          </svg>
-          <span class="sr-only">Compétences</span>
-        </a>
-        <a class="xNavItem {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}" title="Contact">
-          <svg viewBox="0 0 24 24" class="xIcon" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M2 5a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5Zm3-1a1 1 0 0 0-1 1v.3l8 6 8-6V5a1 1 0 0 0-1-1H5Zm15 4.2-7.4 5.6a1 1 0 0 1-1.2 0L4 8.2V19a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8.2Z"/>
-          </svg>
-          <span class="sr-only">Contact</span>
-        </a>
-      </nav>
-
-      <div class="xSidebarCta">
-        <a class="xBtn xBtnPrimary" href="{% url 'contact' %}">Devis</a>
-      </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="xMain">
-      <!-- TOPBAR -->
-      <header class="xTopbar">
-        <div class="xTopTitle">
-          <div class="xTitle">Horus Global Service</div>
-          <div class="xSubtitle">Développeur Web & API</div>
-        </div>
-        <div class="xTopActions">
-          <a class="xSmallBtn" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-        </div>
-      </header>
-
-      <!-- MESSAGES -->
-      {% if messages %}
-        <div class="xToastWrap">
-          {% for message in messages %}
-            <div class="xToast {{ message.tags }}" role="alert">{{ message }}</div>
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      <!-- CONTENU -->
-      {% block content %}{% endblock %}
-
-      <!-- FOOTER -->
-      <footer class="xFooter">
-        © <span id="current-year"></span> Horus Global Service
-      </footer>
-    </main>
-  </div>
-
-  <script>
-    (function() {
-      "use strict";
-      document.getElementById('current-year').textContent = new Date().getFullYear();
-
-      document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-        anchor.addEventListener('click', function(e) {
-          try {
-            var targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            var targetElement = document.querySelector(targetId);
-            if (targetElement) {
-              e.preventDefault();
-              targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              if (history.pushState) {
-                history.pushState(null, null, targetId);
-              }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    {# SEO #}
+    <title>{% block title %}Horus - Global Service{% endblock %}</title>
+    <meta name="description" content="{% block description %}Développement web haut de gamme au Sénégal. Applications métier, API REST et solutions Django sur mesure.{% endblock %}">
+    <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+
+    {# Favicon #}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    {# Open Graph #}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}Horus Global Service{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Développement Full-Stack Django & Python. Transformez vos idées en solutions numériques.{% endblock %}">
+    {# OG image en URL absolue (plus compatible réseaux sociaux) #}
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    {# Polices #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    {# Tailwind CDN — dev uniquement #}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark:   '#08080a',
+                        card:   '#111114',
+                        border: '#1e1e23',
+                        muted:  '#9ca3af', /* Légèrement éclairci pour meilleur contraste */
+                        accent: '#e8e0d0',
+                    },
+                    fontFamily: {
+                        display: ['Syne', 'sans-serif'],
+                        body:    ['DM Sans', 'sans-serif'],
+                    },
+                    keyframes: {
+                        'slide-in': {
+                            '0%':   { opacity: '0', transform: 'translateX(1rem)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                        'fade-out': {
+                            '0%':   { opacity: '1', transform: 'translateX(0)' },
+                            '100%': { opacity: '0', transform: 'translateX(1rem)' },
+                        },
+                        'fade-down': {
+                            '0%':   { opacity: '0', transform: 'translateY(-8px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                    animation: {
+                        'slide-in':  'slide-in 0.3s ease-out forwards',
+                        'fade-out':  'fade-out 0.4s ease-in forwards',
+                        'fade-down': 'fade-down 0.4s ease-out forwards',
+                    },
+                }
             }
-          } catch (error) {
-            console.warn('Erreur de scroll:', error);
-          }
-        });
-      });
+        }
+    </script>
 
-      if (!CSS.supports('backdrop-filter', 'blur(12px)')) {
-        var elementsWithBlur = document.querySelectorAll('.xTopbar, .xSidebar');
-        elementsWithBlur.forEach(function(el) {
-          el.style.backgroundColor = '#000000';
-        });
-      }
+    <style>
+        :root {
+            --header-h: 70px; /* Un peu plus d'air */
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #08080a;
+            color: #f0ece4;
+            overflow-x: hidden; /* Prévient le scroll horizontal accidentel */
+        }
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Syne', sans-serif;
+        }
+
+        /* Header scroll transition */
+        #site-header {
+            transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+        }
+        #site-header.scrolled {
+            background: rgba(8,8,10,0.85); /* Plus translucide */
+            border-bottom-color: #1e1e23;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Nav underline active */
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; left: 0;
+            width: 0; height: 1px;
+            background: #e8e0d0; /* Utilise la couleur accent plutôt que blanc pur */
+            transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after { width: 100%; }
+
+        /* Mobile menu (sans z-index négatif) */
+        #mobile-menu {
+            transform: translateY(-150%);
+            opacity: 0;
+            pointer-events: none;
+            transition:
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.25s ease;
+        }
+        #mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Footer gradient line */
+        .footer-line {
+            background: linear-gradient(90deg, transparent, #e8e0d0, transparent);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #08080a; }
+        ::-webkit-scrollbar-thumb { background: #2a2a30; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="flex flex-col min-h-screen">
+
+{# ====================================================================== #}
+{# HEADER                                                                   #}
+{# ====================================================================== #}
+<header id="site-header"
+        class="fixed top-0 left-0 right-0 z-50 border-b border-transparent"
+        style="height: var(--header-h);">
+    <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+
+        {# Logo #}
+        <a href="{% url 'home' %}" class="flex items-center gap-3 group relative z-50" aria-label="Horus Global Service — Accueil">
+            <div class="w-9 h-9 rounded-lg bg-accent text-dark flex items-center justify-center font-display font-bold text-lg
+                        group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-accent/20 leading-none"
+                 aria-hidden="true">H</div>
+
+            <span class="font-display font-bold text-lg tracking-wide text-white hidden sm:block">
+                Horus<span class="text-muted font-normal text-base">  Global Service</span>
+            </span>
+        </a>
+
+        {# Nav desktop #}
+        {% with url_name=request.resolver_match.url_name %}
+        <nav class="hidden md:flex items-center gap-8" aria-label="Navigation principale">
+            <a href="{% url 'home' %}"      class="nav-link text-sm font-medium tracking-wide {% if url_name == 'home' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Accueil</a>
+            <a href="{% url 'portfolio' %}" class="nav-link text-sm font-medium tracking-wide {% if url_name == 'portfolio' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Projets</a>
+            <a href="{% url 'services' %}"  class="nav-link text-sm font-medium tracking-wide {% if url_name == 'services' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Services</a>
+            <a href="{% url 'skills' %}"    class="nav-link text-sm font-medium tracking-wide {% if url_name == 'skills' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Stack</a>
+            <a href="{% url 'blog' %}"      class="nav-link text-sm font-medium tracking-wide {% if url_name == 'blog' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Blog</a>
+        </nav>
+
+        {# Actions desktop #}
+        <div class="hidden md:flex items-center gap-5">
+            {# Badge disponibilité #}
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/5 border border-green-500/10" role="status">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <span class="text-xs font-medium text-green-400 tracking-wide">Disponible</span>
+            </div>
+
+            <a href="{% url 'contact' %}"
+               class="px-5 py-2.5 text-sm font-display font-bold text-dark bg-accent rounded-lg
+                      hover:bg-white hover:scale-105 hover:shadow-lg hover:shadow-accent/20
+                      transition-all duration-200
+                      focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark">
+                Me contacter
+            </a>
+        </div>
+        {% endwith %}
+
+        {# Burger mobile #}
+        <button id="burger-btn"
+                class="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-white/5 transition-colors relative z-50"
+                aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="burger-bar w-6 h-0.5 bg-accent transition-all duration-300 origin-center"></span>
+            <span class="burger-bar w-6 h-0.5 bg-accent transition-all duration-300 origin-center"></span>
+            <span class="burger-bar w-4 ml-auto h-0.5 bg-accent transition-all duration-300 origin-center"></span>
+        </button>
+    </div>
+
+    {# Menu mobile (Glisse sous le header) #}
+    <div id="mobile-menu"
+         class="md:hidden absolute top-[calc(var(--header-h)-1px)] left-0 right-0 bg-dark/95 backdrop-blur-xl border-b border-border shadow-2xl pb-6 pt-2"
+         aria-hidden="true">
+        {% with url_name=request.resolver_match.url_name %}
+        <nav class="flex flex-col px-6 gap-2" aria-label="Navigation mobile">
+            <a href="{% url 'home' %}"      class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'home' %}text-white{% else %}text-muted{% endif %}">Accueil</a>
+            <a href="{% url 'portfolio' %}" class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'portfolio' %}text-white{% else %}text-muted{% endif %}">Projets</a>
+            <a href="{% url 'services' %}"  class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'services' %}text-white{% else %}text-muted{% endif %}">Services</a>
+            <a href="{% url 'skills' %}"    class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'skills' %}text-white{% else %}text-muted{% endif %}">Stack</a>
+            <a href="{% url 'blog' %}"      class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'blog' %}text-white{% else %}text-muted{% endif %}">Blog</a>
+
+            <div class="mt-6 flex flex-col gap-4">
+                 <div class="flex items-center gap-2 text-green-400 px-3">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span class="text-sm font-medium">Disponible</span>
+                </div>
+                <a href="{% url 'contact' %}"
+                   class="py-3 px-6 text-base font-display font-bold text-dark bg-accent rounded-lg text-center shadow-lg shadow-accent/10">
+                    Me contacter
+                </a>
+            </div>
+        </nav>
+        {% endwith %}
+    </div>
+</header>
+
+{# Spacer pour compenser le header fixe #}
+<div style="height: var(--header-h);"></div>
+
+{# ====================================================================== #}
+{# MAIN                                                                     #}
+{# ====================================================================== #}
+<main class="flex-1 w-full relative overflow-hidden">
+
+    {# Blobs décoratifs (Optimisés avec opacity réduite) #}
+    <div class="fixed top-0 left-1/4 w-[600px] h-[600px] bg-indigo-600/5 rounded-full blur-[120px] pointer-events-none -z-10" aria-hidden="true"></div>
+    <div class="fixed bottom-0 right-1/4 w-[400px] h-[400px] bg-amber-600/5 rounded-full blur-[100px] pointer-events-none -z-10" aria-hidden="true"></div>
+
+    {# Toasts (Z-Index augmenté à 100) #}
+    {% if messages %}
+        <div id="toast-container" class="fixed top-24 right-5 z-[100] space-y-3 max-w-sm w-full" role="alert" aria-live="polite">
+            {% for message in messages %}
+                <div class="toast flex items-start gap-4 bg-[#16161a] border border-border text-white px-5 py-4 rounded-xl shadow-2xl animate-slide-in">
+                    {% if message.tags == 'success' %}
+                        <span class="text-green-400 text-xl mt-0.5">✓</span>
+                    {% elif message.tags == 'error' %}
+                        <span class="text-red-400 text-xl mt-0.5">✕</span>
+                    {% else %}
+                        <span class="text-accent text-xl mt-0.5">ℹ</span>
+                    {% endif %}
+
+                    <div class="flex-1 pt-0.5">
+                        <p class="text-sm font-medium leading-snug">{{ message }}</p>
+                    </div>
+
+                    <button onclick="this.closest('.toast').remove()"
+                            class="text-muted hover:text-white transition-colors p-1 -mr-2 -mt-2"
+                            aria-label="Fermer">×</button>
+                </div>
+            {% endfor %}
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const toasts = document.querySelectorAll('.toast');
+                toasts.forEach((t, i) => {
+                    // Délai progressif pour chaque toast
+                    setTimeout(() => {
+                        t.classList.add('animate-fade-out');
+                        t.addEventListener('animationend', () => t.remove());
+                    }, 5000 + (i * 1000));
+                });
+            });
+        </script>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</main>
+
+{# ====================================================================== #}
+{# FOOTER                                                                   #}
+{# ====================================================================== #}
+<footer class="relative border-t border-border mt-32 bg-card" aria-label="Pied de page">
+
+    {# Ligne décorative #}
+    <div class="footer-line h-px w-full opacity-40"></div>
+
+    <div class="max-w-7xl mx-auto px-6 pt-16 pb-8">
+
+        {# Grille principale #}
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+
+            {# Colonne 1 — Branding (Large) #}
+            <div class="md:col-span-5 space-y-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 shrink-0 rounded-lg bg-accent text-dark flex items-center justify-center font-display font-bold text-lg leading-none" aria-hidden="true">H</div>
+                    <span class="font-display font-bold text-white text-xl tracking-tight">Horus Global Service</span>
+                </div>
+                <p class="text-muted text-sm leading-7 max-w-sm">
+                    Architecte numérique spécialisé en écosystèmes Django complexes.
+                    Nous transformons des processus métier exigeants en applications web performantes, sécurisées et évolutives.
+                    <br><span class="text-accent/80 mt-2 block">Basé au Sénégal, standards internationaux.</span>
+                </p>
+            </div>
+
+            {# Colonne 2 — Navigation #}
+            <div class="md:col-span-3">
+                <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Exploration</h3>
+                <ul class="space-y-4">
+                    <li><a href="{% url 'portfolio' %}" class="text-sm text-muted hover:text-accent transition-colors">Projets réalisés</a></li>
+                    <li><a href="{% url 'services' %}"  class="text-sm text-muted hover:text-accent transition-colors">Mes services</a></li>
+                    <li><a href="{% url 'skills' %}"    class="text-sm text-muted hover:text-accent transition-colors">Stack technique</a></li>
+                    <li><a href="{% url 'blog' %}"      class="text-sm text-muted hover:text-accent transition-colors">Articles & Tutos</a></li>
+                </ul>
+            </div>
+
+            {# Colonne 3 — Contact & Réseaux #}
+            <div class="md:col-span-4">
+                <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Restons connectés</h3>
+                <ul class="space-y-4 mb-8">
+                    <li>
+                        <a href="mailto:bambadisala@gmail.com"
+                           class="flex items-center gap-3 text-sm text-muted hover:text-white transition-colors group">
+                            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-accent group-hover:text-dark transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            </div>
+                            bambadisala@gmail.com
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://wa.me/221773409658" target="_blank" rel="noopener noreferrer"
+                           class="flex items-center gap-3 text-sm text-muted hover:text-white transition-colors group">
+                            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-green-500 group-hover:text-white transition-all">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            </div>
+                            +221 77 340 96 58
+                        </a>
+                    </li>
+                </ul>
+
+                {# Social Links #}
+                <div class="flex gap-4">
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="Github"
+                       class="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-muted hover:text-white hover:border-white hover:bg-white/5 transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                       class="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-muted hover:text-white hover:border-blue-600 hover:bg-blue-600/10 transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {# Copyright #}
+        <div class="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-xs text-muted/60">
+                &copy; {% now "Y" %} Horus Global Service — Tous droits réservés.
+            </p>
+            <p class="text-xs text-muted/60 flex items-center gap-1.5">
+                Code avec <span class="text-red-500/80">❤</span> via
+                <span class="text-accent/80 font-medium">Django</span> &amp;
+                <span class="text-accent/80 font-medium">Tailwind</span>
+            </p>
+        </div>
+    </div>
+</footer>
+
+{# ====================================================================== #}
+{# SCRIPTS GLOBAUX                                                          #}
+{# ====================================================================== #}
+<script>
+    // Header : opacité au scroll
+    (function () {
+        const header = document.getElementById('site-header');
+        const updateHeader = () => {
+             header.classList.toggle('scrolled', window.scrollY > 20);
+        };
+        window.addEventListener('scroll', updateHeader, { passive: true });
+        // Check initial state
+        updateHeader();
     })();
-  </script>
 
-  {% block extra_js %}{% endblock %}
+    // Burger menu mobile
+    (function () {
+        const btn  = document.getElementById('burger-btn');
+        const menu = document.getElementById('mobile-menu');
+        const bars = btn.querySelectorAll('.burger-bar');
+        let isOpen = false;
+
+        function toggleMenu() {
+            isOpen = !isOpen;
+            btn.setAttribute('aria-expanded', isOpen);
+            menu.setAttribute('aria-hidden', !isOpen);
+            menu.classList.toggle('open', isOpen);
+
+            // Animation croix CSS via styles inline ou classes
+            if (isOpen) {
+                // Top bar -> rotate + translate
+                bars[0].style.transform = 'translateY(8px) rotate(45deg)';
+                // Middle bar -> fade out
+                bars[1].style.opacity   = '0';
+                bars[1].style.transform = 'translateX(20px)';
+                // Bottom bar -> rotate - translate
+                bars[2].style.transform = 'translateY(-8px) rotate(-45deg)';
+                bars[2].style.width = '1.5rem'; // S'assure que la barre du bas reprend la taille normale
+            } else {
+                bars[0].style.transform = '';
+                bars[1].style.opacity   = '';
+                bars[1].style.transform = '';
+                bars[2].style.transform = '';
+                bars[2].style.width = ''; // Revient à la classe w-4 (ml-auto)
+            }
+        }
+
+        btn.addEventListener('click', toggleMenu);
+
+        // Fermer au clic sur un lien du menu
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if(isOpen) toggleMenu();
+            });
+        });
+
+        // Fermer si on clique en dehors
+        document.addEventListener('click', (e) => {
+            if (isOpen && !menu.contains(e.target) && !btn.contains(e.target)) {
+                toggleMenu();
+            }
+        });
+    })();
+</script>
+
+{% block extra_js %}{% endblock %}
+
 </body>
 </html>

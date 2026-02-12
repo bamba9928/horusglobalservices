@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin-horus/
+Disallow: /ckeditor/
+Allow: /
+
+Sitemap: https://horuservices.cloud/sitemap.xml

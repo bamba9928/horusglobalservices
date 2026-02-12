@@ -3,218 +3,229 @@
 {% block title %}Services — Développement Django & API REST{% endblock %}
 {% block description %}Applications métier sur mesure, API REST, landing pages performantes. Solutions Django professionnelles pour vos projets.{% endblock %}
 
-{% block extra_css %}
-<style>
-  .serviceCard {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 28px;
-    margin-bottom: 20px;
-    transition: var(--transition);
-  }
-
-  .serviceCard:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--accent);
-  }
-
-  .serviceIcon {
-    width: 48px;
-    height: 48px;
-    background: var(--accent);
-    color: #000;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 16px;
-  }
-
-  .serviceTitle {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-
-  .serviceDesc {
-    color: var(--muted);
-    margin-bottom: 16px;
-    line-height: 1.6;
-  }
-
-  .serviceFeatures {
-    list-style: none;
-    padding: 0;
-  }
-
-  .serviceFeatures li {
-    padding: 8px 0;
-    color: var(--muted);
-    display: flex;
-    align-items: start;
-  }
-
-  .serviceFeatures li::before {
-    content: '✓';
-    color: var(--accent);
-    font-weight: bold;
-    margin-right: 12px;
-    flex-shrink: 0;
-  }
-
-  .priceTag {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 16px;
-    border-radius: 999px;
-    display: inline-block;
-    font-size: 0.875rem;
-    color: var(--muted);
-    margin-top: 16px;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<!-- HEADER -->
-<section class="xCard" style="padding: 60px 24px; text-align: center;">
-  <h1 class="xHeroTitle" style="font-size: 2.5rem; margin-bottom: 16px;">Services & Solutions</h1>
-  <p class="xHeroText" style="max-width: 700px; margin: 0 auto;">
-    Développement sur mesure pour transformer vos idées en applications professionnelles.
-  </p>
+<section class="relative pt-20 pb-12 px-6 md:px-12 text-center max-w-5xl mx-auto">
+    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-white">
+        Services & Solutions
+    </h1>
+    <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        Développement sur mesure pour transformer vos idées en applications professionnelles, robustes et évolutives.
+    </p>
 </section>
 
-<!-- SERVICES DÉTAILLÉS -->
-<section class="xSection">
-  <div class="xSectionHead">
-    <h2>Mes services</h2>
-    <span>Expertise métier</span>
-  </div>
-
-  <div class="xCard">
-    <!-- Applications Métier -->
-    <div class="serviceCard">
-      <div class="serviceIcon">⚡</div>
-      <h3 class="serviceTitle">Applications Métier</h3>
-      <p class="serviceDesc">
-        Solutions web complètes adaptées à vos processus métiers. De la conception à la mise en production.
-      </p>
-      <ul class="serviceFeatures">
-        <li><strong>Dashboards interactifs</strong> : Visualisation temps réel de vos données</li>
-        <li><strong>ERP personnalisés</strong> : Gestion complète de votre activité</li>
-        <li><strong>Gestion documentaire</strong> : Génération PDF, attestations, rapports</li>
-        <li><strong>Workflows automatisés</strong> : Validation, notifications, synchronisation</li>
-        <li><strong>CustomUser Django</strong> : Authentification multi-rôles sur mesure</li>
-      </ul>
-      <div class="priceTag">À partir de 1 500 000 FCFA · Délai : 3-6 semaines</div>
+<section class="py-10 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="flex items-end justify-between mb-10 border-b border-gray-800 pb-4">
+        <div>
+            <h2 class="text-2xl font-bold text-white">Mes Expertises</h2>
+            <span class="text-gray-500 text-sm uppercase tracking-wider">Offres adaptées</span>
+        </div>
     </div>
 
-    <!-- API REST -->
-    <div class="serviceCard">
-      <div class="serviceIcon">🔌</div>
-      <h3 class="serviceTitle">API REST & Intégrations</h3>
-      <p class="serviceDesc">
-        Architectures backend robustes avec Django REST Framework. Documentation automatique incluse.
-      </p>
-      <ul class="serviceFeatures">
-        <li><strong>API RESTful</strong> : Endpoints sécurisés, versionnés, documentés</li>
-        <li><strong>Authentification</strong> : JWT, OAuth2, permissions granulaires</li>
-        <li><strong>Intégrations externes</strong> : Paiement, SMS, cartographie, etc.</li>
-        <li><strong>Synchronisation de données</strong> : Import/export, webhooks</li>
-        <li><strong>Tests automatisés</strong> : Couverture complète, CI/CD</li>
-      </ul>
-      <div class="priceTag">À partir de 800 000 FCFA · Délai : 2-4 semaines</div>
-    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    <!-- Landing Pages -->
-    <div class="serviceCard">
-      <div class="serviceIcon">🎨</div>
-      <h3 class="serviceTitle">Landing Pages & Sites Vitrine</h3>
-      <p class="serviceDesc">
-        Pages performantes optimisées pour la conversion. Design moderne, responsive, rapide.
-      </p>
-      <ul class="serviceFeatures">
-        <li><strong>Design sur mesure</strong> : Dark mode, animations fluides</li>
-        <li><strong>SEO optimisé</strong> : Meta tags, schema.org, sitemap</li>
-        <li><strong>Performance</strong> : Temps de chargement < 2 secondes</li>
-        <li><strong>Formulaires intelligents</strong> : Validation, anti-spam, notifications</li>
-        <li><strong>Analytics</strong> : Suivi conversions, heatmaps</li>
-      </ul>
-      <div class="priceTag">À partir de 300 000 FCFA · Délai : 1-2 semaines</div>
-    </div>
+        <div class="group bg-card border border-border rounded-2xl p-8 hover:border-white/20 transition-all hover:-translate-y-1">
+            <div class="w-14 h-14 bg-white text-black rounded-xl flex items-center justify-center text-2xl mb-6 shadow-lg shadow-white/10">
+                ⚡
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-3">Applications Métier</h3>
+            <p class="text-gray-400 mb-6 leading-relaxed">
+                Solutions web complètes adaptées à vos processus métiers. De la conception à la mise en production.
+            </p>
+            <ul class="space-y-3 mb-8">
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Dashboards interactifs temps réel
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> ERP & CRM personnalisés
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Génération PDF & Reporting
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Workflows de validation complexes
+                </li>
+            </ul>
+            <div class="inline-block bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-gray-300">
+                À partir de 1 500 000 FCFA
+            </div>
+        </div>
 
-    <!-- Maintenance -->
-    <div class="serviceCard">
-      <div class="serviceIcon">🛠️</div>
-      <h3 class="serviceTitle">Maintenance & Support</h3>
-      <p class="serviceDesc">
-        Accompagnement continu pour garantir la stabilité et l'évolution de vos applications.
-      </p>
-      <ul class="serviceFeatures">
-        <li><strong>Monitoring</strong> : Surveillance 24/7, alertes automatiques</li>
-        <li><strong>Mises à jour</strong> : Sécurité, dépendances, fonctionnalités</li>
-        <li><strong>Optimisations</strong> : Performance, base de données, requêtes</li>
-        <li><strong>Support prioritaire</strong> : Réponse < 24h, hotfixes rapides</li>
-        <li><strong>Documentation</strong> : Guides utilisateur, documentation technique</li>
-      </ul>
-      <div class="priceTag">Forfait mensuel à partir de 150 000 FCFA</div>
+        <div class="group bg-card border border-border rounded-2xl p-8 hover:border-white/20 transition-all hover:-translate-y-1">
+            <div class="w-14 h-14 bg-gray-800 text-white border border-gray-700 rounded-xl flex items-center justify-center text-2xl mb-6">
+                🔌
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-3">API REST & Intégrations</h3>
+            <p class="text-gray-400 mb-6 leading-relaxed">
+                Architectures backend robustes avec Django REST Framework. Documentation et sécurité incluses.
+            </p>
+            <ul class="space-y-3 mb-8">
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> API RESTful documentées (Swagger)
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Auth JWT & OAuth2 sécurisée
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Paiement (Orange Money, Wave, Stripe)
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Webhooks & Synchronisation de données
+                </li>
+            </ul>
+            <div class="inline-block bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-gray-300">
+                À partir de 800 000 FCFA
+            </div>
+        </div>
+
+        <div class="group bg-card border border-border rounded-2xl p-8 hover:border-white/20 transition-all hover:-translate-y-1">
+            <div class="w-14 h-14 bg-gray-800 text-white border border-gray-700 rounded-xl flex items-center justify-center text-2xl mb-6">
+                🎨
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-3">Sites Vitrine & Landing</h3>
+            <p class="text-gray-400 mb-6 leading-relaxed">
+                Pages performantes optimisées pour la conversion. Design moderne, responsive et rapide.
+            </p>
+            <ul class="space-y-3 mb-8">
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Design "Dark Mode" sur mesure
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> SEO Technique optimisé
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Performance maximale (Score 90+)
+                </li>
+            </ul>
+            <div class="inline-block bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-gray-300">
+                À partir de 300 000 FCFA
+            </div>
+        </div>
+
+        <div class="group bg-card border border-border rounded-2xl p-8 hover:border-white/20 transition-all hover:-translate-y-1">
+            <div class="w-14 h-14 bg-gray-800 text-white border border-gray-700 rounded-xl flex items-center justify-center text-2xl mb-6">
+                🛠️
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-3">Maintenance & Support</h3>
+            <p class="text-gray-400 mb-6 leading-relaxed">
+                Accompagnement continu pour garantir la stabilité et l'évolution de vos applications.
+            </p>
+            <ul class="space-y-3 mb-8">
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Monitoring serveur 24/7
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Mises à jour de sécurité Django
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <span class="text-white mr-2 font-bold">✓</span> Sauvegardes automatisées
+                </li>
+            </ul>
+            <div class="inline-block bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-gray-300">
+                Forfait dès 150 000 FCFA / mois
+            </div>
+        </div>
+
     </div>
-  </div>
 </section>
 
-<!-- PROCESSUS -->
-<section class="xSection">
-  <div class="xSectionHead">
-    <h2>Processus</h2>
-    <span>Étapes</span>
-  </div>
-  <div class="xCard">
-    <div style="display: grid; gap: 24px;">
-      <div>
-        <h3 style="margin-bottom: 8px;">1. 📋 Découverte</h3>
-        <p class="xMuted">Échange sur vos besoins, contraintes, objectifs. Proposition technique et devis gratuit.</p>
-      </div>
-      <div>
-        <h3 style="margin-bottom: 8px;">2. 🎨 Conception</h3>
-        <p class="xMuted">Maquettes, architecture, modélisation base de données. Validation avant développement.</p>
-      </div>
-      <div>
-        <h3 style="margin-bottom: 8px;">3. ⚙️ Développement</h3>
-        <p class="xMuted">Code propre, tests, revues régulières. Accès démo pour suivre l'avancement.</p>
-      </div>
-      <div>
-        <h3 style="margin-bottom: 8px;">4. 🚀 Livraison</h3>
-        <p class="xMuted">Déploiement en production, formation, documentation complète. Support post-lancement.</p>
-      </div>
+<section class="py-20 px-6 md:px-12 bg-white/5 border-y border-white/5">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-white mb-4">Comment nous travaillons</h2>
+            <p class="text-gray-400">Un processus clair et transparent, de l'idée au déploiement.</p>
+        </div>
+
+        <div class="grid md:grid-cols-4 gap-8">
+            <div class="relative">
+                <span class="text-8xl font-black text-white/5 absolute -top-8 -left-4 select-none">1</span>
+                <h3 class="text-xl font-bold text-white mb-2 relative z-10">📋 Découverte</h3>
+                <p class="text-sm text-gray-400 relative z-10">
+                    Analyse de vos besoins. Nous définissons ensemble le périmètre technique et les objectifs business.
+                </p>
+            </div>
+            <div class="relative">
+                <span class="text-8xl font-black text-white/5 absolute -top-8 -left-4 select-none">2</span>
+                <h3 class="text-xl font-bold text-white mb-2 relative z-10">🎨 Conception</h3>
+                <p class="text-sm text-gray-400 relative z-10">
+                    Architecture de la base de données, maquettes UI/UX et validation des spécifications techniques.
+                </p>
+            </div>
+            <div class="relative">
+                <span class="text-8xl font-black text-white/5 absolute -top-8 -left-4 select-none">3</span>
+                <h3 class="text-xl font-bold text-white mb-2 relative z-10">⚙️ Dév.</h3>
+                <p class="text-sm text-gray-400 relative z-10">
+                    Développement agile avec des livraisons régulières pour tester les fonctionnalités au fur et à mesure.
+                </p>
+            </div>
+            <div class="relative">
+                <span class="text-8xl font-black text-white/5 absolute -top-8 -left-4 select-none">4</span>
+                <h3 class="text-xl font-bold text-white mb-2 relative z-10">🚀 Livraison</h3>
+                <p class="text-sm text-gray-400 relative z-10">
+                    Mise en production sécurisée, formation des utilisateurs et transfert de compétences.
+                </p>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
-<!-- GARANTIES -->
-<section class="xSection">
-  <div class="xSectionHead">
-    <h2>Garanties</h2>
-    <span>Engagement qualité</span>
-  </div>
-  <div class="xCard">
-    <ul class="xList">
-      <li><strong>Code professionnel</strong> : Standards Django, PEP8, tests unitaires</li>
-      <li><strong>Sécurité</strong> : Protection CSRF, XSS, injection SQL, conformité RGPD</li>
-      <li><strong>Performance</strong> : Optimisation requêtes, cache, CDN</li>
-      <li><strong>Documentation</strong> : Code commenté, guides utilisateur, README complet</li>
-      <li><strong>Support</strong> : 30 jours de garantie gratuite après livraison</li>
-    </ul>
-  </div>
+<section class="py-20 px-6 md:px-12 max-w-5xl mx-auto">
+    <div class="bg-card border border-border rounded-3xl p-8 md:p-12">
+        <div class="md:flex items-start gap-12">
+            <div class="md:w-1/3 mb-8 md:mb-0">
+                <h2 class="text-3xl font-bold text-white mb-4">Mes Garanties</h2>
+                <p class="text-gray-400 text-sm">
+                    La qualité du code et la sécurité ne sont pas des options, ce sont des standards.
+                </p>
+            </div>
+            <div class="md:w-2/3 grid sm:grid-cols-2 gap-6">
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 shrink-0">🛡️</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Sécurité Maximale</h4>
+                        <p class="text-xs text-gray-500 mt-1">Protection CSRF, XSS et injections SQL native via Django.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">⚡</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Performance</h4>
+                        <p class="text-xs text-gray-500 mt-1">Code optimisé, mise en cache Redis et requêtes SQL efficaces.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-500 shrink-0">📚</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Code Documenté</h4>
+                        <p class="text-xs text-gray-500 mt-1">Documentation technique complète pour faciliter la maintenance.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-500 shrink-0">🤝</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Support Inclus</h4>
+                        <p class="text-xs text-gray-500 mt-1">30 jours de garantie gratuite après la livraison du projet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
-<!-- CTA -->
-<section class="xCard" style="text-align: center;">
-  <h2 style="font-size: 1.75rem; margin-bottom: 16px;">Discutons de votre projet</h2>
-  <p class="xMuted mb-20">Devis gratuit sous 24h. Premier échange sans engagement.</p>
-  <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-    <a class="xBtn xBtnPrimary" href="{% url 'contact' %}">Demander un devis</a>
-    <a class="xBtn xBtnGhost" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-  </div>
+<section class="py-10 px-6 md:px-12 text-center pb-24">
+    <div class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold text-white mb-6">Prêt à lancer votre projet ?</h2>
+        <p class="text-gray-400 mb-8">
+            Discutons de vos besoins et établissons un devis gratuit et sans engagement.
+        </p>
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <a href="{% url 'contact' %}" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">
+                Demander un devis
+            </a>
+            <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                WhatsApp
+            </a>
+        </div>
+    </div>
 </section>
 {% endblock %}

@@ -3,430 +3,349 @@
 {% block title %}Stack Technique — Django, Python, PostgreSQL{% endblock %}
 {% block description %}Technologies et outils : Python, Django, PostgreSQL, REST Framework, HTMX, TailwindCSS. Stack moderne pour applications web performantes.{% endblock %}
 
-{% block extra_css %}
-<style>
-  .skillCategory {
-    margin-bottom: 32px;
-  }
-
-  .skillCategoryTitle {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .skillGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-  }
-
-  .skillItem {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 16px;
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .skillItem:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--accent);
-    transform: translateY(-2px);
-  }
-
-  .skillName {
-    font-weight: 700;
-    margin-bottom: 6px;
-    font-size: 1.125rem;
-  }
-
-  .skillDesc {
-    color: var(--muted);
-    font-size: 0.875rem;
-    flex-grow: 1;
-  }
-
-  .skillLevel {
-    display: flex;
-    gap: 4px;
-    margin-top: 12px;
-  }
-
-  .skillDot {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--line);
-  }
-
-  .skillDot.filled {
-    background: var(--accent);
-  }
-
-  .expCard {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 16px;
-  }
-
-  .expTitle {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-
-  .expMeta {
-    color: var(--muted);
-    font-size: 0.875rem;
-    margin-bottom: 12px;
-  }
-
-  @media (max-width: 740px) {
-    .skillGrid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<!-- HEADER -->
-<section class="xCard" style="padding: 60px 24px; text-align: center;">
-  <h1 class="xHeroTitle" style="font-size: 2.5rem; margin-bottom: 16px;">Stack Technique</h1>
-  <p class="xHeroText" style="max-width: 700px; margin: 0 auto;">
-    Technologies modernes pour créer des applications web robustes, sécurisées et évolutives.
-  </p>
+<section class="relative pt-20 pb-12 px-6 md:px-12 text-center max-w-5xl mx-auto">
+    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-white">
+        Stack Technique
+    </h1>
+    <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        Technologies modernes sélectionnées pour créer des applications web robustes, sécurisées et évolutives.
+    </p>
 </section>
 
-<!-- STACK PRINCIPAL -->
-<section class="xSection">
-  <div class="xSectionHead">
-    <h2>Stack principal</h2>
-    <span>Technologies core</span>
-  </div>
+<section class="py-10 px-6 md:px-12 max-w-7xl mx-auto">
 
-  <div class="xCard">
-    <!-- Backend -->
-    <div class="skillCategory">
-      <h3 class="skillCategoryTitle">⚙️ Backend & Frameworks</h3>
-      <div class="skillGrid">
-        <div class="skillItem">
-          <div class="skillName">Python</div>
-          <div class="skillDesc">Langage principal, POO, async</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-          </div>
+    <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
+            <span class="text-2xl">⚙️</span>
+            <h2 class="text-2xl font-bold text-white">Backend & Frameworks</h2>
         </div>
-        <div class="skillItem">
-          <div class="skillName">Django</div>
-          <div class="skillDesc">Framework web, ORM, admin</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-          </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all group">
+                <div class="font-bold text-lg text-white group-hover:text-blue-400 transition-colors">Python</div>
+                <div class="text-sm text-gray-400 flex-grow">Langage principal, POO, async</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all group">
+                <div class="font-bold text-lg text-white group-hover:text-green-400 transition-colors">Django</div>
+                <div class="text-sm text-gray-400 flex-grow">Framework web, ORM, admin</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all group">
+                <div class="font-bold text-lg text-white group-hover:text-red-400 transition-colors">Django REST</div>
+                <div class="text-sm text-gray-400 flex-grow">API, serializers, viewsets</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all group">
+                <div class="font-bold text-lg text-white group-hover:text-cyan-400 transition-colors">HTMX</div>
+                <div class="text-sm text-gray-400 flex-grow">Interactivité sans JS lourd</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
         </div>
-        <div class="skillItem">
-          <div class="skillName">Django REST</div>
-          <div class="skillDesc">API, serializers, viewsets</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-          </div>
-        </div>
-        <div class="skillItem">
-          <div class="skillName">HTMX</div>
-          <div class="skillDesc">Interactivité sans JS lourd</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Frontend -->
-    <div class="skillCategory">
-      <h3 class="skillCategoryTitle">🎨 Frontend & UI</h3>
-      <div class="skillGrid">
-        <div class="skillItem">
-          <div class="skillName">HTML/CSS</div>
-          <div class="skillDesc">Sémantique, responsive, A11y</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-          </div>
+    <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
+            <span class="text-2xl">🎨</span>
+            <h2 class="text-2xl font-bold text-white">Frontend & UI</h2>
         </div>
-        <div class="skillItem">
-          <div class="skillName">JavaScript</div>
-          <div class="skillDesc">ES6+, DOM, fetch, async</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-          </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">HTML/CSS</div>
+                <div class="text-sm text-gray-400 flex-grow">Sémantique, responsive, A11y</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">JavaScript</div>
+                <div class="text-sm text-gray-400 flex-grow">ES6+, DOM, fetch, async</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">TailwindCSS</div>
+                <div class="text-sm text-gray-400 flex-grow">Utility-first, design systems</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">Alpine.js</div>
+                <div class="text-sm text-gray-400 flex-grow">Réactivité légère</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
         </div>
-        <div class="skillItem">
-          <div class="skillName">TailwindCSS</div>
-          <div class="skillDesc">Utility-first, design systems</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-          </div>
-        </div>
-        <div class="skillItem">
-          <div class="skillName">Alpine.js</div>
-          <div class="skillDesc">Réactivité légère</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-            <div class="skillDot"></div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Base de données -->
-    <div class="skillCategory">
-      <h3 class="skillCategoryTitle">💾 Bases de données</h3>
-      <div class="skillGrid">
-        <div class="skillItem">
-          <div class="skillName">PostgreSQL</div>
-          <div class="skillDesc">SGBD relationnel principal</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-          </div>
+    <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
+            <span class="text-2xl">💾</span>
+            <h2 class="text-2xl font-bold text-white">Bases de données</h2>
         </div>
-        <div class="skillItem">
-          <div class="skillName">SQLite</div>
-          <div class="skillDesc">Dev, prototypage</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-          </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">PostgreSQL</div>
+                <div class="text-sm text-gray-400 flex-grow">SGBD relationnel principal</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">SQLite</div>
+                <div class="text-sm text-gray-400 flex-grow">Dev, prototypage</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">Redis</div>
+                <div class="text-sm text-gray-400 flex-grow">Cache, sessions, queues</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
         </div>
-        <div class="skillItem">
-          <div class="skillName">Redis</div>
-          <div class="skillDesc">Cache, sessions, queues</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-            <div class="skillDot"></div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- DevOps -->
-    <div class="skillCategory">
-      <h3 class="skillCategoryTitle">🚀 DevOps & Déploiement</h3>
-      <div class="skillGrid">
-        <div class="skillItem">
-          <div class="skillName">Linux</div>
-          <div class="skillDesc">Ubuntu, Debian, bash</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-          </div>
+    <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
+            <span class="text-2xl">🚀</span>
+            <h2 class="text-2xl font-bold text-white">DevOps & Déploiement</h2>
         </div>
-        <div class="skillItem">
-          <div class="skillName">Docker</div>
-          <div class="skillDesc">Conteneurisation, compose</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-            <div class="skillDot"></div>
-          </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">Linux</div>
+                <div class="text-sm text-gray-400 flex-grow">Ubuntu, Debian, bash</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">Docker</div>
+                <div class="text-sm text-gray-400 flex-grow">Conteneurisation, compose</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">Nginx</div>
+                <div class="text-sm text-gray-400 flex-grow">Reverse proxy, SSL</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">Git</div>
+                <div class="text-sm text-gray-400 flex-grow">Versioning, GitHub, GitLab</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
         </div>
-        <div class="skillItem">
-          <div class="skillName">Nginx</div>
-          <div class="skillDesc">Reverse proxy, SSL</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-          </div>
-        </div>
-        <div class="skillItem">
-          <div class="skillName">Git</div>
-          <div class="skillDesc">Versioning, GitHub, GitLab</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Outils -->
-    <div class="skillCategory">
-      <h3 class="skillCategoryTitle">🛠️ Outils & Librairies</h3>
-      <div class="skillGrid">
-        <div class="skillItem">
-          <div class="skillName">Celery</div>
-          <div class="skillDesc">Tâches asynchrones</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-            <div class="skillDot"></div>
-          </div>
+    <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
+            <span class="text-2xl">🛠️</span>
+            <h2 class="text-2xl font-bold text-white">Outils & Librairies</h2>
         </div>
-        <div class="skillItem">
-          <div class="skillName">Pandas</div>
-          <div class="skillDesc">Manipulation de données</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-            <div class="skillDot"></div>
-          </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">Celery</div>
+                <div class="text-sm text-gray-400 flex-grow">Tâches asynchrones</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">Pandas</div>
+                <div class="text-sm text-gray-400 flex-grow">Manipulation de données</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">ReportLab</div>
+                <div class="text-sm text-gray-400 flex-grow">Génération PDF</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
+            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
+                <div class="font-bold text-lg text-white">Pytest</div>
+                <div class="text-sm text-gray-400 flex-grow">Tests unitaires & intégration</div>
+                <div class="flex gap-1.5 mt-2">
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-white"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
+                </div>
+            </div>
         </div>
-        <div class="skillItem">
-          <div class="skillName">ReportLab</div>
-          <div class="skillDesc">Génération PDF</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-          </div>
-        </div>
-        <div class="skillItem">
-          <div class="skillName">Pytest</div>
-          <div class="skillDesc">Tests unitaires & intégration</div>
-          <div class="skillLevel">
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot filled"></div>
-            <div class="skillDot"></div>
-            <div class="skillDot"></div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </section>
 
-<!-- EXPERTISES MÉTIER -->
-<section class="xSection">
-  <div class="xSectionHead">
-    <h2>Expertises métier</h2>
-    <span>Domaines d'application</span>
-  </div>
-  <div class="xCard">
-    <div class="expCard">
-      <h3 class="expTitle">📊 Applications de gestion</h3>
-      <p class="expMeta">ERP, CRM, dashboards, reporting</p>
-      <p class="xMuted">
-        Modélisation de bases de données complexes, workflows métiers, génération de documents (PDF, Excel),
-        gestion multi-utilisateurs avec permissions granulaires.
-      </p>
-    </div>
+<section class="py-12 px-6 md:px-12 bg-white/5 border-y border-white/5">
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-12 text-center md:text-left">
+            <h2 class="text-3xl font-bold text-white mb-2">Expertises Métier</h2>
+            <p class="text-gray-400">Au-delà du code, la compréhension de vos enjeux.</p>
+        </div>
 
-    <div class="expCard">
-      <h3 class="expTitle">🔌 Intégrations API</h3>
-      <p class="expMeta">REST, webhooks, synchronisation</p>
-      <p class="xMuted">
-        Consommation et exposition d'API, authentification OAuth2/JWT, synchronisation de données tierces,
-        gestion de webhooks, intégration paiement mobile (Orange Money, Wave, etc.).
-      </p>
-    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-card border border-border p-8 rounded-2xl hover:border-white/20 transition-all">
+                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                    <span class="text-2xl">📊</span> Applications de gestion
+                </h3>
+                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">ERP, CRM, Dashboards</p>
+                <p class="text-gray-300 leading-relaxed">
+                    Modélisation de bases de données complexes, workflows métiers sur mesure, génération de documents officiels (PDF, Excel) et gestion fine des permissions utilisateurs.
+                </p>
+            </div>
 
-    <div class="expCard">
-      <h3 class="expTitle">⚡ Performance & Scalabilité</h3>
-      <p class="expMeta">Optimisation, cache, monitoring</p>
-      <p class="xMuted">
-        Optimisation requêtes ORM, mise en cache Redis, lazy loading, pagination efficace,
-        monitoring avec Sentry, logs structurés.
-      </p>
-    </div>
+            <div class="bg-card border border-border p-8 rounded-2xl hover:border-white/20 transition-all">
+                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                    <span class="text-2xl">🔌</span> Intégrations API
+                </h3>
+                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">REST, Webhooks, Sync</p>
+                <p class="text-gray-300 leading-relaxed">
+                    Consommation et exposition d'API sécurisées (JWT), synchronisation avec des services tiers, gestion de webhooks et intégration de paiements locaux (Orange Money, Wave).
+                </p>
+            </div>
 
-    <div class="expCard">
-      <h3 class="expTitle">🔐 Sécurité</h3>
-      <p class="expMeta">HTTPS, CSRF, XSS, RGPD</p>
-      <p class="xMuted">
-        Protection contre les vulnérabilités courantes (OWASP Top 10), chiffrement des données sensibles,
-        conformité RGPD, audit de sécurité.
-      </p>
+            <div class="bg-card border border-border p-8 rounded-2xl hover:border-white/20 transition-all">
+                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                    <span class="text-2xl">⚡</span> Performance & Scalabilité
+                </h3>
+                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Optimisation, Cache</p>
+                <p class="text-gray-300 leading-relaxed">
+                    Optimisation des requêtes ORM Django, mise en cache avec Redis, chargement différé (lazy loading) et architecture capable de supporter la montée en charge.
+                </p>
+            </div>
+
+            <div class="bg-card border border-border p-8 rounded-2xl hover:border-white/20 transition-all">
+                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                    <span class="text-2xl">🔐</span> Sécurité & Conformité
+                </h3>
+                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">OWASP, RGPD</p>
+                <p class="text-gray-300 leading-relaxed">
+                    Protection contre les failles courantes (XSS, CSRF, Injection SQL), chiffrement des données sensibles et respect des normes de confidentialité des données.
+                </p>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
-<!-- CERTIFICATIONS / FORMATIONS -->
-<section class="xSection">
-  <div class="xSectionHead">
-    <h2>Formation continue</h2>
-    <span>Veille technologique</span>
-  </div>
-  <div class="xCard">
-    <ul class="xList">
-      <li><strong>Documentation officielle</strong> : Django, Python, PostgreSQL (lecture quotidienne)</li>
-      <li><strong>Communautés</strong> : Django Forum, Reddit /r/django, Stack Overflow</li>
-      <li><strong>Projets open-source</strong> : Contribution et lecture de code</li>
-      <li><strong>Conférences</strong> : Djangocon, Pycon (replay)</li>
-    </ul>
-  </div>
+<section class="py-16 px-6 md:px-12 max-w-5xl mx-auto text-center">
+    <h2 class="text-2xl font-bold text-white mb-8">Formation Continue & Veille</h2>
+    <div class="inline-flex flex-wrap justify-center gap-4 text-sm text-gray-400">
+        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Documentation Officielle</span>
+        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Django Forum</span>
+        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Reddit /r/django</span>
+        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Contributions Open Source</span>
+        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Conférences PyCon</span>
+    </div>
 </section>
 
-<!-- CTA -->
-<section class="xCard" style="text-align: center;">
-  <h2 style="font-size: 1.75rem; margin-bottom: 16px;">Vous avez un projet technique ?</h2>
-  <p class="xMuted mb-20">Discutons des technologies adaptées à vos besoins.</p>
-  <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-    <a class="xBtn xBtnPrimary" href="{% url 'contact' %}">Parler de mon projet</a>
-    <a class="xBtn xBtnGhost" href="{% url 'services' %}">Voir les services</a>
-  </div>
+<section class="py-10 px-6 md:px-12 text-center pb-24">
+    <div class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold text-white mb-6">Vous avez un projet technique ?</h2>
+        <p class="text-gray-400 mb-8">
+            Discutons des technologies les plus adaptées à vos besoins spécifiques.
+        </p>
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <a href="{% url 'contact' %}" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">
+                Parler de mon projet
+            </a>
+            <a href="{% url 'services' %}" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors">
+                Voir les services
+            </a>
+        </div>
+    </div>
 </section>
 {% endblock %}
