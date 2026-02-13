@@ -1,40 +1,200 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="relative pt-20 pb-16 md:pt-32 md:pb-24 px-6 md:px-12 max-w-5xl mx-auto text-center">
-    <h1 class="text-4xl md:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
-        HORUS GLOBAL<br class="hidden md:block" /> SERVICE
+<div class="relative pt-20 pb-16 md:pt-32 md:pb-24 px-6 md:px-12 max-w-full mx-auto text-center overflow-hidden">
+
+    {# --- 1. EFFET D'ARRIÈRE-PLAN (GRID TECH) --- #}
+    {# Crée une grille subtile et un halo bleu derrière #}
+    <div class="absolute inset-0 -z-10 h-full w-full bg-[#08080a] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
+        <div class="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-blue-600 opacity-20 blur-[100px]"></div>
+    </div>
+    {# --- 3. TITRE AVEC EFFET --- #}
+    <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-8 text-white relative z-10 font-display">
+        HORUS GLOBAL
+        <br class="hidden md:block" />
+        {# Dégradé plus vibrant #}
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500">
+            SERVICE
+        </span>
     </h1>
 
-    <p class="text-lg md:text-xl text-muted max-w-2xl mx-auto leading-relaxed mb-10">
-        Je construis des applications web complexes, sécurisées et scalables.
-        Expertise technique pointue basée au Sénégal, normes internationales.
+    {# --- 4. SOUS-TITRE OPTIMISÉ --- #}
+    <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed mb-10 relative z-10">
+        Je construis des applications web <span class="text-white font-semibold">complexes</span>, <span class="text-white font-semibold">sécurisées</span> et <span class="text-white font-semibold">scalables</span>.
+        <br class="hidden md:inline">Expertise technique pointue basée au Sénégal, standards internationaux.
     </p>
-    <div class="flex flex-col md:flex-row gap-4 justify-center">
-        <a href="{% url 'contact' %}" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">
+
+    {# --- 5. BOUTONS (Avec effet Glow au survol) --- #}
+    <div class="flex flex-col md:flex-row gap-4 justify-center relative z-10">
+        <a href="{% url 'contact' %}" class="group relative px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
             Démarrer un projet
+            {# Petite flèche qui bouge au survol #}
+            <span class="inline-block transition-transform group-hover:translate-x-1 ml-1">→</span>
         </a>
-        <a href="{% url 'services' %}" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors">
+
+        <a href="{% url 'services' %}" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 hover:border-white/30 transition-colors backdrop-blur-sm">
             Voir mes services
         </a>
     </div>
+
+    {# Ligne décorative en bas pour séparer du Marquee #}
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 </div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 px-6 md:px-12 max-w-6xl mx-auto border-y border-border py-8">
-    <div class="text-center">
-        <div class="text-2xl md:text-3xl font-bold text-white">10+</div>
-        <div class="text-xs text-muted uppercase tracking-wider mt-1">Années Exp.</div>
-    </div>
-    <div class="text-center">
-        <div class="text-2xl md:text-3xl font-bold text-white">100%</div>
-        <div class="text-xs text-muted uppercase tracking-wider mt-1">Satisfaction</div>
-    </div>
-    <div class="text-center">
-        <div class="text-2xl md:text-3xl font-bold text-white">Python</div>
-        <div class="text-xs text-muted uppercase tracking-wider mt-1">Language</div>
-    </div>
-    <div class="text-center">
-        <div class="text-2xl md:text-3xl font-bold text-white">REST</div>
-        <div class="text-xs text-muted uppercase tracking-wider mt-1">API Specialist</div>
+<div class="border-y border-white/5 bg-white/[0.02] overflow-hidden py-8 relative">
+
+    {# Masques de dégradé pour adoucir les bords #}
+    <div class="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-[#08080a] to-transparent z-10"></div>
+    <div class="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-[#08080a] to-transparent z-10"></div>
+
+    {# Conteneur d'animation #}
+    <div class="flex w-max animate-infinite-scroll hover:pause">
+
+        {# --- GROUPE 1 (Original) --- #}
+        <div class="flex items-center gap-12 px-6">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">10+ Ans</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Expérience</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-green-500/10 rounded-lg text-green-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">100%</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Satisfaction</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-yellow-500/10 rounded-lg text-yellow-400">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-8.3h6l-.25-1.84h0l-.04-.12-.09-.27-.14-.29-.2-.29-.25-.29-.28-.27-.32-.26-.34-.24-.34-.2-.36-.17-.37-.15-.36-.11-.37-.08-.34-.05h-.68l-.34.05-.37.08-.36.11-.37.15-.36.17-.34.2-.34.24-.32.26-.28.27-.25.29-.2.29-.14.29-.09.27-.04.37h0l-.25 1.84h6l.25-1.84h0l.04-.12.09-.27.14-.29.2-.29.25-.29.28-.27.32-.26.34-.24.34-.2.36-.17.37-.15.36-.11.37-.08.34-.05h.68l.34.05.37.08.36.11.37.15.36.17.34.2.34.24.32.26.28.27.25.29.2.29.14.29.09.27.04.37h0l.25-1.84h-6zm-3 8.3c-1.28 0-2.31 1.03-2.31 2.31s1.03 2.31 2.31 2.31 2.31-1.03 2.31-2.31-1.03-2.31-2.31-2.31zm9.4 6.95l-.06-.01h-8.16v8.3h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h6l-.25 1.84h0l-.04.12-.09.27-.14.29-.2.29-.25.29-.28.27-.32.26-.34.24-.34.2-.36.17-.37.15-.36.11-.37.08-.34.05h-.68l-.34-.05-.37-.08-.36-.11-.37-.15-.36-.17-.34-.2-.34-.24-.32-.26-.28-.27-.25-.29-.2-.29-.14-.29-.09-.27-.04-.37h0l-.25-1.84h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h8.16v-3.06h-5.42l.21.03.28.07.32.12.35.18.36.26.36.36.35.46.32.59.28.73.21.88.14 1.05.05 1.23-.06 1.22-.16 1.04-.24.87-.32.71-.36.57-.4.44-.42.33-.42.24-.4.16-.36.1-.32.05-.24.01h-.16z"/></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">Python</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Expert</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-green-900/20 rounded-lg text-green-500">
+                    <span class="font-bold text-xl leading-none px-1">dj</span>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">Django</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Framework</div>
+                </div>
+            </div>
+
+             <div class="flex items-center gap-3">
+                <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">REST API</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Architecture</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-blue-400/10 rounded-lg text-blue-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">PostgreSQL</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Database</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-cyan-500/10 rounded-lg text-cyan-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">Docker</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">DevOps</div>
+                </div>
+            </div>
+        </div>
+
+        {# --- GROUPE 2 (Duplication pour boucle infinie) --- #}
+        <div class="flex items-center gap-12 px-6" aria-hidden="true">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">10+ Ans</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Expérience</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-green-500/10 rounded-lg text-green-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">100%</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Satisfaction</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-yellow-500/10 rounded-lg text-yellow-400">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-8.3h6l-.25-1.84h0l-.04-.12-.09-.27-.14-.29-.2-.29-.25-.29-.28-.27-.32-.26-.34-.24-.34-.2-.36-.17-.37-.15-.36-.11-.37-.08-.34-.05h-.68l-.34.05-.37.08-.36.11-.37.15-.36.17-.34.2-.34.24-.32.26-.28.27-.25.29-.2.29-.14.29-.09.27-.04.37h0l-.25 1.84h6l.25-1.84h0l.04-.12.09-.27.14.29.2.29.25-.29.28-.27.32-.26.34-.24.34-.2.36-.17.37-.15.36-.11.37-.08.34-.05h.68l.34.05.37.08.36.11.37.15.36.17.34.2.34.24.32.26.28.27.25.29.2.29.14.29.09.27.04.37h0l.25-1.84h-6zm-3 8.3c-1.28 0-2.31 1.03-2.31 2.31s1.03 2.31 2.31 2.31 2.31-1.03 2.31-2.31-1.03-2.31-2.31-2.31zm9.4 6.95l-.06-.01h-8.16v8.3h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h6l-.25 1.84h0l-.04.12-.09.27-.14.29-.2.29-.25.29-.28.27-.32.26-.34.24-.34.2-.36.17-.37.15-.36.11-.37.08-.34.05h-.68l-.34-.05-.37-.08-.36-.11-.37-.15-.36-.17-.34-.2-.34-.24-.32-.26-.28-.27-.25-.29-.2-.29-.14-.29-.09-.27-.04-.37h0l-.25-1.84h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h8.16v-3.06h-5.42l.21.03.28.07.32.12.35.18.36.26.36.36.35.46.32.59.28.73.21.88.14 1.05.05 1.23-.06 1.22-.16 1.04-.24.87-.32.71-.36.57-.4.44-.42.33-.42.24-.4.16-.36.1-.32.05-.24.01h-.16z"/></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">Python</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Expert</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-green-900/20 rounded-lg text-green-500">
+                    <span class="font-bold text-xl leading-none px-1">dj</span>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">Django</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Framework</div>
+                </div>
+            </div>
+
+             <div class="flex items-center gap-3">
+                <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">REST API</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Architecture</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-blue-400/10 rounded-lg text-blue-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">PostgreSQL</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">Database</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-cyan-500/10 rounded-lg text-cyan-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xl font-bold text-white">Docker</div>
+                    <div class="text-xs text-gray-500 uppercase tracking-wider">DevOps</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 <section class="py-20 px-6 md:px-12 max-w-6xl mx-auto">

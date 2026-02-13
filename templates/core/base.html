@@ -2,439 +2,754 @@
 {% load static %}
 <html lang="fr" class="scroll-smooth">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    {# SEO #}
-    <title>{% block title %}Horus - Global Service{% endblock %}</title>
-    <meta name="description" content="{% block description %}Développement web haut de gamme au Sénégal. Applications métier, API REST et solutions Django sur mesure.{% endblock %}">
-    <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+  {# SEO #}
+  <title>{% block title %}Horus Global Service{% endblock %}</title>
+  <meta name="description" content="{% block description %}High-end web development in Senegal. Business apps, REST APIs, and custom Django solutions.{% endblock %}">
+  <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
 
-    {# Favicon #}
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+  {# Favicon #}
+  <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 
-    {# Open Graph #}
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="{% block og_title %}Horus Global Service{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Développement Full-Stack Django & Python. Transformez vos idées en solutions numériques.{% endblock %}">
-    {# OG image en URL absolue (plus compatible réseaux sociaux) #}
-    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  {# Open Graph #}
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="{% block og_title %}Horus Global Service{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Full-Stack Django & Python development. Turn ideas into reliable digital products.{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
 
-    {# Polices #}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  {# Twitter Cards (optional but useful) #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% block twitter_title %}Horus Global Service{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Full-Stack Django & Python development.{% endblock %}">
+  <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
 
-    {# Tailwind CDN — dev uniquement #}
+  {# Fonts #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  {# Tailwind CDN (dev only) — config should be defined BEFORE the CDN script #}
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        dark:   '#08080a',
-                        card:   '#111114',
-                        border: '#1e1e23',
-                        muted:  '#9ca3af', /* Légèrement éclairci pour meilleur contraste */
-                        accent: '#e8e0d0',
-                    },
-                    fontFamily: {
-                        display: ['Syne', 'sans-serif'],
-                        body:    ['DM Sans', 'sans-serif'],
-                    },
-                    keyframes: {
-                        'slide-in': {
-                            '0%':   { opacity: '0', transform: 'translateX(1rem)' },
-                            '100%': { opacity: '1', transform: 'translateX(0)' },
-                        },
-                        'fade-out': {
-                            '0%':   { opacity: '1', transform: 'translateX(0)' },
-                            '100%': { opacity: '0', transform: 'translateX(1rem)' },
-                        },
-                        'fade-down': {
-                            '0%':   { opacity: '0', transform: 'translateY(-8px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                    },
-                    animation: {
-                        'slide-in':  'slide-in 0.3s ease-out forwards',
-                        'fade-out':  'fade-out 0.4s ease-in forwards',
-                        'fade-down': 'fade-down 0.4s ease-out forwards',
-                    },
-                }
-            }
+  <script>
+    tailwind = window.tailwind || {};
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark:   '#08080a',
+            card:   '#111114',
+            border: '#1e1e23',
+            muted:  '#9ca3af',
+            accent: '#e8e0d0',
+          },
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body:    ['DM Sans', 'sans-serif'],
+          },
+          keyframes: {
+            'slide-in': {
+              '0%':   { opacity: '0', transform: 'translateX(1rem)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            },
+            'fade-out': {
+              '0%':   { opacity: '1', transform: 'translateX(0)' },
+              '100%': { opacity: '0', transform: 'translateX(1rem)' },
+            },
+            'fade-down': {
+              '0%':   { opacity: '0', transform: 'translateY(-8px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            'infinite-scroll': {
+              '0%':   { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+          },
+          animation: {
+            'slide-in':  'slide-in 0.3s ease-out forwards',
+            'fade-out':  'fade-out 0.4s ease-in forwards',
+            'fade-down': 'fade-down 0.4s ease-out forwards',
+            'infinite-scroll': 'infinite-scroll 40s linear infinite',
+          },
         }
-    </script>
+      },
+      plugins: [
+        function({ addUtilities }) {
+          addUtilities(
+            { '.pause': { 'animation-play-state': 'paused' } },
+            ['hover']
+          )
+        }
+      ]
+    }
+  </script>
+  <style>
+    :root{
+      --header-h: 70px;
+      --bg: #08080a;
+      --fg: #f0ece4;
+      --muted: rgba(240,236,228,.70);
+      --line: rgba(255,255,255,.08);
 
-    <style>
-        :root {
-            --header-h: 70px; /* Un peu plus d'air */
-        }
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: #08080a;
-            color: #f0ece4;
-            overflow-x: hidden; /* Prévient le scroll horizontal accidentel */
-        }
-        h1, h2, h3, h4, .font-display {
-            font-family: 'Syne', sans-serif;
-        }
+      --accent: #e8e0d0;
+      --dark: #08080a;
+    }
 
-        /* Header scroll transition */
-        #site-header {
-            transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
-        }
-        #site-header.scrolled {
-            background: rgba(8,8,10,0.85); /* Plus translucide */
-            border-bottom-color: #1e1e23;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
+    *{ box-sizing:border-box; }
 
-        /* Nav underline active */
-        .nav-link { position: relative; }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; left: 0;
-            width: 0; height: 1px;
-            background: #e8e0d0; /* Utilise la couleur accent plutôt que blanc pur */
-            transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-link:hover::after,
-        .nav-link.active::after { width: 100%; }
+    html { background: var(--bg); }
+    body{
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--fg);
+      overflow-x: clip;
+    }
+    @supports not (overflow: clip) {
+      body{ overflow-x:hidden; }
+    }
 
-        /* Mobile menu (sans z-index négatif) */
-        #mobile-menu {
-            transform: translateY(-150%);
-            opacity: 0;
-            pointer-events: none;
-            transition:
-              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.25s ease;
-        }
-        #mobile-menu.open {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
+    h1,h2,h3,h4,.font-display{ font-family:'Syne', sans-serif; }
 
-        /* Footer gradient line */
-        .footer-line {
-            background: linear-gradient(90deg, transparent, #e8e0d0, transparent);
-        }
+    #site-header{
+      transition:
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease,
+        backdrop-filter .35s ease;
+      will-change: background, box-shadow, backdrop-filter;
+    }
+    #site-header.scrolled{
+      background: rgba(8,8,10,.85);
+      border-bottom-color: #1e1e23;
+      box-shadow: 0 4px 30px rgba(0,0,0,.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      #site-header.scrolled{ background: rgba(8,8,10,.95); }
+    }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #08080a; }
-        ::-webkit-scrollbar-thumb { background: #2a2a30; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
-    </style>
+    .nav-link{ position:relative; }
+    .nav-link::after{
+      content:'';
+      position:absolute;
+      bottom:-2px; left:0;
+      width:0; height:1px;
+      background: var(--accent);
+      transition: width .25s cubic-bezier(.4,0,.2,1);
+      opacity: .9;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after{ width:100%; }
 
-    {% block extra_head %}{% endblock %}
+    #mobile-menu{
+      transform: translateY(-150%);
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        transform .4s cubic-bezier(.16,1,.3,1),
+        opacity .25s ease;
+      will-change: transform, opacity;
+    }
+    #mobile-menu.open{
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #burger-btn .burger-bar{
+      transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .2s ease, width .2s ease;
+      transform-origin: center;
+    }
+    #burger-btn.active .burger-bar:nth-child(1){
+      transform: translateY(8px) rotate(45deg);
+    }
+    #burger-btn.active .burger-bar:nth-child(2){
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    #burger-btn.active .burger-bar:nth-child(3){
+      transform: translateY(-8px) rotate(-45deg);
+      width: 1.5rem;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      #site-header,
+      #mobile-menu,
+      #burger-btn .burger-bar,
+      .nav-link::after{
+        transition: none !important;
+      }
+    }
+
+    .footer-line{
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    ::-webkit-scrollbar{ width:6px; }
+    ::-webkit-scrollbar-track{ background: var(--bg); }
+    ::-webkit-scrollbar-thumb{ background:#2a2a30; border-radius:3px; }
+    ::-webkit-scrollbar-thumb:hover{ background:#3f3f46; }
+  </style>
+
+  {% block extra_head %}{% endblock %}
 </head>
+
 <body class="flex flex-col min-h-screen">
 
 {# ====================================================================== #}
-{# HEADER                                                                   #}
+{# HEADER                                                                  #}
 {# ====================================================================== #}
 <header id="site-header"
-        class="fixed top-0 left-0 right-0 z-50 border-b border-transparent"
+        class="fixed top-0 left-0 right-0 z-50 border-b border-transparent backdrop-blur-md"
         style="height: var(--header-h);">
-    <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
 
-        {# Logo #}
-        <a href="{% url 'home' %}" class="flex items-center gap-3 group relative z-50" aria-label="Horus Global Service — Accueil">
-            <div class="w-9 h-9 rounded-lg bg-accent text-dark flex items-center justify-center font-display font-bold text-lg
-                        group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-accent/20 leading-none"
-                 aria-hidden="true">H</div>
+    {# Logo #}
+    <a href="{% url 'home' %}"
+       class="flex items-center gap-3 group relative z-50"
+       aria-label="Horus Global Service — Home">
+      <div class="w-10 h-10 rounded-xl bg-accent text-dark flex items-center justify-center font-display font-bold text-xl
+                  group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-accent/20 leading-none"
+           aria-hidden="true">H</div>
 
-            <span class="font-display font-bold text-lg tracking-wide text-white hidden sm:block">
-                Horus<span class="text-muted font-normal text-base">  Global Service</span>
-            </span>
-        </a>
+      <span class="font-display font-bold text-xl tracking-wide text-white hidden sm:block">
+        Horus<span class="text-muted font-normal text-base"> Global Service</span>
+      </span>
+    </a>
 
-        {# Nav desktop #}
-        {% with url_name=request.resolver_match.url_name %}
-        <nav class="hidden md:flex items-center gap-8" aria-label="Navigation principale">
-            <a href="{% url 'home' %}"      class="nav-link text-sm font-medium tracking-wide {% if url_name == 'home' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Accueil</a>
-            <a href="{% url 'portfolio' %}" class="nav-link text-sm font-medium tracking-wide {% if url_name == 'portfolio' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Projets</a>
-            <a href="{% url 'services' %}"  class="nav-link text-sm font-medium tracking-wide {% if url_name == 'services' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Services</a>
-            <a href="{% url 'skills' %}"    class="nav-link text-sm font-medium tracking-wide {% if url_name == 'skills' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Stack</a>
-            <a href="{% url 'blog' %}"      class="nav-link text-sm font-medium tracking-wide {% if url_name == 'blog' %}text-white active{% else %}text-muted hover:text-white{% endif %} transition-colors">Blog</a>
-        </nav>
+    {# Desktop nav #}
+    {% with url_name=request.resolver_match.url_name %}
+    <nav class="hidden md:flex items-center gap-1 bg-white/5 p-1.5 rounded-full border border-white/5 backdrop-blur-sm"
+         aria-label="Primary navigation">
 
-        {# Actions desktop #}
-        <div class="hidden md:flex items-center gap-5">
-            {# Badge disponibilité #}
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/5 border border-green-500/10" role="status">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                <span class="text-xs font-medium text-green-400 tracking-wide">Disponible</span>
-            </div>
+      <a href="{% url 'home' %}"
+         class="group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                {% if url_name == 'home' %}bg-white/10 text-white shadow-inner{% else %}text-muted hover:text-white hover:bg-white/5{% endif %}">
+        <svg class="w-5 h-5 {% if url_name == 'home' %}text-accent{% else %}text-gray-500 group-hover:text-accent{% endif %} transition-colors"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </svg>
+        <span>Home</span>
+      </a>
 
-            <a href="{% url 'contact' %}"
-               class="px-5 py-2.5 text-sm font-display font-bold text-dark bg-accent rounded-lg
-                      hover:bg-white hover:scale-105 hover:shadow-lg hover:shadow-accent/20
-                      transition-all duration-200
-                      focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark">
-                Me contacter
-            </a>
+      <a href="{% url 'portfolio' %}"
+         class="group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                {% if url_name == 'portfolio' %}bg-white/10 text-white shadow-inner{% else %}text-muted hover:text-white hover:bg-white/5{% endif %}">
+        <svg class="w-5 h-5 {% if url_name == 'portfolio' %}text-accent{% else %}text-gray-500 group-hover:text-accent{% endif %} transition-colors"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        </svg>
+        <span>Projects</span>
+      </a>
+
+      <a href="{% url 'services' %}"
+         class="group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                {% if url_name == 'services' %}bg-white/10 text-white shadow-inner{% else %}text-muted hover:text-white hover:bg-white/5{% endif %}">
+        <svg class="w-5 h-5 {% if url_name == 'services' %}text-accent{% else %}text-gray-500 group-hover:text-accent{% endif %} transition-colors"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        <span>Services</span>
+      </a>
+
+      <a href="{% url 'skills' %}"
+         class="group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                {% if url_name == 'skills' %}bg-white/10 text-white shadow-inner{% else %}text-muted hover:text-white hover:bg-white/5{% endif %}">
+        <svg class="w-5 h-5 {% if url_name == 'skills' %}text-accent{% else %}text-gray-500 group-hover:text-accent{% endif %} transition-colors"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+        </svg>
+        <span>Stack</span>
+      </a>
+
+      <a href="{% url 'blog' %}"
+         class="group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                {% if url_name == 'blog' %}bg-white/10 text-white shadow-inner{% else %}text-muted hover:text-white hover:bg-white/5{% endif %}">
+        <svg class="w-5 h-5 {% if url_name == 'blog' %}text-accent{% else %}text-gray-500 group-hover:text-accent{% endif %} transition-colors"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+        </svg>
+        <span>Blog</span>
+      </a>
+    </nav>
+
+    {# Desktop actions #}
+    <div class="hidden md:flex items-center gap-5">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/5 border border-green-500/10 hover:bg-green-500/10 transition-colors cursor-help"
+           title="Currently available">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+        </span>
+        <span class="text-xs font-bold text-green-400 tracking-wide uppercase">Available</span>
+      </div>
+
+      <a href="{% url 'contact' %}"
+         class="flex items-center gap-2 px-5 py-2.5 text-sm font-display font-bold text-dark bg-accent rounded-xl
+                hover:bg-white hover:scale-105 hover:shadow-lg hover:shadow-accent/20
+                transition-all duration-200 group">
+        <span>Contact</span>
+        <svg class="w-4 h-4 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+        </svg>
+      </a>
+    </div>
+    {% endwith %}
+
+    {# Mobile burger #}
+    <button id="burger-btn"
+            class="md:hidden flex flex-col gap-1.5 p-3 rounded-xl hover:bg-white/5 transition-colors relative z-50 border border-transparent hover:border-white/10"
+            aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="burger-bar w-6 h-0.5 bg-accent origin-center"></span>
+      <span class="burger-bar w-6 h-0.5 bg-accent origin-center"></span>
+      <span class="burger-bar w-4 ml-auto h-0.5 bg-accent origin-center"></span>
+    </button>
+
+  </div>
+
+  {# Mobile menu #}
+  <div id="mobile-menu"
+       class="md:hidden absolute top-[calc(var(--header-h)-1px)] left-0 right-0 bg-[#08080a]/95 backdrop-blur-2xl border-b border-white/10 shadow-2xl pb-8 pt-4 overflow-hidden"
+       aria-hidden="true">
+
+    <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+    {% with url_name=request.resolver_match.url_name %}
+    <nav class="flex flex-col px-6 gap-3" aria-label="Mobile navigation">
+
+      <a href="{% url 'home' %}"
+         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'home' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
         </div>
-        {% endwith %}
+        <div>
+          <span class="block text-lg font-bold {% if url_name == 'home' %}text-white{% else %}text-gray-200{% endif %}">Home</span>
+          <span class="text-xs text-gray-500">Back to overview</span>
+        </div>
+      </a>
 
-        {# Burger mobile #}
-        <button id="burger-btn"
-                class="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-white/5 transition-colors relative z-50"
-                aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
-            <span class="burger-bar w-6 h-0.5 bg-accent transition-all duration-300 origin-center"></span>
-            <span class="burger-bar w-6 h-0.5 bg-accent transition-all duration-300 origin-center"></span>
-            <span class="burger-bar w-4 ml-auto h-0.5 bg-accent transition-all duration-300 origin-center"></span>
-        </button>
-    </div>
+      <a href="{% url 'portfolio' %}"
+         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'portfolio' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+          </svg>
+        </div>
+        <div>
+          <span class="block text-lg font-bold {% if url_name == 'portfolio' %}text-white{% else %}text-gray-200{% endif %}">Projects</span>
+          <span class="text-xs text-gray-500">Case studies & portfolio</span>
+        </div>
+      </a>
 
-    {# Menu mobile (Glisse sous le header) #}
-    <div id="mobile-menu"
-         class="md:hidden absolute top-[calc(var(--header-h)-1px)] left-0 right-0 bg-dark/95 backdrop-blur-xl border-b border-border shadow-2xl pb-6 pt-2"
-         aria-hidden="true">
-        {% with url_name=request.resolver_match.url_name %}
-        <nav class="flex flex-col px-6 gap-2" aria-label="Navigation mobile">
-            <a href="{% url 'home' %}"      class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'home' %}text-white{% else %}text-muted{% endif %}">Accueil</a>
-            <a href="{% url 'portfolio' %}" class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'portfolio' %}text-white{% else %}text-muted{% endif %}">Projets</a>
-            <a href="{% url 'services' %}"  class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'services' %}text-white{% else %}text-muted{% endif %}">Services</a>
-            <a href="{% url 'skills' %}"    class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'skills' %}text-white{% else %}text-muted{% endif %}">Stack</a>
-            <a href="{% url 'blog' %}"      class="p-3 text-lg font-display font-semibold border-b border-white/5 {% if url_name == 'blog' %}text-white{% else %}text-muted{% endif %}">Blog</a>
+      <a href="{% url 'services' %}"
+         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'services' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <div>
+          <span class="block text-lg font-bold {% if url_name == 'services' %}text-white{% else %}text-gray-200{% endif %}">Services</span>
+          <span class="text-xs text-gray-500">What I deliver</span>
+        </div>
+      </a>
 
-            <div class="mt-6 flex flex-col gap-4">
-                 <div class="flex items-center gap-2 text-green-400 px-3">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                    </span>
-                    <span class="text-sm font-medium">Disponible</span>
-                </div>
-                <a href="{% url 'contact' %}"
-                   class="py-3 px-6 text-base font-display font-bold text-dark bg-accent rounded-lg text-center shadow-lg shadow-accent/10">
-                    Me contacter
-                </a>
-            </div>
-        </nav>
-        {% endwith %}
-    </div>
+      <a href="{% url 'skills' %}"
+         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'skills' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <span class="block text-lg font-bold {% if url_name == 'skills' %}text-white{% else %}text-gray-200{% endif %}">Stack</span>
+          <span class="text-xs text-gray-500">Tools & technologies</span>
+        </div>
+      </a>
+
+      <a href="{% url 'blog' %}"
+         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'blog' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+          </svg>
+        </div>
+        <div>
+          <span class="block text-lg font-bold {% if url_name == 'blog' %}text-white{% else %}text-gray-200{% endif %}">Blog</span>
+          <span class="text-xs text-gray-500">Articles & tutorials</span>
+        </div>
+      </a>
+
+      <div class="mt-6 pt-6 border-t border-white/10 flex flex-col gap-4">
+        <a href="{% url 'contact' %}"
+           class="py-4 px-6 text-lg font-display font-bold text-dark bg-accent rounded-xl text-center shadow-lg shadow-accent/10 flex items-center justify-center gap-3">
+          <span>Contact me</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </a>
+      </div>
+
+    </nav>
+    {% endwith %}
+  </div>
 </header>
-
 {# Spacer pour compenser le header fixe #}
 <div style="height: var(--header-h);"></div>
 
 {# ====================================================================== #}
 {# MAIN                                                                     #}
 {# ====================================================================== #}
-<main class="flex-1 w-full relative overflow-hidden">
+<main class="flex-1 w-full relative isolate">
 
-    {# Blobs décoratifs (Optimisés avec opacity réduite) #}
-    <div class="fixed top-0 left-1/4 w-[600px] h-[600px] bg-indigo-600/5 rounded-full blur-[120px] pointer-events-none -z-10" aria-hidden="true"></div>
-    <div class="fixed bottom-0 right-1/4 w-[400px] h-[400px] bg-amber-600/5 rounded-full blur-[100px] pointer-events-none -z-10" aria-hidden="true"></div>
+    {# --- BACKGROUND DÉCORATIF --- #}
+    {# 1. Grille subtile (Tech vibe) #}
+    <div class="absolute inset-0 -z-20 h-full w-full bg-[#08080a] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
-    {# Toasts (Z-Index augmenté à 100) #}
+    {# 2. Blobs Lumineux (Positionnés pour ne pas gêner le texte) #}
+    <div class="fixed top-0 left-0 w-[800px] h-[800px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-screen" aria-hidden="true"></div>
+    <div class="fixed bottom-0 right-0 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[100px] pointer-events-none -z-10 mix-blend-screen" aria-hidden="true"></div>
+
+    {# --- TOASTS NOTIFICATIONS (Alertes) --- #}
     {% if messages %}
-        <div id="toast-container" class="fixed top-24 right-5 z-[100] space-y-3 max-w-sm w-full" role="alert" aria-live="polite">
+        <div id="toast-container" class="fixed top-24 right-4 z-[100] space-y-4 max-w-sm w-full sm:w-96 px-4 sm:px-0" role="alert" aria-live="polite">
             {% for message in messages %}
-                <div class="toast flex items-start gap-4 bg-[#16161a] border border-border text-white px-5 py-4 rounded-xl shadow-2xl animate-slide-in">
-                    {% if message.tags == 'success' %}
-                        <span class="text-green-400 text-xl mt-0.5">✓</span>
-                    {% elif message.tags == 'error' %}
-                        <span class="text-red-400 text-xl mt-0.5">✕</span>
-                    {% else %}
-                        <span class="text-accent text-xl mt-0.5">ℹ</span>
-                    {% endif %}
+                <div class="toast group flex items-start gap-4 p-4 rounded-xl shadow-2xl animate-slide-in backdrop-blur-md border border-white/10
+                            {% if message.tags == 'success' %} bg-green-950/30 border-l-4 border-l-green-500
+                            {% elif message.tags == 'error' %}   bg-red-950/30 border-l-4 border-l-red-500
+                            {% elif message.tags == 'warning' %} bg-yellow-950/30 border-l-4 border-l-yellow-500
+                            {% else %}                           bg-[#16161a]/80 border-l-4 border-l-blue-500 {% endif %}">
 
-                    <div class="flex-1 pt-0.5">
-                        <p class="text-sm font-medium leading-snug">{{ message }}</p>
+                    {# Icône #}
+                    <div class="shrink-0 mt-0.5">
+                        {% if message.tags == 'success' %}
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        {% elif message.tags == 'error' %}
+                            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        {% elif message.tags == 'warning' %}
+                            <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        {% else %}
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        {% endif %}
                     </div>
 
+                    {# Texte #}
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-white leading-snug">{{ message }}</p>
+                    </div>
+
+                    {# Bouton Fermer #}
                     <button onclick="this.closest('.toast').remove()"
-                            class="text-muted hover:text-white transition-colors p-1 -mr-2 -mt-2"
-                            aria-label="Fermer">×</button>
+                            class="text-gray-500 hover:text-white transition-colors p-1 rounded-md hover:bg-white/10 -m-1"
+                            aria-label="Fermer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                 </div>
             {% endfor %}
         </div>
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const toasts = document.querySelectorAll('.toast');
                 toasts.forEach((t, i) => {
-                    // Délai progressif pour chaque toast
+                    // Délai progressif : le premier part à 5s, le second à 6s, etc.
                     setTimeout(() => {
-                        t.classList.add('animate-fade-out');
-                        t.addEventListener('animationend', () => t.remove());
+                        // Ajoute une classe pour l'animation de sortie (fade-out + slide-out)
+                        t.style.transition = 'all 0.5s ease-in-out';
+                        t.style.opacity = '0';
+                        t.style.transform = 'translateX(100%)';
+
+                        // Supprime l'élément du DOM après l'animation
+                        setTimeout(() => t.remove(), 500);
                     }, 5000 + (i * 1000));
                 });
             });
         </script>
     {% endif %}
 
+    {# --- CONTENU DE LA PAGE --- #}
     {% block content %}{% endblock %}
+
 </main>
-
 {# ====================================================================== #}
-{# FOOTER                                                                   #}
+{# FOOTER                                                                  #}
 {# ====================================================================== #}
-<footer class="relative border-t border-border mt-32 bg-card" aria-label="Pied de page">
+<footer class="relative mt-32 bg-[#050507] border-t border-white/5 overflow-hidden" aria-label="Footer">
 
-    {# Ligne décorative #}
-    <div class="footer-line h-px w-full opacity-40"></div>
+  {# --- Ambient glow --- #}
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
+  <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-accent/5 blur-[80px] rounded-full pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto px-6 pt-16 pb-8">
+  <div class="max-w-7xl mx-auto px-6 pt-16 md:pt-24 pb-8 relative z-10">
 
-        {# Grille principale #}
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">
 
-            {# Colonne 1 — Branding (Large) #}
-            <div class="md:col-span-5 space-y-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 shrink-0 rounded-lg bg-accent text-dark flex items-center justify-center font-display font-bold text-lg leading-none" aria-hidden="true">H</div>
-                    <span class="font-display font-bold text-white text-xl tracking-tight">Horus Global Service</span>
-                </div>
-                <p class="text-muted text-sm leading-7 max-w-sm">
-                    Architecte numérique spécialisé en écosystèmes Django complexes.
-                    Nous transformons des processus métier exigeants en applications web performantes, sécurisées et évolutives.
-                    <br><span class="text-accent/80 mt-2 block">Basé au Sénégal, standards internationaux.</span>
-                </p>
-            </div>
+      {# Column 1 — Branding & Social #}
+      <div class="md:col-span-5 space-y-6 text-center md:text-left">
+        <a href="{% url 'home' %}"
+           class="inline-flex items-center gap-3 group justify-center md:justify-start no-underline hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 rounded-xl">
+          <div class="w-12 h-12 shrink-0 rounded-xl bg-white/5 border border-white/10 text-white flex items-center justify-center font-display font-bold text-xl leading-none group-hover:bg-accent group-hover:text-dark transition-all duration-300 shadow-lg shadow-black/50">
+            H
+          </div>
+          <span class="font-display font-bold text-white text-2xl tracking-tight group-hover:text-accent transition-colors">
+            Horus Global
+          </span>
+        </a>
 
-            {# Colonne 2 — Navigation #}
-            <div class="md:col-span-3">
-                <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Exploration</h3>
-                <ul class="space-y-4">
-                    <li><a href="{% url 'portfolio' %}" class="text-sm text-muted hover:text-accent transition-colors">Projets réalisés</a></li>
-                    <li><a href="{% url 'services' %}"  class="text-sm text-muted hover:text-accent transition-colors">Mes services</a></li>
-                    <li><a href="{% url 'skills' %}"    class="text-sm text-muted hover:text-accent transition-colors">Stack technique</a></li>
-                    <li><a href="{% url 'blog' %}"      class="text-sm text-muted hover:text-accent transition-colors">Articles & Tutos</a></li>
-                </ul>
-            </div>
+        <p class="text-muted text-sm leading-7 max-w-sm mx-auto md:mx-0">
+          Digital architect specializing in complex Django ecosystems.
+          We transform demanding business workflows into high-performance web applications.
+        </p>
 
-            {# Colonne 3 — Contact & Réseaux #}
-            <div class="md:col-span-4">
-                <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Restons connectés</h3>
-                <ul class="space-y-4 mb-8">
-                    <li>
-                        <a href="mailto:bambadisala@gmail.com"
-                           class="flex items-center gap-3 text-sm text-muted hover:text-white transition-colors group">
-                            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-accent group-hover:text-dark transition-all">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            </div>
-                            bambadisala@gmail.com
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://wa.me/221773409658" target="_blank" rel="noopener noreferrer"
-                           class="flex items-center gap-3 text-sm text-muted hover:text-white transition-colors group">
-                            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-green-500 group-hover:text-white transition-all">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                            </div>
-                            +221 77 340 96 58
-                        </a>
-                    </li>
-                </ul>
+        {# Social links (use settings/context vars if available) #}
+        <div class="flex items-center justify-center md:justify-start gap-3 pt-2">
 
-                {# Social Links #}
-                <div class="flex gap-4">
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="Github"
-                       class="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-muted hover:text-white hover:border-white hover:bg-white/5 transition-all">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-                       class="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-muted hover:text-white hover:border-blue-600 hover:bg-blue-600/10 transition-all">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                    </a>
-                </div>
-            </div>
+          {# 1. GitHub #}
+          <a href="{{ GITHUB_URL|default:'https://github.com/bamba9928' }}"
+             target="_blank" rel="noopener noreferrer"
+             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+             aria-label="GitHub">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+
+          {# 2. LinkedIn #}
+          <a href="{{ LINKEDIN_URL|default:'https://linkedin.com' }}"
+             target="_blank" rel="noopener noreferrer"
+             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-blue-400 hover:bg-blue-600/20 hover:border-blue-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40"
+             aria-label="LinkedIn">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+
+          {# 3. Facebook #}
+          <a href="{{ FACEBOOK_URL|default:'https://facebook.com' }}"
+             target="_blank" rel="noopener noreferrer"
+             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-blue-500 hover:bg-blue-600/20 hover:border-blue-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+             aria-label="Facebook">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+
+          {# 4. X (Twitter) #}
+          <a href="{{ X_URL|default:'https://x.com' }}"
+             target="_blank" rel="noopener noreferrer"
+             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-black hover:border-white/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+             aria-label="X (Twitter)">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+
         </div>
+      </div>
 
-        {# Copyright #}
-        <div class="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p class="text-xs text-muted/60">
-                &copy; {% now "Y" %} Horus Global Service — Tous droits réservés.
-            </p>
-            <p class="text-xs text-muted/60 flex items-center gap-1.5">
-                Code avec <span class="text-red-500/80">❤</span> via
-                <span class="text-accent/80 font-medium">Django</span> &amp;
-                <span class="text-accent/80 font-medium">Tailwind</span>
-            </p>
+      {# Column 2 — Navigation #}
+      <div class="md:col-span-3 text-center md:text-left">
+        <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Explore</h3>
+        <ul class="space-y-3">
+          <li>
+            <a href="{% url 'portfolio' %}"
+               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              Case studies
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'services' %}"
+               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              Services
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'skills' %}"
+               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              Tech stack
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'blog' %}"
+               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              Articles & tutorials
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'contact' %}"
+               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              Contact
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {# Column 3 — Quick contact #}
+      <div class="md:col-span-4 text-center md:text-left">
+        <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Contact</h3>
+
+        {% with EMAIL=PUBLIC_EMAIL|default:"bambadisala@gmail.com" %}
+        <div class="space-y-4">
+
+          <a href="mailto:{{ EMAIL }}"
+             class="flex flex-col md:flex-row items-center md:items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-accent/30 hover:bg-white/10 transition-all group no-underline hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
+            <div class="w-10 h-10 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div class="text-center md:text-left">
+              <span class="block text-xs text-gray-400 mb-0.5">Email</span>
+              <span class="block text-sm font-bold text-white group-hover:text-accent transition-colors">
+                {{ EMAIL }}
+              </span>
+            </div>
+          </a>
+
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
+             class="flex flex-col md:flex-row items-center md:items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-green-500/30 hover:bg-green-500/5 transition-all group no-underline hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500/30">
+            <div class="w-10 h-10 rounded-full bg-green-500/10 text-green-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+            </div>
+            <div class="text-center md:text-left">
+              <span class="block text-xs text-gray-400 mb-0.5">WhatsApp</span>
+              <span class="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">
+                +221 77 340 96 58
+              </span>
+            </div>
+          </a>
+
         </div>
+        {% endwith %}
+      </div>
+
     </div>
+
+    {# Bottom line #}
+    <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+      <p class="text-xs text-gray-500">
+        &copy; {% now "Y" %} Horus Global Service. <span class="hidden sm:inline">All rights reserved.</span>
+      </p>
+      <div class="text-xs text-gray-500 flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+        Systems operational
+      </div>
+    </div>
+
+  </div>
 </footer>
 
-{# ====================================================================== #}
-{# SCRIPTS GLOBAUX                                                          #}
-{# ====================================================================== #}
 <script>
-    // Header : opacité au scroll
-    (function () {
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- 1. Header Scroll Effect (Optimisé) ---
         const header = document.getElementById('site-header');
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+
         const updateHeader = () => {
-             header.classList.toggle('scrolled', window.scrollY > 20);
-        };
-        window.addEventListener('scroll', updateHeader, { passive: true });
-        // Check initial state
-        updateHeader();
-    })();
-
-    // Burger menu mobile
-    (function () {
-        const btn  = document.getElementById('burger-btn');
-        const menu = document.getElementById('mobile-menu');
-        const bars = btn.querySelectorAll('.burger-bar');
-        let isOpen = false;
-
-        function toggleMenu() {
-            isOpen = !isOpen;
-            btn.setAttribute('aria-expanded', isOpen);
-            menu.setAttribute('aria-hidden', !isOpen);
-            menu.classList.toggle('open', isOpen);
-
-            // Animation croix CSS via styles inline ou classes
-            if (isOpen) {
-                // Top bar -> rotate + translate
-                bars[0].style.transform = 'translateY(8px) rotate(45deg)';
-                // Middle bar -> fade out
-                bars[1].style.opacity   = '0';
-                bars[1].style.transform = 'translateX(20px)';
-                // Bottom bar -> rotate - translate
-                bars[2].style.transform = 'translateY(-8px) rotate(-45deg)';
-                bars[2].style.width = '1.5rem'; // S'assure que la barre du bas reprend la taille normale
+            // Ajoute la classe 'scrolled' si on descend > 20px
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
             } else {
-                bars[0].style.transform = '';
-                bars[1].style.opacity   = '';
-                bars[1].style.transform = '';
-                bars[2].style.transform = '';
-                bars[2].style.width = ''; // Revient à la classe w-4 (ml-auto)
+                header.classList.remove('scrolled');
             }
-        }
+            ticking = false;
+        };
 
-        btn.addEventListener('click', toggleMenu);
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateHeader);
+                ticking = true;
+            }
+        }, { passive: true });
 
-        // Fermer au clic sur un lien du menu
+        // Vérification initiale
+        updateHeader();
+
+
+        // --- 2. Mobile Menu Logic ---
+        const btn = document.getElementById('burger-btn');
+        const menu = document.getElementById('mobile-menu');
+        const body = document.body;
+
+        if (!btn || !menu) return;
+
+        let isMenuOpen = false;
+
+        const toggleMenu = (forceClose = false) => {
+            // Si forceClose est vrai, on ferme. Sinon on inverse l'état.
+            isMenuOpen = forceClose ? false : !isMenuOpen;
+
+            // Accessibilité
+            btn.setAttribute('aria-expanded', isMenuOpen);
+            menu.setAttribute('aria-hidden', !isMenuOpen);
+
+            // Gestion des classes
+            if (isMenuOpen) {
+                menu.classList.add('open');
+                btn.classList.add('active'); // Déclenche l'anim CSS des barres
+                body.style.overflow = 'hidden'; // Bloque le scroll du site
+            } else {
+                menu.classList.remove('open');
+                btn.classList.remove('active');
+                body.style.overflow = ''; // Réactive le scroll
+            }
+        };
+
+        // Click sur le burger
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        });
+
+        // Fermer au clic sur un lien
         menu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if(isOpen) toggleMenu();
-            });
+            link.addEventListener('click', () => toggleMenu(true));
         });
 
-        // Fermer si on clique en dehors
+        // Fermer au clic en dehors du menu
         document.addEventListener('click', (e) => {
-            if (isOpen && !menu.contains(e.target) && !btn.contains(e.target)) {
-                toggleMenu();
+            if (isMenuOpen && !menu.contains(e.target) && !btn.contains(e.target)) {
+                toggleMenu(true);
             }
         });
-    })();
-</script>
 
+        // Fermer avec la touche Echap (Accessibilité)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isMenuOpen) {
+                toggleMenu(true);
+            }
+        });
+    });
+</script>
 {% block extra_js %}{% endblock %}
 
 </body>

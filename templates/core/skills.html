@@ -1,351 +1,255 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Stack Technique — Django, Python, PostgreSQL{% endblock %}
-{% block description %}Technologies et outils : Python, Django, PostgreSQL, REST Framework, HTMX, TailwindCSS. Stack moderne pour applications web performantes.{% endblock %}
+{% block title %}Stack Technique — Django, Python, DevOps{% endblock %}
+{% block description %}Technologies et outils maîtrisés : Python, Django, Docker, PostgreSQL, CI/CD. Une stack moderne pour des applications robustes.{% endblock %}
 
 {% block content %}
-<section class="relative pt-20 pb-12 px-6 md:px-12 text-center max-w-5xl mx-auto">
-    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-white">
-        Stack Technique
-    </h1>
-    <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-        Technologies modernes sélectionnées pour créer des applications web robustes, sécurisées et évolutives.
-    </p>
-</section>
+{# --- HEADER SECTION --- #}
+<section class="relative pt-24 pb-16 md:pt-32 md:pb-24 px-6 md:px-12 text-center overflow-hidden">
 
-<section class="py-10 px-6 md:px-12 max-w-7xl mx-auto">
+    {# Fond Grid & Halo #}
+    <div class="absolute inset-0 -z-10 h-full w-full bg-[#08080a] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    <div class="absolute top-0 right-1/3 w-[600px] h-[400px] bg-green-600/10 blur-[120px] rounded-full -z-10 pointer-events-none"></div>
 
-    <div class="mb-16">
-        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
-            <span class="text-2xl">⚙️</span>
-            <h2 class="text-2xl font-bold text-white">Backend & Frameworks</h2>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all group">
-                <div class="font-bold text-lg text-white group-hover:text-blue-400 transition-colors">Python</div>
-                <div class="text-sm text-gray-400 flex-grow">Langage principal, POO, async</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all group">
-                <div class="font-bold text-lg text-white group-hover:text-green-400 transition-colors">Django</div>
-                <div class="text-sm text-gray-400 flex-grow">Framework web, ORM, admin</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all group">
-                <div class="font-bold text-lg text-white group-hover:text-red-400 transition-colors">Django REST</div>
-                <div class="text-sm text-gray-400 flex-grow">API, serializers, viewsets</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all group">
-                <div class="font-bold text-lg text-white group-hover:text-cyan-400 transition-colors">HTMX</div>
-                <div class="text-sm text-gray-400 flex-grow">Interactivité sans JS lourd</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-16">
-        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
-            <span class="text-2xl">🎨</span>
-            <h2 class="text-2xl font-bold text-white">Frontend & UI</h2>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">HTML/CSS</div>
-                <div class="text-sm text-gray-400 flex-grow">Sémantique, responsive, A11y</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">JavaScript</div>
-                <div class="text-sm text-gray-400 flex-grow">ES6+, DOM, fetch, async</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">TailwindCSS</div>
-                <div class="text-sm text-gray-400 flex-grow">Utility-first, design systems</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">Alpine.js</div>
-                <div class="text-sm text-gray-400 flex-grow">Réactivité légère</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-16">
-        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
-            <span class="text-2xl">💾</span>
-            <h2 class="text-2xl font-bold text-white">Bases de données</h2>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">PostgreSQL</div>
-                <div class="text-sm text-gray-400 flex-grow">SGBD relationnel principal</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">SQLite</div>
-                <div class="text-sm text-gray-400 flex-grow">Dev, prototypage</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">Redis</div>
-                <div class="text-sm text-gray-400 flex-grow">Cache, sessions, queues</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-16">
-        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
-            <span class="text-2xl">🚀</span>
-            <h2 class="text-2xl font-bold text-white">DevOps & Déploiement</h2>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">Linux</div>
-                <div class="text-sm text-gray-400 flex-grow">Ubuntu, Debian, bash</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">Docker</div>
-                <div class="text-sm text-gray-400 flex-grow">Conteneurisation, compose</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">Nginx</div>
-                <div class="text-sm text-gray-400 flex-grow">Reverse proxy, SSL</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">Git</div>
-                <div class="text-sm text-gray-400 flex-grow">Versioning, GitHub, GitLab</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-16">
-        <div class="flex items-center gap-4 mb-8 border-b border-gray-800 pb-4">
-            <span class="text-2xl">🛠️</span>
-            <h2 class="text-2xl font-bold text-white">Outils & Librairies</h2>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">Celery</div>
-                <div class="text-sm text-gray-400 flex-grow">Tâches asynchrones</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">Pandas</div>
-                <div class="text-sm text-gray-400 flex-grow">Manipulation de données</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">ReportLab</div>
-                <div class="text-sm text-gray-400 flex-grow">Génération PDF</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-            <div class="bg-card border border-border p-5 rounded-xl flex flex-col gap-3 hover:border-white/20 hover:bg-white/5 transition-all">
-                <div class="font-bold text-lg text-white">Pytest</div>
-                <div class="text-sm text-gray-400 flex-grow">Tests unitaires & intégration</div>
-                <div class="flex gap-1.5 mt-2">
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-white"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                    <div class="w-full h-1.5 rounded-full bg-gray-700"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="py-12 px-6 md:px-12 bg-white/5 border-y border-white/5">
-    <div class="max-w-7xl mx-auto">
-        <div class="mb-12 text-center md:text-left">
-            <h2 class="text-3xl font-bold text-white mb-2">Expertises Métier</h2>
-            <p class="text-gray-400">Au-delà du code, la compréhension de vos enjeux.</p>
+    <div class="max-w-4xl mx-auto relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold uppercase tracking-wide mb-6">
+            <span>🛠️</span> Boîte à outils
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="bg-card border border-border p-8 rounded-2xl hover:border-white/20 transition-all">
-                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
-                    <span class="text-2xl">📊</span> Applications de gestion
-                </h3>
-                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">ERP, CRM, Dashboards</p>
-                <p class="text-gray-300 leading-relaxed">
-                    Modélisation de bases de données complexes, workflows métiers sur mesure, génération de documents officiels (PDF, Excel) et gestion fine des permissions utilisateurs.
-                </p>
-            </div>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 text-white font-display">
+            Stack <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-300">Technique</span>
+        </h1>
 
-            <div class="bg-card border border-border p-8 rounded-2xl hover:border-white/20 transition-all">
-                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
-                    <span class="text-2xl">🔌</span> Intégrations API
-                </h3>
-                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">REST, Webhooks, Sync</p>
-                <p class="text-gray-300 leading-relaxed">
-                    Consommation et exposition d'API sécurisées (JWT), synchronisation avec des services tiers, gestion de webhooks et intégration de paiements locaux (Orange Money, Wave).
-                </p>
-            </div>
-
-            <div class="bg-card border border-border p-8 rounded-2xl hover:border-white/20 transition-all">
-                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
-                    <span class="text-2xl">⚡</span> Performance & Scalabilité
-                </h3>
-                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Optimisation, Cache</p>
-                <p class="text-gray-300 leading-relaxed">
-                    Optimisation des requêtes ORM Django, mise en cache avec Redis, chargement différé (lazy loading) et architecture capable de supporter la montée en charge.
-                </p>
-            </div>
-
-            <div class="bg-card border border-border p-8 rounded-2xl hover:border-white/20 transition-all">
-                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
-                    <span class="text-2xl">🔐</span> Sécurité & Conformité
-                </h3>
-                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">OWASP, RGPD</p>
-                <p class="text-gray-300 leading-relaxed">
-                    Protection contre les failles courantes (XSS, CSRF, Injection SQL), chiffrement des données sensibles et respect des normes de confidentialité des données.
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="py-16 px-6 md:px-12 max-w-5xl mx-auto text-center">
-    <h2 class="text-2xl font-bold text-white mb-8">Formation Continue & Veille</h2>
-    <div class="inline-flex flex-wrap justify-center gap-4 text-sm text-gray-400">
-        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Documentation Officielle</span>
-        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Django Forum</span>
-        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Reddit /r/django</span>
-        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Contributions Open Source</span>
-        <span class="px-4 py-2 bg-white/5 rounded-full border border-white/10">Conférences PyCon</span>
-    </div>
-</section>
-
-<section class="py-10 px-6 md:px-12 text-center pb-24">
-    <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl font-bold text-white mb-6">Vous avez un projet technique ?</h2>
-        <p class="text-gray-400 mb-8">
-            Discutons des technologies les plus adaptées à vos besoins spécifiques.
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            Un arsenal technologique complet pour bâtir des solutions web modernes, de l'architecture backend au déploiement cloud.
         </p>
-        <div class="flex flex-col md:flex-row gap-4 justify-center">
-            <a href="{% url 'contact' %}" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">
-                Parler de mon projet
-            </a>
-            <a href="{% url 'services' %}" class="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors">
-                Voir les services
-            </a>
+    </div>
+</section>
+
+<div class="max-w-7xl mx-auto px-6 md:px-12 pb-24 space-y-20">
+
+    {# --- SECTION BACKEND --- #}
+    <div class="animate-fade-down" style="animation-delay: 100ms;">
+        <div class="flex items-center gap-4 mb-8 pb-4 border-b border-white/5">
+            <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center text-2xl border border-green-500/20">⚙️</div>
+            <div>
+                <h2 class="text-2xl font-bold text-white font-display">Backend & Core</h2>
+                <p class="text-sm text-gray-500">Le cœur du réacteur</p>
+            </div>
         </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {# Carte Python #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-blue-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">🐍</span>
+                    <span class="text-xs font-bold text-blue-400 bg-blue-400/10 px-2 py-1 rounded">Expert</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">Python</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Langage principal. Typage fort, AsyncIO, et POO avancée.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-blue-500 h-1.5 rounded-full w-[95%]"></div>
+                </div>
+            </div>
+
+            {# Carte Django #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-green-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl font-bold text-green-500">dj</span>
+                    <span class="text-xs font-bold text-green-400 bg-green-400/10 px-2 py-1 rounded">Expert</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-green-400 transition-colors">Django</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Framework de prédilection. ORM, Admin, Sécurité.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-green-500 h-1.5 rounded-full w-[90%]"></div>
+                </div>
+            </div>
+
+            {# Carte DRF #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-red-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">🔌</span>
+                    <span class="text-xs font-bold text-red-400 bg-red-400/10 px-2 py-1 rounded">Avancé</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Django REST</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">API RESTful, Sérialisation, ViewSets, Auth JWT.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-red-500 h-1.5 rounded-full w-[85%]"></div>
+                </div>
+            </div>
+
+            {# Carte Celery #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-yellow-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">🥬</span>
+                    <span class="text-xs font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">Intermédiaire</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">Celery</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Tâches asynchrones, Queues Redis, Scheduling.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-1.5 rounded-full w-[70%]"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# --- SECTION FRONTEND --- #}
+    <div class="animate-fade-down" style="animation-delay: 200ms;">
+        <div class="flex items-center gap-4 mb-8 pb-4 border-b border-white/5">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-2xl border border-purple-500/20">🎨</div>
+            <div>
+                <h2 class="text-2xl font-bold text-white font-display">Frontend & UI</h2>
+                <p class="text-sm text-gray-500">L'expérience utilisateur</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">⚛️</span>
+                    <span class="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-2 py-1 rounded">Avancé</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Tailwind CSS</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Intégration rapide, Design System, Responsive.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-cyan-400 h-1.5 rounded-full w-[90%]"></div>
+                </div>
+            </div>
+
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-yellow-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">📜</span>
+                    <span class="text-xs font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">Avancé</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">JavaScript (ES6+)</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">DOM, Fetch API, Async/Await, Modules.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-yellow-400 h-1.5 rounded-full w-[85%]"></div>
+                </div>
+            </div>
+
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-blue-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">⚡</span>
+                    <span class="text-xs font-bold text-blue-400 bg-blue-400/10 px-2 py-1 rounded">Intermédiaire</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">HTMX</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Interactivité fluide sans complexité SPA.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-blue-500 h-1.5 rounded-full w-[75%]"></div>
+                </div>
+            </div>
+
+             <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-purple-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">🏔️</span>
+                    <span class="text-xs font-bold text-purple-400 bg-purple-400/10 px-2 py-1 rounded">Intermédiaire</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Alpine.js</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Micro-framework pour la réactivité légère.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-purple-500 h-1.5 rounded-full w-[70%]"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# --- SECTION DATA & DEVOPS --- #}
+    <div class="animate-fade-down" style="animation-delay: 300ms;">
+        <div class="flex items-center gap-4 mb-8 pb-4 border-b border-white/5">
+            <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center text-2xl border border-orange-500/20">🚀</div>
+            <div>
+                <h2 class="text-2xl font-bold text-white font-display">Data & DevOps</h2>
+                <p class="text-sm text-gray-500">L'infrastructure et les données</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-blue-500/30 transition-all hover:-translate-y-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="text-2xl">🐘</div>
+                    <h3 class="text-lg font-bold text-white">PostgreSQL</h3>
+                </div>
+                <p class="text-sm text-gray-400 mb-4">Base de données relationnelle principale. Optimisation et modélisation complexe.</p>
+                <div class="flex gap-2">
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">SQL</span>
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">JSONB</span>
+                </div>
+            </div>
+
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all hover:-translate-y-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="text-2xl">🐳</div>
+                    <h3 class="text-lg font-bold text-white">Docker</h3>
+                </div>
+                <p class="text-sm text-gray-400 mb-4">Conteneurisation des applications pour un déploiement iso-prod.</p>
+                <div class="flex gap-2">
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">Compose</span>
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">Dockerfile</span>
+                </div>
+            </div>
+
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-red-500/30 transition-all hover:-translate-y-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="text-2xl">⚡</div>
+                    <h3 class="text-lg font-bold text-white">Redis</h3>
+                </div>
+                <p class="text-sm text-gray-400 mb-4">Mise en cache haute performance et broker de messages.</p>
+                <div class="flex gap-2">
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">Caching</span>
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">Pub/Sub</span>
+                </div>
+            </div>
+             <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-green-500/30 transition-all hover:-translate-y-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="text-2xl">🌐</div>
+                    <h3 class="text-lg font-bold text-white">Nginx</h3>
+                </div>
+                <p class="text-sm text-gray-400 mb-4">Serveur Web et Reverse Proxy haute performance.</p>
+                 <div class="flex gap-2">
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">SSL</span>
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">Proxy</span>
+                </div>
+            </div>
+
+             <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-orange-500/30 transition-all hover:-translate-y-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="text-2xl">🐙</div>
+                    <h3 class="text-lg font-bold text-white">Git</h3>
+                </div>
+                <p class="text-sm text-gray-400 mb-4">Gestion de version et collaboration (GitHub/GitLab).</p>
+                 <div class="flex gap-2">
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">CI/CD</span>
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">Flow</span>
+                </div>
+            </div>
+             <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-gray-500/30 transition-all hover:-translate-y-1">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="text-2xl">🐧</div>
+                    <h3 class="text-lg font-bold text-white">Linux</h3>
+                </div>
+                <p class="text-sm text-gray-400 mb-4">Administration système serveur (Debian/Ubuntu).</p>
+                 <div class="flex gap-2">
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">Bash</span>
+                     <span class="px-2 py-1 bg-white/5 rounded text-xs text-gray-400">SSH</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{# --- CTA --- #}
+<section class="py-16 border-t border-white/5 bg-[#0a0a0c] text-center">
+    <div class="max-w-2xl mx-auto px-6">
+        <h2 class="text-2xl font-bold text-white mb-4 font-display">Besoin d'une expertise spécifique ?</h2>
+        <p class="text-gray-400 mb-8">
+            Je m'adapte rapidement aux nouvelles technologies. Discutons de la stack idéale pour votre projet.
+        </p>
+        <a href="{% url 'contact' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">
+            <span>Contactez-moi</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
     </div>
 </section>
 {% endblock %}

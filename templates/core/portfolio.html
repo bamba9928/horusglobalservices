@@ -1,74 +1,105 @@
 {% extends 'core/base.html' %}
 
 {% block title %}Portfolio — Réalisations Web & Mobile{% endblock %}
-{% block description %}Découvrez mes derniers projets Django, API REST et sites vitrines développés pour mes clients.{% endblock %}
+{% block description %}Découvrez mes derniers projets, API REST et sites vitrines développés pour mes clients.{% endblock %}
 
 {% block content %}
-<section class="relative pt-20 pb-12 px-6 md:px-12 text-center max-w-5xl mx-auto">
-    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-white">
-        Réalisations
-    </h1>
-    <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-        Une sélection de projets techniques et créatifs.
-        Applications métier, plateformes e-commerce et APIs complexes.
-    </p>
+{# --- HEADER SECTION --- #}
+<section class="relative pt-24 pb-16 md:pt-32 md:pb-24 px-6 md:px-12 text-center overflow-hidden">
+
+    {# Fond Grid & Halo #}
+    <div class="absolute inset-0 -z-10 h-full w-full bg-[#08080a] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    <div class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-purple-600/10 blur-[120px] rounded-full -z-10 pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold uppercase tracking-wide mb-6">
+            <span>🚀</span> Showroom
+        </div>
+
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 text-white font-display">
+            Nos <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-300">Réalisations</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            Une sélection de projets techniques et créatifs.
+            Applications métier, plateformes e-commerce et APIs complexes.
+        </p>
+    </div>
 </section>
 
-<section class="py-12 px-6 md:px-12 max-w-7xl mx-auto min-h-[50vh]">
+{# --- GRILLE PROJETS --- #}
+<section class="pb-24 px-6 md:px-12 max-w-7xl mx-auto min-h-[50vh]">
     {% if projects %}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {% for project in projects %}
-            <article class="group bg-card border border-border rounded-3xl overflow-hidden hover:border-white/20 transition-all hover:shadow-2xl hover:shadow-blue-900/10 flex flex-col">
+            <article class="group relative bg-[#111114] border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-900/10 flex flex-col hover:-translate-y-1">
 
-                <div class="relative h-64 md:h-80 overflow-hidden">
+                {# --- Zone Image --- #}
+                <div class="relative h-72 md:h-80 overflow-hidden bg-gray-900">
                     {% if project.image %}
-                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100">
                     {% else %}
-                        <div class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600">
-                            Pas d'image
+                        <div class="w-full h-full flex flex-col items-center justify-center text-gray-600 bg-white/5 p-6 text-center">
+                            <svg class="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <span class="text-sm font-medium opacity-50">Visuel non disponible</span>
                         </div>
                     {% endif %}
 
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 backdrop-blur-sm">
+                    {# Overlay Actions (Apparaît au survol) #}
+                    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
 
-                        {# ✅ Bouton Voir le détail #}
+                        {# Bouton Détails #}
                         <a href="{% url 'project_detail' slug=project.slug %}"
-                           class="px-6 py-3 bg-blue-600 text-white font-bold rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-blue-500">
-                            Voir le détail
+                           class="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-full transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-105 hover:bg-gray-200">
+                            <span>Explorer</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         </a>
 
-                        {% if project.url %}
-                        <a href="{{ project.url }}" target="_blank" class="px-6 py-3 bg-white text-black font-bold rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                            Voir le site
+                        {# Bouton Github (Si dispo) #}
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" rel="noopener"
+                           class="p-3.5 bg-gray-800 text-white rounded-full border border-gray-700 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-white hover:text-black hover:border-white"
+                           title="Voir le code source">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
                         </a>
                         {% endif %}
 
-                        {% if project.github_url %}
-                        <a href="{{ project.github_url }}" target="_blank" class="p-3 bg-gray-800 text-white rounded-full border border-gray-600 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 hover:bg-black">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                        {# Bouton Live (Si dispo) #}
+                        {% if project.url %}
+                        <a href="{{ project.url }}" target="_blank" rel="noopener"
+                           class="p-3.5 bg-gray-800 text-white rounded-full border border-gray-700 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-100 hover:bg-blue-600 hover:border-blue-500"
+                           title="Voir le site live">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                         </a>
                         {% endif %}
                     </div>
                 </div>
 
-                <div class="p-8 flex flex-col flex-grow">
+                {# --- Zone Contenu --- #}
+                <div class="p-8 flex flex-col flex-grow relative">
+                    {# Petit trait décoratif #}
+                    <div class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
                     <div class="flex justify-between items-start mb-4">
                         <a href="{% url 'project_detail' slug=project.slug %}" class="group/title">
-                            <h2 class="text-2xl font-bold text-white group-hover/title:text-blue-400 transition-colors">
+                            <h2 class="text-2xl font-bold text-white group-hover/title:text-purple-400 transition-colors font-display">
                                 {{ project.title }}
                             </h2>
                         </a>
-                        <span class="text-xs font-mono text-gray-500 border border-gray-800 px-2 py-1 rounded">{{ project.created_at|date:"Y" }}</span>
+                        <span class="text-xs font-bold font-mono text-gray-500 border border-white/10 bg-white/5 px-2 py-1 rounded">
+                            {{ project.created_at|date:"Y" }}
+                        </span>
                     </div>
 
-                    <p class="text-gray-400 mb-6 leading-relaxed flex-grow">
+                    <p class="text-gray-400 mb-6 leading-relaxed line-clamp-3 flex-grow">
                         {{ project.description }}
                     </p>
 
+                    {# Tags / Stack #}
                     <div class="flex flex-wrap gap-2 mt-auto">
                         {% for tech in project.get_tech_list %}
-                        <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-medium text-gray-300">
-                            {{ tech }}
+                        <span class="px-2.5 py-1 bg-white/5 border border-white/5 rounded-md text-xs font-medium text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition-colors cursor-default">
+                            #{{ tech }}
                         </span>
                         {% endfor %}
                     </div>
@@ -77,20 +108,27 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="text-center py-24 bg-white/5 rounded-3xl border border-dashed border-white/10">
-            <div class="text-6xl mb-4">🚀</div>
-            <h3 class="text-xl font-bold text-white mb-2">Projets à venir</h3>
-            <p class="text-gray-400">
-                Je suis en train de mettre à jour mon portfolio. Revenez très vite !
+        {# État Vide Stylisé #}
+        <div class="flex flex-col items-center justify-center py-32 px-4 text-center border border-white/5 bg-white/[0.02] rounded-3xl">
+            <div class="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-3 font-display">Labo en cours...</h3>
+            <p class="text-gray-400 max-w-md mx-auto leading-relaxed">
+                Je mets à jour mon portfolio avec mes derniers projets. Repassez dans quelques jours !
             </p>
         </div>
     {% endif %}
 </section>
 
-<section class="py-12 px-6 text-center">
-    <p class="text-gray-400 mb-6">Vous aimez ce que vous voyez ?</p>
-    <a href="{% url 'contact' %}" class="inline-flex items-center gap-2 text-white font-bold hover:underline">
-        Discutons de votre projet <span aria-hidden="true">→</span>
-    </a>
+{# --- CTA --- #}
+<section class="py-16 px-6 text-center border-t border-white/5 bg-[#0a0a0c]">
+    <div class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold text-white mb-6 font-display">Vous avez un projet similaire ?</h2>
+        <p class="text-gray-400 mb-8 text-lg">Discutons de vos besoins et voyons comment nous pouvons collaborer.</p>
+        <a href="{% url 'contact' %}" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all hover:scale-105 shadow-lg shadow-white/10">
+            Démarrer une collaboration <span aria-hidden="true">→</span>
+        </a>
+    </div>
 </section>
 {% endblock %}
