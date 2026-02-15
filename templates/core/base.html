@@ -1,6 +1,7 @@
 <!doctype html>
 {% load static %}
 <html lang="fr" class="scroll-smooth">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,7 @@
 
   {# SEO #}
   <title>{% block title %}Horus Global Service{% endblock %}</title>
-  <meta name="description" content="{% block description %}High-end web development in Senegal. Business apps, REST APIs, and custom Django solutions.{% endblock %}">
+  <meta name="description" content="{% block description %}Développement web haut de gamme au Sénégal. Applications métier, REST APIs et solutions Django sur mesure.{% endblock %}">
   <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
 
   {# Favicon #}
@@ -16,86 +17,92 @@
 
   {# Open Graph #}
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="en_US">
+  <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="{% block og_title %}Horus Global Service{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Full-Stack Django & Python development. Turn ideas into reliable digital products.{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Développement Django & Python Full-Stack. Transformez vos idées en produits digitaux fiables.{% endblock %}">
   <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
 
-  {# Twitter Cards (optional but useful) #}
+  {# Twitter Cards #}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{% block twitter_title %}Horus Global Service{% endblock %}">
-  <meta name="twitter:description" content="{% block twitter_description %}Full-Stack Django & Python development.{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Développement Django & Python Full-Stack.{% endblock %}">
   <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
 
-  {# Fonts #}
+  {# Fonts — preload pour perf #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
-  {# Tailwind CDN (dev only) — config should be defined BEFORE the CDN script #}
-
+  {% if debug %}
+    <script>
+      window.tailwind = {
+        config: {
+          theme: {
+            extend: {
+              colors: {
+                dark:   '#08080a',
+                card:   '#111114',
+                border: '#1e1e23',
+                muted:  '#9ca3af',
+                accent: '#e8e0d0',
+              },
+              fontFamily: {
+                display: ['Syne', 'sans-serif'],
+                body:    ['DM Sans', 'sans-serif'],
+              },
+              keyframes: {
+                'slide-in': {
+                  '0%':   { opacity: '0', transform: 'translateX(1rem)' },
+                  '100%': { opacity: '1', transform: 'translateX(0)' },
+                },
+                'fade-out': {
+                  '0%':   { opacity: '1', transform: 'translateX(0)' },
+                  '100%': { opacity: '0', transform: 'translateX(1rem)' },
+                },
+                'fade-down': {
+                  '0%':   { opacity: '0', transform: 'translateY(-8px)' },
+                  '100%': { opacity: '1', transform: 'translateY(0)' },
+                },
+                'infinite-scroll': {
+                  '0%':   { transform: 'translateX(0)' },
+                  '100%': { transform: 'translateX(-50%)' },
+                },
+              },
+              animation: {
+                'slide-in':        'slide-in 0.3s ease-out forwards',
+                'fade-out':        'fade-out 0.4s ease-in forwards',
+                'fade-down':       'fade-down 0.4s ease-out forwards',
+                'infinite-scroll': 'infinite-scroll 40s linear infinite',
+              },
+            }
+          },
+          plugins: [
+            function({ addUtilities }) {
+              addUtilities(
+                { '.pause': { 'animation-play-state': 'paused' } },
+                ['hover']
+              )
+            }
+          ]
+        }
+      };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind = window.tailwind || {};
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            dark:   '#08080a',
-            card:   '#111114',
-            border: '#1e1e23',
-            muted:  '#9ca3af',
-            accent: '#e8e0d0',
-          },
-          fontFamily: {
-            display: ['Syne', 'sans-serif'],
-            body:    ['DM Sans', 'sans-serif'],
-          },
-          keyframes: {
-            'slide-in': {
-              '0%':   { opacity: '0', transform: 'translateX(1rem)' },
-              '100%': { opacity: '1', transform: 'translateX(0)' },
-            },
-            'fade-out': {
-              '0%':   { opacity: '1', transform: 'translateX(0)' },
-              '100%': { opacity: '0', transform: 'translateX(1rem)' },
-            },
-            'fade-down': {
-              '0%':   { opacity: '0', transform: 'translateY(-8px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            'infinite-scroll': {
-              '0%':   { transform: 'translateX(0)' },
-              '100%': { transform: 'translateX(-50%)' },
-            },
-          },
-          animation: {
-            'slide-in':  'slide-in 0.3s ease-out forwards',
-            'fade-out':  'fade-out 0.4s ease-in forwards',
-            'fade-down': 'fade-down 0.4s ease-out forwards',
-            'infinite-scroll': 'infinite-scroll 40s linear infinite',
-          },
-        }
-      },
-      plugins: [
-        function({ addUtilities }) {
-          addUtilities(
-            { '.pause': { 'animation-play-state': 'paused' } },
-            ['hover']
-          )
-        }
-      ]
-    }
-  </script>
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+  {% endif %}
+
   <style>
     :root{
-      --header-h: 70px;
+      --header-h:  70px;
+      --marquee-h: 54px;
+      --gap: 25px;
+      --header-top: calc(var(--marquee-h) + var(--gap));
       --bg: #08080a;
       --fg: #f0ece4;
       --muted: rgba(240,236,228,.70);
       --line: rgba(255,255,255,.08);
-
       --accent: #e8e0d0;
       --dark: #08080a;
     }
@@ -115,7 +122,24 @@
 
     h1,h2,h3,h4,.font-display{ font-family:'Syne', sans-serif; }
 
+    {# ====================================================================== #}
+    {# MARQUEE — barre fixe tout en haut                                       #}
+    {# ====================================================================== #}
+    #top-marquee-bar{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--marquee-h);
+      z-index: 60;                {# z-index > header (z-50) #}
+      overflow: hidden;
+    }
+
+    {# ====================================================================== #}
+    {# HEADER — décalé sous la barre marquee                                   #}
+    {# ====================================================================== #}
     #site-header{
+      top: var(--header-top);      {# ← distance marquee/header via --gap #}
       transition:
         background .35s ease,
         border-color .35s ease,
@@ -179,11 +203,13 @@
     }
 
     @media (prefers-reduced-motion: reduce){
+      #top-marquee-bar .animate-infinite-scroll,
       #site-header,
       #mobile-menu,
       #burger-btn .burger-bar,
       .nav-link::after{
         transition: none !important;
+        animation: none !important;
       }
     }
 
@@ -197,23 +223,206 @@
     ::-webkit-scrollbar-thumb:hover{ background:#3f3f46; }
   </style>
 
+  {# Animation marquee — override nécessaire car Tailwind CDN peut ne pas générer la classe dynamiquement #}
+  <style>
+    @keyframes infinite-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .animate-infinite-scroll {
+      display: flex !important;
+      width: max-content !important;
+      animation: infinite-scroll 30s linear infinite !important;
+    }
+    .hover\:pause:hover {
+      animation-play-state: paused !important;
+    }
+  </style>
+
   {% block extra_head %}{% endblock %}
 </head>
 
 <body class="flex flex-col min-h-screen">
 
 {# ====================================================================== #}
-{# HEADER                                                                  #}
+{# MARQUEE BAR — fixe, tout en haut (z-60), avant le header               #}
+{# ====================================================================== #}
+<div id="top-marquee-bar"
+     class="border-b border-white/5 bg-[#08080a]/95 backdrop-blur-sm"
+     style="height: var(--marquee-h);">
+
+  {# Masques dégradé bords gauche/droit #}
+  <div class="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-[#08080a] to-transparent z-10 pointer-events-none"></div>
+  <div class="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-[#08080a] to-transparent z-10 pointer-events-none"></div>
+
+  {# Conteneur animé — overflow caché par le parent #}
+  <div class="flex h-full items-center overflow-hidden">
+    <div class="flex w-max animate-infinite-scroll hover\:pause">
+
+      {# GROUPE 1 — Original #}
+      <div class="flex items-center gap-10 px-6">
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">10+ Ans</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Expérience</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-green-500/10 rounded-lg text-green-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">100%</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Satisfaction</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-yellow-500/10 rounded-lg text-yellow-400">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-8.3h6l-.25-1.84h0l-.04-.12-.09-.27-.14-.29-.2-.29-.25-.29-.28-.27-.32-.26-.34-.24-.34-.2-.36-.17-.37-.15-.36-.11-.37-.08-.34-.05h-.68l-.34.05-.37.08-.36.11-.37.15-.36.17-.34.2-.34.24-.32.26-.28.27-.25.29-.2.29-.14.29-.09.27-.04.37h0l-.25 1.84h6l.25-1.84h0l.04-.12.09-.27.14-.29.2-.29.25-.29.28-.27.32-.26.34-.24.34-.2.36-.17.37-.15.36-.11.37-.08.34-.05h.68l.34.05.37.08.36.11.37.15.36.17.34.2.34.24.32.26.28.27.25.29.2.29.14.29.09.27.04.37h0l.25-1.84h-6zm-3 8.3c-1.28 0-2.31 1.03-2.31 2.31s1.03 2.31 2.31 2.31 2.31-1.03 2.31-2.31-1.03-2.31-2.31-2.31zm9.4 6.95l-.06-.01h-8.16v8.3h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h6l-.25 1.84h0l-.04.12-.09.27-.14.29-.2.29-.25.29-.28.27-.32.26-.34.24-.34.2-.36.17-.37.15-.36.11-.37.08-.34.05h-.68l-.34-.05-.37-.08-.36-.11-.37-.15-.36-.17-.34-.2-.34-.24-.32-.26-.28-.27-.25-.29-.2-.29-.14-.29-.09-.27-.04-.37h0l-.25-1.84h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h8.16v-3.06h-5.42l.21.03.28.07.32.12.35.18.36.26.36.36.35.46.32.59.28.73.21.88.14 1.05.05 1.23-.06 1.22-.16 1.04-.24.87-.32.71-.36.57-.4.44-.42.33-.42.24-.4.16-.36.1-.32.05-.24.01h-.16z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">Python</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Expert</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-green-900/20 rounded-lg text-green-500">
+            <span class="font-bold text-base leading-none px-0.5">dj</span>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">Django</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Framework</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-purple-500/10 rounded-lg text-purple-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">REST API</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Architecture</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-blue-400/10 rounded-lg text-blue-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">PostgreSQL</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Database</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-cyan-500/10 rounded-lg text-cyan-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">Docker</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">DevOps</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0 mx-2"></div>
+      </div>
+
+      {# GROUPE 2 — Duplication exacte pour la boucle infinie #}
+      <div class="flex items-center gap-10 px-6" aria-hidden="true">
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">10+ Ans</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Expérience</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-green-500/10 rounded-lg text-green-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">100%</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Satisfaction</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-yellow-500/10 rounded-lg text-yellow-400">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-8.3h6l-.25-1.84h0l-.04-.12-.09-.27-.14-.29-.2-.29-.25-.29-.28-.27-.32-.26-.34-.24-.34-.2-.36-.17-.37-.15-.36-.11-.37-.08-.34-.05h-.68l-.34.05-.37.08-.36.11-.37.15-.36.17-.34.2-.34.24-.32.26-.28.27-.25.29-.2.29-.14.29-.09.27-.04.37h0l-.25 1.84h6l.25-1.84h0l.04-.12.09-.27.14-.29.2-.29.25-.29.28-.27.32-.26.34-.24.34-.2.36-.17.37-.15.36-.11.37-.08.34-.05h.68l.34.05.37.08.36.11.37.15.36.17.34.2.34.24.32.26.28.27.25.29.2.29.14.29.09.27.04.37h0l.25-1.84h-6zm-3 8.3c-1.28 0-2.31 1.03-2.31 2.31s1.03 2.31 2.31 2.31 2.31-1.03 2.31-2.31-1.03-2.31-2.31-2.31zm9.4 6.95l-.06-.01h-8.16v8.3h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h6l-.25 1.84h0l-.04.12-.09.27-.14.29-.2.29-.25.29-.28.27-.32.26-.34.24-.34.2-.36.17-.37.15-.36.11-.37.08-.34.05h-.68l-.34-.05-.37-.08-.36-.11-.37-.15-.36-.17-.34-.2-.34-.24-.32-.26-.28-.27-.25-.29-.2-.29-.14-.29-.09-.27-.04-.37h0l-.25-1.84h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h8.16v-3.06h-5.42l.21.03.28.07.32.12.35.18.36.26.36.36.35.46.32.59.28.73.21.88.14 1.05.05 1.23-.06 1.22-.16 1.04-.24.87-.32.71-.36.57-.4.44-.42.33-.42.24-.4.16-.36.1-.32.05-.24.01h-.16z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">Python</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Expert</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-green-900/20 rounded-lg text-green-500">
+            <span class="font-bold text-base leading-none px-0.5">dj</span>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">Django</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Framework</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-purple-500/10 rounded-lg text-purple-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">REST API</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Architecture</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-blue-400/10 rounded-lg text-blue-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">PostgreSQL</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Database</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 bg-cyan-500/10 rounded-lg text-cyan-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white leading-none">Docker</div>
+            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">DevOps</div>
+          </div>
+        </div>
+        <div class="w-px h-6 bg-white/10 shrink-0 mx-2"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{# ====================================================================== #}
+{# HEADER — position: fixed, top décalé sous la barre marquee              #}
 {# ====================================================================== #}
 <header id="site-header"
-        class="fixed top-0 left-0 right-0 z-50 border-b border-transparent backdrop-blur-md"
-        style="height: var(--header-h);">
+        class="fixed left-0 right-0 z-50 border-b border-transparent backdrop-blur-md"
+        style="top: var(--header-top); height: var(--header-h);">
   <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
 
     {# Logo #}
     <a href="{% url 'home' %}"
        class="flex items-center gap-3 group relative z-50"
-       aria-label="Horus Global Service — Home">
+       aria-label="Horus Global Service — Accueil">
       <div class="w-10 h-10 rounded-xl bg-accent text-dark flex items-center justify-center font-display font-bold text-xl
                   group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-accent/20 leading-none"
            aria-hidden="true">H</div>
@@ -226,7 +435,7 @@
     {# Desktop nav #}
     {% with url_name=request.resolver_match.url_name %}
     <nav class="hidden md:flex items-center gap-1 bg-white/5 p-1.5 rounded-full border border-white/5 backdrop-blur-sm"
-         aria-label="Primary navigation">
+         aria-label="Navigation principale">
 
       <a href="{% url 'home' %}"
          class="group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
@@ -247,7 +456,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
         </svg>
-        <span>Projects</span>
+        <span>Projets</span>
       </a>
 
       <a href="{% url 'services' %}"
@@ -280,26 +489,17 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
         </svg>
-        <span>Blog</span>
+        <span>Article</span>
       </a>
     </nav>
 
     {# Desktop actions #}
     <div class="hidden md:flex items-center gap-5">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/5 border border-green-500/10 hover:bg-green-500/10 transition-colors cursor-help"
-           title="Currently available">
-        <span class="relative flex h-2.5 w-2.5">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
-        </span>
-        <span class="text-xs font-bold text-green-400 tracking-wide uppercase">Available</span>
-      </div>
-
       <a href="{% url 'contact' %}"
          class="flex items-center gap-2 px-5 py-2.5 text-sm font-display font-bold text-dark bg-accent rounded-xl
                 hover:bg-white hover:scale-105 hover:shadow-lg hover:shadow-accent/20
                 transition-all duration-200 group">
-        <span>Contact</span>
+        <span>Contactez-Nous</span>
         <svg class="w-4 h-4 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
@@ -307,27 +507,29 @@
       </a>
     </div>
     {% endwith %}
-
     {# Mobile burger #}
     <button id="burger-btn"
             class="md:hidden flex flex-col gap-1.5 p-3 rounded-xl hover:bg-white/5 transition-colors relative z-50 border border-transparent hover:border-white/10"
-            aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
       <span class="burger-bar w-6 h-0.5 bg-accent origin-center"></span>
       <span class="burger-bar w-6 h-0.5 bg-accent origin-center"></span>
       <span class="burger-bar w-4 ml-auto h-0.5 bg-accent origin-center"></span>
     </button>
-
   </div>
 
-  {# Mobile menu #}
+  {# Mobile menu — top positionné après header+marquee #}
   <div id="mobile-menu"
-       class="md:hidden absolute top-[calc(var(--header-h)-1px)] left-0 right-0 bg-[#08080a]/95 backdrop-blur-2xl border-b border-white/10 shadow-2xl pb-8 pt-4 overflow-hidden"
+       class="md:hidden absolute left-0 right-0 z-50 overflow-hidden pb-8 pt-4
+              bg-[#16161d]/98 backdrop-blur-2xl border-b border-white/20 ring-1 ring-white/10
+              shadow-[0_30px_80px_-30px_rgba(0,0,0,.85)]"
+       style="top: calc(var(--header-h) - 1px);"
        aria-hidden="true">
 
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-white/6 via-white/2 to-transparent"></div>
     <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
 
     {% with url_name=request.resolver_match.url_name %}
-    <nav class="flex flex-col px-6 gap-3" aria-label="Mobile navigation">
+    <nav class="flex flex-col px-6 gap-3" aria-label="Navigation mobile">
 
       <a href="{% url 'home' %}"
          class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'home' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
@@ -339,7 +541,7 @@
         </div>
         <div>
           <span class="block text-lg font-bold {% if url_name == 'home' %}text-white{% else %}text-gray-200{% endif %}">Home</span>
-          <span class="text-xs text-gray-500">Back to overview</span>
+          <span class="text-xs text-gray-500">Vue d'ensemble</span>
         </div>
       </a>
 
@@ -367,7 +569,7 @@
         </div>
         <div>
           <span class="block text-lg font-bold {% if url_name == 'services' %}text-white{% else %}text-gray-200{% endif %}">Services</span>
-          <span class="text-xs text-gray-500">What I deliver</span>
+          <span class="text-xs text-gray-500">Ce que je livre</span>
         </div>
       </a>
 
@@ -381,7 +583,7 @@
         </div>
         <div>
           <span class="block text-lg font-bold {% if url_name == 'skills' %}text-white{% else %}text-gray-200{% endif %}">Stack</span>
-          <span class="text-xs text-gray-500">Tools & technologies</span>
+          <span class="text-xs text-gray-500">Outils & technologies</span>
         </div>
       </a>
 
@@ -395,14 +597,14 @@
         </div>
         <div>
           <span class="block text-lg font-bold {% if url_name == 'blog' %}text-white{% else %}text-gray-200{% endif %}">Blog</span>
-          <span class="text-xs text-gray-500">Articles & tutorials</span>
+          <span class="text-xs text-gray-500">Articles & tutoriels</span>
         </div>
       </a>
 
       <div class="mt-6 pt-6 border-t border-white/10 flex flex-col gap-4">
         <a href="{% url 'contact' %}"
            class="py-4 px-6 text-lg font-display font-bold text-dark bg-accent rounded-xl text-center shadow-lg shadow-accent/10 flex items-center justify-center gap-3">
-          <span>Contact me</span>
+          <span>Me contacter</span>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -412,27 +614,47 @@
 
     </nav>
     {% endwith %}
-  </div>
+
+  {# Overlay (rend le menu nettement plus lisible) #}
+  <div id="mobile-overlay"
+       class="md:hidden fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300"
+       aria-hidden="true"></div>
 </header>
-{# Spacer pour compenser le header fixe #}
-<div style="height: var(--header-h);"></div>
 
 {# ====================================================================== #}
-{# MAIN                                                                     #}
+{# SPACER — compense marquee (54px) + gap (25px) + header (70px) = 149px total #}
+{# ====================================================================== #}
+<div style="height: calc(var(--marquee-h) + var(--gap) + var(--header-h));"></div>
+
+{# ====================================================================== #}
+{# MAIN                                                                    #}
 {# ====================================================================== #}
 <main class="flex-1 w-full relative isolate">
 
-    {# --- BACKGROUND DÉCORATIF --- #}
-    {# 1. Grille subtile (Tech vibe) #}
-    <div class="absolute inset-0 -z-20 h-full w-full bg-[#08080a] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    {# --- BACKGROUND DÉCORATIF (clean + perf) --- #}
+    <div aria-hidden="true" class="pointer-events-none">
+      {# Grille #}
+      <div class="absolute inset-0 -z-20 bg-[#08080a]
+                  bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]
+                  bg-[size:24px_24px]"></div>
 
-    {# 2. Blobs Lumineux (Positionnés pour ne pas gêner le texte) #}
-    <div class="fixed top-0 left-0 w-[800px] h-[800px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-screen" aria-hidden="true"></div>
-    <div class="fixed bottom-0 right-0 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[100px] pointer-events-none -z-10 mix-blend-screen" aria-hidden="true"></div>
+      {# Halos #}
+      <div class="fixed inset-0 -z-10 mix-blend-screen">
+        <div class="absolute -top-24 -left-24 h-[820px] w-[820px]
+                    rounded-full bg-blue-500/10 blur-[140px]
+                    transform-gpu will-change-transform"></div>
+        <div class="absolute -bottom-24 -right-24 h-[640px] w-[640px]
+                    rounded-full bg-purple-500/10 blur-[120px]
+                    transform-gpu will-change-transform"></div>
+      </div>
+    </div>
 
-    {# --- TOASTS NOTIFICATIONS (Alertes) --- #}
+    {# --- TOASTS NOTIFICATIONS --- #}
     {% if messages %}
-        <div id="toast-container" class="fixed top-24 right-4 z-[100] space-y-4 max-w-sm w-full sm:w-96 px-4 sm:px-0" role="alert" aria-live="polite">
+        <div id="toast-container"
+             class="fixed z-[100] space-y-4 max-w-sm w-full sm:w-96 px-4 sm:px-0"
+             style="top: calc(var(--marquee-h) + var(--header-h) + 1rem); right: 1rem;"
+             role="alert" aria-live="polite">
             {% for message in messages %}
                 <div class="toast group flex items-start gap-4 p-4 rounded-xl shadow-2xl animate-slide-in backdrop-blur-md border border-white/10
                             {% if message.tags == 'success' %} bg-green-950/30 border-l-4 border-l-green-500
@@ -440,7 +662,6 @@
                             {% elif message.tags == 'warning' %} bg-yellow-950/30 border-l-4 border-l-yellow-500
                             {% else %}                           bg-[#16161a]/80 border-l-4 border-l-blue-500 {% endif %}">
 
-                    {# Icône #}
                     <div class="shrink-0 mt-0.5">
                         {% if message.tags == 'success' %}
                             <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -453,15 +674,13 @@
                         {% endif %}
                     </div>
 
-                    {# Texte #}
                     <div class="flex-1">
                         <p class="text-sm font-medium text-white leading-snug">{{ message }}</p>
                     </div>
 
-                    {# Bouton Fermer #}
                     <button onclick="this.closest('.toast').remove()"
                             class="text-gray-500 hover:text-white transition-colors p-1 rounded-md hover:bg-white/10 -m-1"
-                            aria-label="Fermer">
+                            aria-label="Fermer la notification">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
@@ -472,14 +691,10 @@
             document.addEventListener('DOMContentLoaded', function () {
                 const toasts = document.querySelectorAll('.toast');
                 toasts.forEach((t, i) => {
-                    // Délai progressif : le premier part à 5s, le second à 6s, etc.
                     setTimeout(() => {
-                        // Ajoute une classe pour l'animation de sortie (fade-out + slide-out)
                         t.style.transition = 'all 0.5s ease-in-out';
                         t.style.opacity = '0';
                         t.style.transform = 'translateX(100%)';
-
-                        // Supprime l'élément du DOM après l'animation
                         setTimeout(() => t.remove(), 500);
                     }, 5000 + (i * 1000));
                 });
@@ -487,16 +702,15 @@
         </script>
     {% endif %}
 
-    {# --- CONTENU DE LA PAGE --- #}
     {% block content %}{% endblock %}
 
 </main>
+
 {# ====================================================================== #}
 {# FOOTER                                                                  #}
 {# ====================================================================== #}
-<footer class="relative mt-32 bg-[#050507] border-t border-white/5 overflow-hidden" aria-label="Footer">
+<footer class="relative mt-32 bg-[#050507] border-t border-white/5 overflow-hidden" aria-label="Pied de page">
 
-  {# --- Ambient glow --- #}
   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
   <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-accent/5 blur-[80px] rounded-full pointer-events-none"></div>
 
@@ -504,7 +718,6 @@
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">
 
-      {# Column 1 — Branding & Social #}
       <div class="md:col-span-5 space-y-6 text-center md:text-left">
         <a href="{% url 'home' %}"
            class="inline-flex items-center gap-3 group justify-center md:justify-start no-underline hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 rounded-xl">
@@ -517,107 +730,58 @@
         </a>
 
         <p class="text-muted text-sm leading-7 max-w-sm mx-auto md:mx-0">
-          Digital architect specializing in complex Django ecosystems.
-          We transform demanding business workflows into high-performance web applications.
+          Architecte digital spécialisé dans les écosystèmes Django complexes.
+          Je transforme vos workflows métier exigeants en applications web performantes.
         </p>
 
-        {# Social links (use settings/context vars if available) #}
         <div class="flex items-center justify-center md:justify-start gap-3 pt-2">
-
-          {# 1. GitHub #}
-          <a href="{{ GITHUB_URL|default:'https://github.com/bamba9928' }}"
-             target="_blank" rel="noopener noreferrer"
-             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          <a href="{{ GITHUB_URL }}" target="_blank" rel="noopener noreferrer"
+             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all"
              aria-label="GitHub">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
             </svg>
           </a>
-
-          {# 2. LinkedIn #}
-          <a href="{{ LINKEDIN_URL|default:'https://linkedin.com' }}"
-             target="_blank" rel="noopener noreferrer"
-             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-blue-400 hover:bg-blue-600/20 hover:border-blue-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40"
+          <a href="{{ LINKEDIN_URL }}" target="_blank" rel="noopener noreferrer"
+             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-blue-400 hover:bg-blue-600/20 hover:border-blue-500/50 transition-all"
              aria-label="LinkedIn">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
             </svg>
           </a>
-
-          {# 3. Facebook #}
-          <a href="{{ FACEBOOK_URL|default:'https://facebook.com' }}"
-             target="_blank" rel="noopener noreferrer"
-             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-blue-500 hover:bg-blue-600/20 hover:border-blue-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+          <a href="{{ FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer"
+             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-blue-500 hover:bg-blue-600/20 hover:border-blue-500/50 transition-all"
              aria-label="Facebook">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
             </svg>
           </a>
-
-          {# 4. X (Twitter) #}
-          <a href="{{ X_URL|default:'https://x.com' }}"
-             target="_blank" rel="noopener noreferrer"
-             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-black hover:border-white/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+          <a href="{{ X_URL }}" target="_blank" rel="noopener noreferrer"
+             class="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-black hover:border-white/20 transition-all"
              aria-label="X (Twitter)">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
           </a>
-
         </div>
       </div>
 
-      {# Column 2 — Navigation #}
       <div class="md:col-span-3 text-center md:text-left">
-        <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Explore</h3>
+        <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Explorer</h3>
         <ul class="space-y-3">
-          <li>
-            <a href="{% url 'portfolio' %}"
-               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
-              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-              Case studies
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'services' %}"
-               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
-              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-              Services
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'skills' %}"
-               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
-              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-              Tech stack
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'blog' %}"
-               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
-              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-              Articles & tutorials
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'contact' %}"
-               class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline hover:no-underline">
-              <span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-              Contact
-            </a>
-          </li>
+          <li><a href="{% url 'portfolio' %}" class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline"><span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>Case studies</a></li>
+          <li><a href="{% url 'services' %}" class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline"><span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>Services</a></li>
+          <li><a href="{% url 'skills' %}" class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline"><span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>Tech stack</a></li>
+          <li><a href="{% url 'blog' %}" class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline"><span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>Articles & tutoriels</a></li>
+          <li><a href="{% url 'contact' %}" class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline"><span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>Contact</a></li>
         </ul>
       </div>
 
-      {# Column 3 — Quick contact #}
       <div class="md:col-span-4 text-center md:text-left">
         <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Contact</h3>
-
-        {% with EMAIL=PUBLIC_EMAIL|default:"bambadisala@gmail.com" %}
         <div class="space-y-4">
-
-          <a href="mailto:{{ EMAIL }}"
-             class="flex flex-col md:flex-row items-center md:items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-accent/30 hover:bg-white/10 transition-all group no-underline hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
+          <a href="mailto:{{ PUBLIC_EMAIL }}"
+             class="flex flex-col md:flex-row items-center md:items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-accent/30 hover:bg-white/10 transition-all group no-underline">
             <div class="w-10 h-10 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -625,14 +789,11 @@
             </div>
             <div class="text-center md:text-left">
               <span class="block text-xs text-gray-400 mb-0.5">Email</span>
-              <span class="block text-sm font-bold text-white group-hover:text-accent transition-colors">
-                {{ EMAIL }}
-              </span>
+              <span class="block text-sm font-bold text-white group-hover:text-accent transition-colors">{{ PUBLIC_EMAIL }}</span>
             </div>
           </a>
-
           <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer"
-             class="flex flex-col md:flex-row items-center md:items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-green-500/30 hover:bg-green-500/5 transition-all group no-underline hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500/30">
+             class="flex flex-col md:flex-row items-center md:items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-green-500/30 hover:bg-green-500/5 transition-all group no-underline">
             <div class="w-10 h-10 rounded-full bg-green-500/10 text-green-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -640,26 +801,21 @@
             </div>
             <div class="text-center md:text-left">
               <span class="block text-xs text-gray-400 mb-0.5">WhatsApp</span>
-              <span class="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">
-                +221 77 340 96 58
-              </span>
+              <span class="block text-sm font-bold text-white group-hover:text-green-400 transition-colors">+221 77 340 96 58</span>
             </div>
           </a>
-
         </div>
-        {% endwith %}
       </div>
 
     </div>
 
-    {# Bottom line #}
     <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
       <p class="text-xs text-gray-500">
-        &copy; {% now "Y" %} Horus Global Service. <span class="hidden sm:inline">All rights reserved.</span>
+        &copy; {% now "Y" %} Horus Global Service. <span class="hidden sm:inline">Tous droits réservés.</span>
       </p>
       <div class="text-xs text-gray-500 flex items-center gap-2">
         <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-        Systems operational
+        Systèmes opérationnels
       </div>
     </div>
 
@@ -669,13 +825,11 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- 1. Header Scroll Effect (Optimisé) ---
+        // --- 1. Header Scroll Effect ---
         const header = document.getElementById('site-header');
-        let lastScrollY = window.scrollY;
         let ticking = false;
 
         const updateHeader = () => {
-            // Ajoute la classe 'scrolled' si on descend > 20px
             if (window.scrollY > 20) {
                 header.classList.add('scrolled');
             } else {
@@ -691,66 +845,67 @@
             }
         }, { passive: true });
 
-        // Vérification initiale
         updateHeader();
 
 
         // --- 2. Mobile Menu Logic ---
-        const btn = document.getElementById('burger-btn');
-        const menu = document.getElementById('mobile-menu');
-        const body = document.body;
+        const btn     = document.getElementById('burger-btn');
+        const menu    = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('mobile-overlay');
+        const body    = document.body;
 
         if (!btn || !menu) return;
 
         let isMenuOpen = false;
 
         const toggleMenu = (forceClose = false) => {
-            // Si forceClose est vrai, on ferme. Sinon on inverse l'état.
             isMenuOpen = forceClose ? false : !isMenuOpen;
 
-            // Accessibilité
             btn.setAttribute('aria-expanded', isMenuOpen);
             menu.setAttribute('aria-hidden', !isMenuOpen);
 
-            // Gestion des classes
             if (isMenuOpen) {
                 menu.classList.add('open');
-                btn.classList.add('active'); // Déclenche l'anim CSS des barres
-                body.style.overflow = 'hidden'; // Bloque le scroll du site
+                btn.classList.add('active');
+                body.style.overflow = 'hidden';
+                overlay?.classList.remove('opacity-0', 'pointer-events-none');
+                overlay?.classList.add('opacity-100');
             } else {
                 menu.classList.remove('open');
                 btn.classList.remove('active');
-                body.style.overflow = ''; // Réactive le scroll
+                body.style.overflow = '';
+                overlay?.classList.add('opacity-0', 'pointer-events-none');
+                overlay?.classList.remove('opacity-100');
             }
         };
 
-        // Click sur le burger
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             toggleMenu();
         });
 
-        // Fermer au clic sur un lien
+        overlay?.addEventListener('click', () => {
+            toggleMenu(true);
+        });
+
         menu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => toggleMenu(true));
         });
 
-        // Fermer au clic en dehors du menu
         document.addEventListener('click', (e) => {
             if (isMenuOpen && !menu.contains(e.target) && !btn.contains(e.target)) {
                 toggleMenu(true);
             }
         });
 
-        // Fermer avec la touche Echap (Accessibilité)
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && isMenuOpen) {
                 toggleMenu(true);
+                btn.focus();
             }
         });
     });
 </script>
-{% block extra_js %}{% endblock %}
 
 </body>
 </html>

@@ -1,4 +1,5 @@
 from django import forms
+import re
 from .models import Contact
 
 class ContactForm(forms.ModelForm):
@@ -41,3 +42,9 @@ class ContactForm(forms.ModelForm):
         if len(message) < 10:
             raise forms.ValidationError("Le message est un peu court (min. 10 caractères).")
         return message
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if phone and not re.match(r'^\+?[\d\s\-]{7,20}$', phone):
+            raise forms.ValidationError("Numéro de téléphone invalide.")
+        return phone

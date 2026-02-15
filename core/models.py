@@ -5,7 +5,11 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from ckeditor_uploader.fields import RichTextUploadingField
 
-
+CATEGORY_CHOICES = [
+    ('tutorial', 'Tutoriel'),
+    ('news', 'Actualité'),
+    ('devops', 'DevOps'),
+]
 # ---------------------------------------------------------------------------
 # Contact
 # ---------------------------------------------------------------------------
@@ -34,6 +38,7 @@ class Article(models.Model):
     title = models.CharField(max_length=200, verbose_name="Titre")
     slug = models.SlugField(unique=True, blank=True, verbose_name="URL (Slug)")
     summary = models.TextField(max_length=500, verbose_name="Résumé pour SEO")
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, blank=True)
     content = RichTextUploadingField(verbose_name="Contenu")
     image = models.ImageField(upload_to="blog/", blank=True, null=True, verbose_name="Image de couverture")
     created_at = models.DateTimeField(default=timezone.now, verbose_name="Date de publication")

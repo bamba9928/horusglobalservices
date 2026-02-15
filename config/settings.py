@@ -64,6 +64,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
@@ -161,7 +162,10 @@ PUBLIC_EMAIL = os.getenv("PUBLIC_EMAIL", "bambadisala@gmail.com")
 # URLs de contact centralisées
 # ---------------------------------------------------------------------------
 WHATSAPP_URL = os.getenv("WHATSAPP_URL", "https://wa.me/221773409658")
-
+GITHUB_URL = os.getenv("GITHUB_URL", "https://github.com/bamba9928")
+LINKEDIN_URL = os.getenv("LINKEDIN_URL", "https://linkedin.com/in/...")
+FACEBOOK_URL = os.getenv("FACEBOOK_URL", "https://facebook.com/...")
+X_URL = os.getenv("X_URL", "https://x.com/...")
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
@@ -173,8 +177,17 @@ LOGGING = {
             "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
             "style": "{",
         },
+        "simple": {  # Formatter plus lisible pour la console
+            "format": "[{levelname}] {message}",
+            "style": "{",
+        },
     },
     "handlers": {
+        "console": {  
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
         "file": {
             "level": "ERROR",
             "class": "logging.FileHandler",
@@ -184,13 +197,14 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["file"],
-            "level": "ERROR",
+            # Si DEBUG=True, on log dans la console ET le fichier. Sinon, fichier uniquement.
+            "handlers": ["console", "file"] if DEBUG else ["file"],
+            # En dev on veut voir plus d'infos (INFO/DEBUG), en prod seulement les erreurs
+            "level": "INFO" if DEBUG else "ERROR",
             "propagate": True,
         },
     },
 }
-
 # ---------------------------------------------------------------------------
 # CKEditor
 # ---------------------------------------------------------------------------
