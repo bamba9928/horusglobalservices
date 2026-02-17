@@ -30,14 +30,16 @@
 {# --- GRILLE PROJETS --- #}
 <section class="pb-24 px-6 md:px-12 max-w-7xl mx-auto min-h-[50vh]">
     {% if projects %}
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12">
             {% for project in projects %}
             <article class="group relative bg-[#111114] border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-900/10 flex flex-col hover:-translate-y-1">
 
-                {# --- Zone Image --- #}
-                <div class="relative h-72 md:h-80 overflow-hidden bg-gray-900">
+                {# --- Zone Image Adaptative --- #}
+                <div class="relative h-64 sm:h-80 md:h-[400px] overflow-hidden bg-gray-900">
                     {% if project.image %}
-                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100">
+                        <img src="{{ project.image.url }}"
+                             alt="{{ project.title }}"
+                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100">
                     {% else %}
                         <div class="w-full h-full flex flex-col items-center justify-center text-gray-600 bg-white/5 p-6 text-center">
                             <svg class="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -45,30 +47,23 @@
                         </div>
                     {% endif %}
 
-                    {# Overlay Actions (Apparaît au survol) #}
+                    {# Overlay Actions #}
                     <div class="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-
-                        {# Bouton Détails #}
                         <a href="{% url 'project_detail' slug=project.slug %}"
                            class="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold rounded-full transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-105 hover:bg-gray-200">
                             <span>Explorer</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         </a>
 
-                        {# Bouton Github (Si dispo) #}
                         {% if project.github_url %}
                         <a href="{{ project.github_url }}" target="_blank" rel="noopener"
-                           class="p-3.5 bg-gray-800 text-white rounded-full border border-gray-700 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-white hover:text-black hover:border-white"
-                           title="Voir le code source">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                           class="p-3.5 bg-gray-800 text-white rounded-full border border-gray-700 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-white hover:text-black hover:border-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
                         </a>
                         {% endif %}
 
-                        {# Bouton Live (Si dispo) #}
                         {% if project.url %}
                         <a href="{{ project.url }}" target="_blank" rel="noopener"
-                           class="p-3.5 bg-gray-800 text-white rounded-full border border-gray-700 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-100 hover:bg-blue-600 hover:border-blue-500"
-                           title="Voir le site live">
+                           class="p-3.5 bg-gray-800 text-white rounded-full border border-gray-700 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-100 hover:bg-blue-600 hover:border-blue-500">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                         </a>
                         {% endif %}
@@ -76,13 +71,12 @@
                 </div>
 
                 {# --- Zone Contenu --- #}
-                <div class="p-8 flex flex-col flex-grow relative">
-                    {# Petit trait décoratif #}
+                <div class="p-8 md:p-10 flex flex-col flex-grow relative">
                     <div class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
-                    <div class="flex justify-between items-start mb-4">
+                    <div class="flex flex-wrap justify-between items-start gap-4 mb-6">
                         <a href="{% url 'project_detail' slug=project.slug %}" class="group/title">
-                            <h2 class="text-2xl font-bold text-white group-hover/title:text-purple-400 transition-colors font-display">
+                            <h2 class="text-2xl md:text-3xl font-bold text-white group-hover/title:text-purple-400 transition-colors font-display leading-tight">
                                 {{ project.title }}
                             </h2>
                         </a>
@@ -91,14 +85,14 @@
                         </span>
                     </div>
 
-                    <p class="text-gray-400 mb-6 leading-relaxed line-clamp-3 flex-grow">
+                    <p class="text-gray-400 mb-8 leading-relaxed text-sm md:text-base line-clamp-3 flex-grow">
                         {{ project.description }}
                     </p>
 
                     {# Tags / Stack #}
                     <div class="flex flex-wrap gap-2 mt-auto">
                         {% for tech in project.get_tech_list %}
-                        <span class="px-2.5 py-1 bg-white/5 border border-white/5 rounded-md text-xs font-medium text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition-colors cursor-default">
+                        <span class="px-2.5 py-1 bg-purple-500/5 border border-purple-500/10 rounded-md text-[10px] md:text-xs font-medium text-purple-300/80 hover:text-white hover:bg-purple-500/20 hover:border-purple-500/30 transition-colors cursor-default">
                             #{{ tech }}
                         </span>
                         {% endfor %}
@@ -108,11 +102,8 @@
             {% endfor %}
         </div>
     {% else %}
-        {# État Vide Stylisé #}
         <div class="flex flex-col items-center justify-center py-32 px-4 text-center border border-white/5 bg-white/[0.02] rounded-3xl">
-            <div class="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-6 animate-pulse">
-                <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-            </div>
+            <div class="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-6 animate-pulse text-3xl">🧪</div>
             <h3 class="text-2xl font-bold text-white mb-3 font-display">Labo en cours...</h3>
             <p class="text-gray-400 max-w-md mx-auto leading-relaxed">
                 Je mets à jour mon portfolio avec mes derniers projets. Repassez dans quelques jours !
@@ -122,12 +113,12 @@
 </section>
 
 {# --- CTA --- #}
-<section class="py-16 px-6 text-center border-t border-white/5 bg-[#0a0a0c]">
+<section class="py-20 px-6 text-center border-t border-white/5 bg-[#0a0a0c]">
     <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl font-bold text-white mb-6 font-display">Vous avez un projet similaire ?</h2>
-        <p class="text-gray-400 mb-8 text-lg">Discutons de vos besoins et voyons comment nous pouvons collaborer.</p>
-        <a href="{% url 'contact' %}" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all hover:scale-105 shadow-lg shadow-white/10">
-            Démarrer une collaboration <span aria-hidden="true">→</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 font-display">Vous avez un projet similaire ?</h2>
+        <p class="text-gray-400 mb-10 text-lg">Discutons de vos besoins et voyons comment nous pouvons collaborer.</p>
+        <a href="{% url 'contact' %}" class="inline-flex items-center gap-3 px-10 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all hover:scale-105 shadow-lg shadow-white/10">
+            Démarrer une collaboration <span>→</span>
         </a>
     </div>
 </section>

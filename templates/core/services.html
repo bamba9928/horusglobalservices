@@ -21,7 +21,7 @@
         </h1>
 
         <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Nous transformons vos défis complexes en solutions logicielles simples, robustes et évolutives.
+            Des résultats mesurables, pas des promesses. Chaque solution est conçue pour réduire vos tâches manuelles, fiabiliser vos données et accélérer votre activité.
         </p>
     </div>
 </section>
@@ -29,9 +29,12 @@
 {# --- SERVICES GRID --- #}
 <section class="py-10 px-6 md:px-12 max-w-7xl mx-auto">
 
+    {# Grille 2+2 pour les 4 premiers, puis carte pleine largeur pour le 5e #}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
 
-        {# Service 1 : App Métier #}
+        {# ═══════════════════════════════════════════ #}
+        {# Service 1 : Applications Métier             #}
+        {# ═══════════════════════════════════════════ #}
         <div class="group relative bg-[#111114] border border-white/5 rounded-3xl p-8 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-900/20 hover:-translate-y-1">
             <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
                 <svg class="w-24 h-24 text-emerald-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/></svg>
@@ -42,31 +45,46 @@
             </div>
 
             <h3 class="text-2xl font-bold text-white mb-4 font-display group-hover:text-emerald-400 transition-colors">Applications Métier</h3>
+
+            {# ✅ Description orientée résultat client #}
             <p class="text-gray-400 mb-8 leading-relaxed">
-                Des outils sur mesure pour digitaliser vos processus. ERP, CRM, Tableaux de bord... nous créons le logiciel qui s'adapte à votre entreprise, pas l'inverse.
+                Digitalisez vos processus (gestion, suivi, reporting) avec une application fiable, évolutive et simple à utiliser.
+                <span class="text-emerald-400/80 font-medium">Objectif : réduire les tâches manuelles, limiter les erreurs et centraliser vos données.</span>
             </p>
 
             <ul class="space-y-4 mb-8 border-t border-white/5 pt-6">
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-emerald-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <svg class="w-5 h-5 text-emerald-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     Dashboards interactifs temps réel
                 </li>
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-emerald-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <svg class="w-5 h-5 text-emerald-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     Gestion utilisateurs & Permissions (RBAC)
                 </li>
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-emerald-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <svg class="w-5 h-5 text-emerald-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     Génération PDF & Excel automatisée
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <svg class="w-5 h-5 text-emerald-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Workflows automatisés & notifications
                 </li>
             </ul>
 
-            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2 text-sm text-emerald-300 font-medium">
-                <span>Dès 1 500 000 FCFA</span>
+            {# ✅ Badge Livrables (remplace prix) #}
+            <div class="flex flex-wrap gap-2">
+                <span class="inline-flex items-center gap-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1.5 text-xs text-emerald-300 font-bold uppercase tracking-wide">
+                    📦 Livrables
+                </span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Cahier des charges</span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">MVP / V1</span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Docs + formation</span>
             </div>
         </div>
 
-        {# Service 2 : API REST #}
+        {# ═══════════════════════════════════════════ #}
+        {# Service 2 : API REST & Backend              #}
+        {# ═══════════════════════════════════════════ #}
         <div class="group relative bg-[#111114] border border-white/5 rounded-3xl p-8 hover:border-blue-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-900/20 hover:-translate-y-1">
             <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
                 <svg class="w-24 h-24 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -77,92 +95,246 @@
             </div>
 
             <h3 class="text-2xl font-bold text-white mb-4 font-display group-hover:text-blue-400 transition-colors">API REST & Backend</h3>
+
+            {# ✅ Description orientée résultat client #}
             <p class="text-gray-400 mb-8 leading-relaxed">
-                Le moteur invisible de vos applications. Architectures scalables avec Django REST Framework, prêtes pour le mobile et le web.
+                Backend robuste pour web et mobile : API documentée, sécurisée et optimisée.
+                <span class="text-blue-400/80 font-medium">Objectif : accélérer votre produit et garantir une intégration fluide avec vos partenaires.</span>
             </p>
 
             <ul class="space-y-4 mb-8 border-t border-white/5 pt-6">
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-blue-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Documentation Swagger / OpenAPI
+                    <svg class="w-5 h-5 text-blue-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Documentation Swagger / OpenAPI auto-générée
                 </li>
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-blue-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Auth JWT & OAuth2 sécurisée
+                    <svg class="w-5 h-5 text-blue-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Auth JWT & OAuth2 sécurisée, rate limiting
                 </li>
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-blue-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Intégrations (Stripe, Orange Money, Wave)
+                    <svg class="w-5 h-5 text-blue-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Intégrations paiement (Stripe, Orange Money, Wave, PayPal, Coin, Card )
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <svg class="w-5 h-5 text-blue-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Tests unitaires & couverture minimale garantie
                 </li>
             </ul>
 
-            <div class="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 text-sm text-blue-300 font-medium">
-                <span>Dès 800 000 FCFA</span>
+            {# ✅ Badge Livrables (remplace prix) #}
+            <div class="flex flex-wrap gap-2">
+                <span class="inline-flex items-center gap-1 bg-blue-500/10 border border-blue-500/20 rounded-full px-3 py-1.5 text-xs text-blue-300 font-bold uppercase tracking-wide">
+                    📦 Livrables
+                </span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">API documentée</span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Tests inclus</span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Postman collection</span>
             </div>
         </div>
 
-        {# Service 3 : Sites Vitrine #}
+        {# ═══════════════════════════════════════════ #}
+        {# Service 3 : Sites & Landing Pages           #}
+        {# ═══════════════════════════════════════════ #}
         <div class="group relative bg-[#111114] border border-white/5 rounded-3xl p-8 hover:border-purple-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-900/20 hover:-translate-y-1">
-             <div class="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center text-purple-400 text-3xl mb-8 border border-purple-500/20 shadow-lg shadow-purple-500/10">
+            <div class="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center text-purple-400 text-3xl mb-8 border border-purple-500/20 shadow-lg shadow-purple-500/10">
                 🎨
             </div>
 
             <h3 class="text-2xl font-bold text-white mb-4 font-display group-hover:text-purple-400 transition-colors">Sites & Landing Pages</h3>
+
+            {# ✅ Description orientée résultat client #}
             <p class="text-gray-400 mb-8 leading-relaxed">
-                Faites bonne impression dès la première seconde. Sites ultra-rapides, optimisés pour le SEO et la conversion.
+                Site vitrine et landing pages rapides, orientées conversion et SEO.
+                <span class="text-purple-400/80 font-medium">Objectif : inspirer confiance, générer des leads et améliorer votre visibilité en ligne.</span>
             </p>
 
             <ul class="space-y-4 mb-8 border-t border-white/5 pt-6">
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-purple-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Design UI/UX "Dark Mode" moderne
+                    <svg class="w-5 h-5 text-purple-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Design UI/UX moderne, Dark Mode & animations
                 </li>
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-purple-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    SEO Technique & Performance (Score 95+)
+                    <svg class="w-5 h-5 text-purple-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    SEO Technique & Performance Lighthouse 95+
                 </li>
-                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-purple-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Responsive Mobile First
+                <li class="flex items-start text-sm text-gray-300">
+                    <svg class="w-5 h-5 text-purple-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Responsive Mobile First, Core Web Vitals optimisés
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <svg class="w-5 h-5 text-purple-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Formulaires de contact & CRM intégrables
                 </li>
             </ul>
 
-            <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 rounded-full px-4 py-2 text-sm text-purple-300 font-medium">
-                <span>Dès 300 000 FCFA</span>
+            {# ✅ Badge Livrables (remplace prix) #}
+            <div class="flex flex-wrap gap-2">
+                <span class="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 rounded-full px-3 py-1.5 text-xs text-purple-300 font-bold uppercase tracking-wide">
+                    📦 Livrables
+                </span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Maquettes validées</span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Site déployé</span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Score Lighthouse</span>
             </div>
         </div>
 
-        {# Service 4 : Maintenance #}
+        {# ═══════════════════════════════════════════ #}
+        {# Service 4 : Maintenance & DevOps            #}
+        {# ═══════════════════════════════════════════ #}
         <div class="group relative bg-[#111114] border border-white/5 rounded-3xl p-8 hover:border-yellow-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-900/20 hover:-translate-y-1">
-             <div class="w-16 h-16 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-2xl flex items-center justify-center text-yellow-400 text-3xl mb-8 border border-yellow-500/20 shadow-lg shadow-yellow-500/10">
+            <div class="w-16 h-16 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-2xl flex items-center justify-center text-yellow-400 text-3xl mb-8 border border-yellow-500/20 shadow-lg shadow-yellow-500/10">
                 🛠️
             </div>
 
             <h3 class="text-2xl font-bold text-white mb-4 font-display group-hover:text-yellow-400 transition-colors">Maintenance & DevOps</h3>
+
+            {# ✅ Description orientée résultat client #}
             <p class="text-gray-400 mb-8 leading-relaxed">
-                Dormez tranquille, on gère le reste. Surveillance, mises à jour de sécurité et sauvegardes automatiques.
+                Exploitation et amélioration continue : surveillance, sauvegardes, mises à jour et optimisation.
+                <span class="text-yellow-400/80 font-medium">Objectif : garantir la disponibilité et la sécurité sans interruption d'activité.</span>
             </p>
 
             <ul class="space-y-4 mb-8 border-t border-white/5 pt-6">
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-yellow-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Monitoring serveur 24/7
+                    <svg class="w-5 h-5 text-yellow-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Monitoring serveur 24/7 avec alertes automatiques
                 </li>
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-yellow-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Sauvegardes journalières S3
+                    <svg class="w-5 h-5 text-yellow-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Sauvegardes journalières S3 + restauration testée
                 </li>
                 <li class="flex items-start text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-yellow-500 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Mises à jour de sécurité Django
+                    <svg class="w-5 h-5 text-yellow-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Mises à jour sécurité Django + dépendances
+                </li>
+                <li class="flex items-start text-sm text-gray-300">
+                    <svg class="w-5 h-5 text-yellow-500 mr-3 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Rapport mensuel : uptime, incidents, actions
                 </li>
             </ul>
 
-            <div class="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/20 rounded-full px-4 py-2 text-sm text-yellow-300 font-medium">
-                <span>150 000 FCFA / mois</span>
+            {# ✅ Badge Livrables (remplace prix) #}
+            <div class="flex flex-wrap gap-2">
+                <span class="inline-flex items-center gap-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full px-3 py-1.5 text-xs text-yellow-300 font-bold uppercase tracking-wide">
+                    📦 Livrables
+                </span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Rapport mensuel</span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Tableau de bord</span>
+                <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">SLA défini</span>
             </div>
         </div>
 
+    </div>
+
+    {# ═══════════════════════════════════════════════════════════ #}
+    {# Service 5 : Audit & Sécurité (carte full-width, signature) #}
+    {# ═══════════════════════════════════════════════════════════ #}
+    <div class="mt-8 lg:mt-10">
+        <div class="group relative bg-[#111114] border border-white/5 rounded-3xl p-8 md:p-10 hover:border-red-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-red-900/20 hover:-translate-y-1 overflow-hidden">
+
+            {# Halo décoratif #}
+            <div class="absolute -top-20 -right-20 w-[400px] h-[400px] bg-red-600/5 blur-[100px] rounded-full pointer-events-none"></div>
+
+            {# Badge "Nouveau" #}
+
+            <div class="flex flex-col md:flex-row md:items-start gap-8 md:gap-12">
+
+                {# Colonne gauche — icône + titre + description #}
+                <div class="flex-1">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-2xl flex items-center justify-center text-3xl mb-8 border border-red-500/20 shadow-lg shadow-red-500/10">
+                        🔍
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-white mb-4 font-display group-hover:text-red-400 transition-colors">Audit & Sécurité</h3>
+
+                    <p class="text-gray-400 mb-8 leading-relaxed max-w-xl">
+                        Vous avez une application en production et vous voulez savoir où elle est fragile, lente ou risquée. Je livre un diagnostic complet avec un plan d'action concret et priorisé.
+                        <span class="text-red-400/80 font-medium"> Objectif : identifier les risques avant qu'ils deviennent des incidents, et récupérer des performances perdues.</span>
+                    </p>
+
+                    {# ✅ Badge Livrables #}
+                    <div class="flex flex-wrap gap-2">
+                        <span class="inline-flex items-center gap-1 bg-red-500/10 border border-red-500/20 rounded-full px-3 py-1.5 text-xs text-red-300 font-bold uppercase tracking-wide">
+                            📦 Livrables
+                        </span>
+                        <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Rapport PDF détaillé</span>
+                        <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Plan d'action priorisé</span>
+                        <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300">Debrief visio inclus</span>
+                    </div>
+                </div>
+
+                {# Colonne droite — 3 piliers d'audit #}
+                <div class="flex flex-col gap-4 md:w-72 lg:w-80 shrink-0">
+
+                    {# Pilier 1 — Performance #}
+                    <div class="bg-[#0d0d10] border border-white/5 rounded-2xl p-5 hover:border-orange-500/20 transition-colors">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-xl">⚡</span>
+                            <h4 class="text-sm font-bold text-white">Audit Performance</h4>
+                        </div>
+                        <ul class="text-xs text-gray-400 space-y-1.5">
+                            <li class="flex gap-2"><span class="text-orange-400">→</span> Requêtes SQL lentes, N+1, EXPLAIN ANALYZE</li>
+                            <li class="flex gap-2"><span class="text-orange-400">→</span> Endpoints trop lents, absence de cache</li>
+                            <li class="flex gap-2"><span class="text-orange-400">→</span> Score Lighthouse & Core Web Vitals</li>
+                        </ul>
+                    </div>
+
+                    {# Pilier 2 — Sécurité #}
+                    <div class="bg-[#0d0d10] border border-white/5 rounded-2xl p-5 hover:border-red-500/20 transition-colors">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-xl">🔒</span>
+                            <h4 class="text-sm font-bold text-white">Audit Sécurité</h4>
+                        </div>
+                        <ul class="text-xs text-gray-400 space-y-1.5">
+                            <li class="flex gap-2"><span class="text-red-400">→</span> OWASP Top 10 : XSS, CSRF, injection, auth</li>
+                            <li class="flex gap-2"><span class="text-red-400">→</span> Settings Django, secrets, headers HTTP</li>
+                            <li class="flex gap-2"><span class="text-red-400">→</span> Contrôle accès, permissions, uploads</li>
+                        </ul>
+                    </div>
+
+                    {# Pilier 3 — Code & Architecture #}
+                    <div class="bg-[#0d0d10] border border-white/5 rounded-2xl p-5 hover:border-cyan-500/20 transition-colors">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-xl">🧪</span>
+                            <h4 class="text-sm font-bold text-white">Audit Code & Architecture</h4>
+                        </div>
+                        <ul class="text-xs text-gray-400 space-y-1.5">
+                            <li class="flex gap-2"><span class="text-cyan-400">→</span> Structure, couplage, dette technique</li>
+                            <li class="flex gap-2"><span class="text-cyan-400">→</span> Couverture tests, gestion d'erreurs, logs</li>
+                            <li class="flex gap-2"><span class="text-cyan-400">→</span> Maintenabilité & évolutivité à long terme</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{# ═══════════════════════════════════════════════════════════════ #}
+{# --- SECTION GARANTIES (bloque de confiance, avant PROCESSUS) --- #}
+{# ═══════════════════════════════════════════════════════════════ #}
+<section class="py-12 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="text-center mb-8">
+        <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Inclus dans chaque projet</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[#111114] border border-white/5 rounded-3xl p-6 hover:border-emerald-500/20 transition-colors">
+            <div class="text-2xl mb-3">✅</div>
+            <h3 class="text-lg font-bold text-white mb-2 font-display">Qualité & fiabilité</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">Tests, logs, gestion d'erreurs et livraisons itératives pour éviter les mauvaises surprises en production.</p>
+        </div>
+        <div class="bg-[#111114] border border-white/5 rounded-3xl p-6 hover:border-red-500/20 transition-colors">
+            <div class="text-2xl mb-3">🛡️</div>
+            <h3 class="text-lg font-bold text-white mb-2 font-display">Sécurité intégrée</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">Bonnes pratiques OWASP, durcissement Django, contrôle d'accès et protection des données — pas en option, par défaut.</p>
+        </div>
+        <div class="bg-[#111114] border border-white/5 rounded-3xl p-6 hover:border-blue-500/20 transition-colors">
+            <div class="text-2xl mb-3">📦</div>
+            <h3 class="text-lg font-bold text-white mb-2 font-display">Livrables clairs</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">Documentation, formation et un projet maintenable sur le long terme — pas du code "jetable" que vous ne pourrez pas faire évoluer.</p>
+        </div>
     </div>
 </section>
 
@@ -178,7 +350,6 @@
         </div>
 
         <div class="grid md:grid-cols-4 gap-12">
-            {# Etape 1 #}
             <div class="relative group text-center md:text-left">
                 <div class="w-16 h-16 bg-[#16161a] border border-white/10 rounded-2xl flex items-center justify-center text-2xl font-bold text-white mb-6 relative z-10 mx-auto md:mx-0 shadow-xl group-hover:scale-110 transition-transform duration-300 group-hover:border-emerald-500/50">
                     1
@@ -189,7 +360,6 @@
                 </p>
             </div>
 
-            {# Etape 2 #}
             <div class="relative group text-center md:text-left">
                 <div class="w-16 h-16 bg-[#16161a] border border-white/10 rounded-2xl flex items-center justify-center text-2xl font-bold text-white mb-6 relative z-10 mx-auto md:mx-0 shadow-xl group-hover:scale-110 transition-transform duration-300 group-hover:border-blue-500/50">
                     2
@@ -200,7 +370,6 @@
                 </p>
             </div>
 
-            {# Etape 3 #}
             <div class="relative group text-center md:text-left">
                 <div class="w-16 h-16 bg-[#16161a] border border-white/10 rounded-2xl flex items-center justify-center text-2xl font-bold text-white mb-6 relative z-10 mx-auto md:mx-0 shadow-xl group-hover:scale-110 transition-transform duration-300 group-hover:border-purple-500/50">
                     3
@@ -211,7 +380,6 @@
                 </p>
             </div>
 
-            {# Etape 4 #}
             <div class="relative group text-center md:text-left">
                 <div class="w-16 h-16 bg-[#16161a] border border-white/10 rounded-2xl flex items-center justify-center text-2xl font-bold text-white mb-6 relative z-10 mx-auto md:mx-0 shadow-xl group-hover:scale-110 transition-transform duration-300 group-hover:border-yellow-500/50">
                     4
@@ -229,21 +397,24 @@
 <section class="py-24 px-6 md:px-12 text-center">
     <div class="max-w-4xl mx-auto bg-gradient-to-b from-[#16161a] to-[#0a0a0c] border border-white/5 rounded-[3rem] p-10 md:p-16 relative overflow-hidden">
 
-        {# Glow effect arrière plan #}
+        {# Glow effect #}
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-accent/5 blur-[100px] rounded-full -z-10 pointer-events-none"></div>
 
         <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 font-display">Prêt à digitaliser votre activité ?</h2>
+
+        {# ✅ Texte CTA "vendeur" + orienté action #}
         <p class="text-gray-400 mb-10 text-lg max-w-2xl mx-auto">
-            Chaque grand projet commence par une simple discussion. Parlons de vos ambitions.
+            Décrivez votre besoin en 2 minutes. Je vous réponds avec une proposition claire : étapes, délais et livrables.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            {# ✅ CTA principal adouci #}
             <a href="{% url 'contact' %}" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all hover:scale-105 shadow-lg shadow-white/10">
-                Demander un devis
+                Recevoir une proposition
             </a>
             <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-[#25D366]/10 border border-[#25D366]/20 text-[#25D366] font-bold rounded-full hover:bg-[#25D366]/20 transition-all flex items-center justify-center gap-2">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                Discuter sur WhatsApp
+                Planifier un échange
             </a>
         </div>
     </div>

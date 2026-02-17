@@ -1,0 +1,45 @@
+{% extends "unfold/layouts/base_simple.html" %}
+{% load i18n unfold %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block title %}
+  {% trans "Dashboard" %} | {{ site_title }}
+{% endblock %}
+
+{% block content %}
+  {% component "unfold/components/flex.html" with class="gap-6" %}
+    {% component "unfold/components/card.html" with class="lg:w-1/3" %}
+      {% component "unfold/components/text.html" %}
+        {% trans "Nouveaux prospects" %}
+      {% endcomponent %}
+
+      {% component "unfold/components/title.html" %}
+        {{ kpi_unread_contacts|default:0 }}
+      {% endcomponent %}
+
+      {% component "unfold/components/text.html" with class="text-sm" %}
+        {% trans "Messages non lus" %}
+      {% endcomponent %}
+    {% endcomponent %}
+
+    {% component "unfold/components/card.html" with class="lg:w-1/3" %}
+      {% component "unfold/components/text.html" %}
+        {% trans "Contenu Blog" %}
+      {% endcomponent %}
+
+      {% component "unfold/components/title.html" %}
+        {{ kpi_published_articles|default:0 }}
+      {% endcomponent %}
+
+      {% component "unfold/components/text.html" with class="text-sm" %}
+        {% trans "Articles publiés" %}
+      {% endcomponent %}
+    {% endcomponent %}
+  {% endcomponent %}
+
+  {# ✅ Afficher les apps/modèles (Article, Project, Contact, Users, etc.) #}
+  <div class="mt-8">
+    {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+  </div>
+{% endblock %}

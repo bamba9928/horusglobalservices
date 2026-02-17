@@ -39,19 +39,29 @@ def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug, is_published=True)
     return render(request, 'core/article_detail.html', {'article': article})
 
-
 def contact(request):
+    # Récupération du type de demande depuis l'URL (ex: ?type=audit)
+    request_type = request.GET.get('type')
+    initial_data = {}
+
+    if request_type == 'audit':
+        initial_data['message'] = "Bonjour, je souhaiterais obtenir un audit complet (performance, SQL, sécurité) pour mon projet."
+
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            # 1) Sauvegarde dans la base de données (Admin)
+            # Sauvegarde en base de données
             contact_obj = form.save()
 
-            # 2) Envoi de l'email de notification à VOUS (Admin)
+            # Préparation de l'email
             subject = f"Nouveau contact de {contact_obj.name} - Horus Global"
+            if request_type == 'audit':
+                subject = f"🚨 DEMANDE D'AUDIT - {contact_obj.name}"
+
             message = f"""
 Nouveau message reçu depuis le site :
 
+Type : {'Audit' if request_type == 'audit' else 'Contact standard'}
 Nom : {contact_obj.name}
 Email : {contact_obj.email}
 Téléphone : {contact_obj.phone}
@@ -60,7 +70,6 @@ Message :
 {contact_obj.message}
 """.strip()
 
-            # On envoie l'email (fail_silently retiré) + log propre
             try:
                 send_mail(
                     subject,
@@ -73,15 +82,14 @@ Message :
 
             messages.success(
                 request,
-                f"Merci {contact_obj.name} ! Votre message a bien été envoyé."
+                f"Merci {contact_obj.name} ! Votre demande a bien été envoyée."
             )
             return redirect('contact')
     else:
-        form = ContactForm()
+        # On passe les données initiales au formulaire
+        form = ContactForm(initial=initial_data)
 
     return render(request, 'core/contact.html', {'form': form})
-
-
 def portfolio(request):
     """Page Portfolio avec pagination"""
     projects_list = Project.objects.all()

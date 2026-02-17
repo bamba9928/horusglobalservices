@@ -1,33 +1,43 @@
 <!doctype html>
 {% load static %}
 <html lang="fr" class="scroll-smooth">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  {# SEO #}
-  <title>{% block title %}Horus Global Service{% endblock %}</title>
-  <meta name="description" content="{% block description %}Développement web haut de gamme au Sénégal. Applications métier, REST APIs et solutions Django sur mesure.{% endblock %}">
+  {# SEO & Social Media — Horus Global Service #}
+  <title>{% block title %}Horus Global Service | Expertise Django & Python Full-Stack au Sénégal{% endblock %}</title>
+  <meta name="description" content="{% block description %}Architecte digital spécialisé Django. Nous concevons des applications métier haute performance, des APIs REST et des solutions cloud sur mesure à Dakar.{% endblock %}">
   <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
 
-  {# Favicon #}
+  {# Theme color (mobile address bar) #}
+  <meta name="theme-color" content="#08080a">
+
+  {# Favicons #}
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
   <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 
-  {# Open Graph #}
+  {# Open Graph / Facebook / LinkedIn #}
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="{% block og_title %}Horus Global Service{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Développement Django & Python Full-Stack. Transformez vos idées en produits digitaux fiables.{% endblock %}">
-  <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:site_name" content="Horus Global Service">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="{% block og_title %}Horus Global Service — Solutions Web Haut de Gamme{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Expertise Python/Django au service de votre croissance. Applications robustes, scalables et sécurisées.{% endblock %}">
+  {# Image : Format recommandé 1200x630px #}
+  <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
-  {# Twitter Cards #}
+  {# Twitter #}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block twitter_title %}Horus Global Service{% endblock %}">
-  <meta name="twitter:description" content="{% block twitter_description %}Développement Django & Python Full-Stack.{% endblock %}">
+  <meta name="twitter:title" content="{% block twitter_title %}Horus Global Service | Dev Django & Python{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Transformez vos idées en produits digitaux fiables avec un expert Full-Stack.{% endblock %}">
   <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
+
 
   {# Fonts — preload pour perf #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,7 +108,8 @@
       --header-h:  70px;
       --marquee-h: 54px;
       --gap: 25px;
-      --header-top: calc(var(--marquee-h) + var(--gap));
+      --safe-top: env(safe-area-inset-top, 0px);
+      --header-top: calc(var(--marquee-h) + var(--gap) + var(--safe-top));
       --bg: #08080a;
       --fg: #f0ece4;
       --muted: rgba(240,236,228,.70);
@@ -114,6 +125,9 @@
       font-family: 'DM Sans', sans-serif;
       background-color: var(--bg);
       color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
       overflow-x: clip;
     }
     @supports not (overflow: clip) {
@@ -122,24 +136,28 @@
 
     h1,h2,h3,h4,.font-display{ font-family:'Syne', sans-serif; }
 
-    {# ====================================================================== #}
-    {# MARQUEE — barre fixe tout en haut                                       #}
-    {# ====================================================================== #}
+    /* Toasts: ne pas bloquer les clics quand vide */
+    #toast-container{ pointer-events:none; }
+    #toast-container .toast{ pointer-events:auto; }
+
+    /* ================================================================
+       MARQUEE — barre fixe tout en haut
+    ================================================================ */
     #top-marquee-bar{
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       height: var(--marquee-h);
-      z-index: 60;                {# z-index > header (z-50) #}
+      z-index: 60;
       overflow: hidden;
     }
 
-    {# ====================================================================== #}
-    {# HEADER — décalé sous la barre marquee                                   #}
-    {# ====================================================================== #}
+    /* ================================================================
+       HEADER — décalé sous la barre marquee
+    ================================================================ */
     #site-header{
-      top: var(--header-top);      {# ← distance marquee/header via --gap #}
+      top: var(--header-top);
       transition:
         background .35s ease,
         border-color .35s ease,
@@ -171,37 +189,115 @@
     .nav-link:hover::after,
     .nav-link.active::after{ width:100%; }
 
+    /* ================================================================
+   MOBILE MENU — COLORS (premium / brand)
+   ================================================================ */
     #mobile-menu{
       transform: translateY(-150%);
       opacity: 0;
       pointer-events: none;
       transition:
-        transform .4s cubic-bezier(.16,1,.3,1),
+        transform .45s cubic-bezier(.16,1,.3,1),
         opacity .25s ease;
       will-change: transform, opacity;
+
+      /* Fond plus profond + relief (bleu nuit) */
+      background:
+        radial-gradient(800px 300px at 50% 0%,
+          rgba(59,130,246,.18),
+          transparent 55%),
+        radial-gradient(700px 300px at 80% 10%,
+          rgba(168,85,247,.12),
+          transparent 60%),
+        linear-gradient(to bottom, #0b0b10, #07070a);
+
+      /* Bordure + ring subtil */
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.85);
     }
+
     #mobile-menu.open{
       transform: translateY(0);
       opacity: 1;
       pointer-events: auto;
     }
 
-    #burger-btn .burger-bar{
-      transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .2s ease, width .2s ease;
-      transform-origin: center;
-    }
-    #burger-btn.active .burger-bar:nth-child(1){
-      transform: translateY(8px) rotate(45deg);
-    }
-    #burger-btn.active .burger-bar:nth-child(2){
-      opacity: 0;
-      transform: translateX(20px);
-    }
-    #burger-btn.active .burger-bar:nth-child(3){
-      transform: translateY(-8px) rotate(-45deg);
-      width: 1.5rem;
+    /* Item actif (accent “premium”) */
+    #mobile-menu .nav-item-active{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12) !important;
+      box-shadow: 0 0 0 1px rgba(232,224,208,.12) inset;
     }
 
+    /* Icônes (carte sombre + lueur) */
+    #mobile-menu .nav-icon{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow:
+        0 10px 30px -20px rgba(0,0,0,.9),
+        0 0 0 1px rgba(0,0,0,.25) inset;
+    }
+
+    /* Option: au hover, un petit boost de contraste */
+    #mobile-menu a:hover .nav-icon{
+      border-color: rgba(232,224,208,.22);
+      box-shadow:
+        0 12px 34px -22px rgba(0,0,0,.9),
+        0 0 0 1px rgba(232,224,208,.10) inset;
+    }
+
+/* ================================================================
+   BURGER — couleurs cohérentes
+   ================================================================ */
+    #burger-btn{
+      min-height: 44px;
+      min-width: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    #burger-btn:hover{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.18);
+    }
+
+    /* Quand menu ouvert: accent + halo */
+    #burger-btn.active{
+      background: rgba(232,224,208,.10);
+      border-color: rgba(232,224,208,.22);
+      box-shadow:
+        0 0 0 1px rgba(232,224,208,.10) inset,
+        0 0 18px rgba(232,224,208,.08);
+    }
+
+    /* Barres du burger (si tu veux plus clair que l’accent) */
+    #burger-btn .burger-bar{
+      background: rgba(255,255,255,.75);
+    }
+    #burger-btn .burger-bar:nth-child(3){
+      background: rgba(232,224,208,.95); /* petite signature accent */
+    }
+
+    /* Ouvert => tout en accent */
+    #burger-btn.active .burger-bar{
+      background: rgba(232,224,208,.95);
+    }
+
+    /* ================================================================
+       OVERLAY MOBILE — plus propre + géré en classe .visible
+       ================================================================ */
+    #mobile-overlay{
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+    /* ================================================================
+       Motion safety
+       ================================================================ */
     @media (prefers-reduced-motion: reduce){
       #top-marquee-bar .animate-infinite-scroll,
       #site-header,
@@ -213,17 +309,57 @@
       }
     }
 
-    .footer-line{
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+
+    /* ================================================================
+       BACKGROUND BLUR WHEN MOBILE MENU OPEN
+       ================================================================ */
+    body.menu-open main,
+    body.menu-open footer{
+      filter: blur(10px);
+      opacity: .55;
+      transition: filter .25s ease, opacity .25s ease;
+      will-change: filter, opacity;
+    }
+    @media (prefers-reduced-motion: reduce){
+      body.menu-open main,
+      body.menu-open footer{ transition: none !important; }
     }
 
-    ::-webkit-scrollbar{ width:6px; }
-    ::-webkit-scrollbar-track{ background: var(--bg); }
-    ::-webkit-scrollbar-thumb{ background:#2a2a30; border-radius:3px; }
-    ::-webkit-scrollbar-thumb:hover{ background:#3f3f46; }
+    /* Ensure mobile menu can scroll if content exceeds viewport */
+    #mobile-menu{
+      max-height: calc(100vh - (var(--header-top) + var(--header-h)));
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+
+
+    .footer-line{
+      /* Accent premium (accent + bleu nuit + violet) */
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(232,224,208,.55),
+        rgba(59,130,246,.30),
+        rgba(168,85,247,.22),
+        transparent
+      );
+    }
+
+    /* Scrollbar (WebKit) — sobre + cohérent */
+    ::-webkit-scrollbar{ width: 8px; }
+    ::-webkit-scrollbar-track{ background: rgba(255,255,255,.03); }
+    ::-webkit-scrollbar-thumb{
+      background: linear-gradient(180deg, rgba(232,224,208,.28), rgba(255,255,255,.10));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover{
+      background: linear-gradient(180deg, rgba(232,224,208,.45), rgba(255,255,255,.14));
+    }
   </style>
 
-  {# Animation marquee — override nécessaire car Tailwind CDN peut ne pas générer la classe dynamiquement #}
+  {# Animation marquee #}
   <style>
     @keyframes infinite-scroll {
       from { transform: translateX(0); }
@@ -245,21 +381,19 @@
 <body class="flex flex-col min-h-screen">
 
 {# ====================================================================== #}
-{# MARQUEE BAR — fixe, tout en haut (z-60), avant le header               #}
+{# MARQUEE BAR — fixe, tout en haut (z-60)                                #}
 {# ====================================================================== #}
 <div id="top-marquee-bar"
      class="border-b border-white/5 bg-[#08080a]/95 backdrop-blur-sm"
      style="height: var(--marquee-h);">
 
-  {# Masques dégradé bords gauche/droit #}
   <div class="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-[#08080a] to-transparent z-10 pointer-events-none"></div>
   <div class="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-[#08080a] to-transparent z-10 pointer-events-none"></div>
 
-  {# Conteneur animé — overflow caché par le parent #}
   <div class="flex h-full items-center overflow-hidden">
     <div class="flex w-max animate-infinite-scroll hover\:pause">
 
-      {# GROUPE 1 — Original #}
+      {# GROUPE 1 #}
       <div class="flex items-center gap-10 px-6">
         <div class="flex items-center gap-2.5">
           <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400">
@@ -283,7 +417,7 @@
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
         <div class="flex items-center gap-2.5">
           <div class="p-1.5 bg-yellow-500/10 rounded-lg text-yellow-400">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-8.3h6l-.25-1.84h0l-.04-.12-.09-.27-.14-.29-.2-.29-.25-.29-.28-.27-.32-.26-.34-.24-.34-.2-.36-.17-.37-.15-.36-.11-.37-.08-.34-.05h-.68l-.34.05-.37.08-.36.11-.37.15-.36.17-.34.2-.34.24-.32.26-.28.27-.25.29-.2.29-.14.29-.09.27-.04.37h0l-.25 1.84h6l.25-1.84h0l.04-.12.09-.27.14-.29.2-.29.25-.29.28-.27.32-.26.34-.24.34-.2.36-.17.37-.15.36-.11.37-.08.34-.05h.68l.34.05.37.08.36.11.37.15.36.17.34.2.34.24.32.26.28.27.25.29.2.29.14.29.09.27.04.37h0l.25-1.84h-6zm-3 8.3c-1.28 0-2.31 1.03-2.31 2.31s1.03 2.31 2.31 2.31 2.31-1.03 2.31-2.31-1.03-2.31-2.31-2.31zm9.4 6.95l-.06-.01h-8.16v8.3h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h6l-.25 1.84h0l-.04.12-.09.27-.14.29-.2.29-.25.29-.28.27-.32.26-.34.24-.34.2-.36.17-.37.15-.36.11-.37.08-.34.05h-.68l-.34-.05-.37-.08-.36-.11-.37-.15-.36-.17-.34-.2-.34-.24-.32-.26-.28-.27-.25-.29-.2-.29-.14-.29-.09-.27-.04-.37h0l-.25-1.84h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h8.16v-3.06h-5.42l.21.03.28.07.32.12.35.18.36.26.36.36.35.46.32.59.28.73.21.88.14 1.05.05 1.23-.06 1.22-.16 1.04-.24.87-.32.71-.36.57-.4.44-.42.33-.42.24-.4.16-.36.1-.32.05-.24.01h-.16z"/></svg>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-8.3h6l-.25-1.84h0z"/></svg>
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">Python</div>
@@ -333,7 +467,7 @@
         <div class="w-px h-6 bg-white/10 shrink-0 mx-2"></div>
       </div>
 
-      {# GROUPE 2 — Duplication exacte pour la boucle infinie #}
+      {# GROUPE 2 — Duplication pour boucle infinie #}
       <div class="flex items-center gap-10 px-6" aria-hidden="true">
         <div class="flex items-center gap-2.5">
           <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400">
@@ -357,7 +491,7 @@
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
         <div class="flex items-center gap-2.5">
           <div class="p-1.5 bg-yellow-500/10 rounded-lg text-yellow-400">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-8.3h6l-.25-1.84h0l-.04-.12-.09-.27-.14-.29-.2-.29-.25-.29-.28-.27-.32-.26-.34-.24-.34-.2-.36-.17-.37-.15-.36-.11-.37-.08-.34-.05h-.68l-.34.05-.37.08-.36.11-.37.15-.36.17-.34.2-.34.24-.32.26-.28.27-.25.29-.2.29-.14.29-.09.27-.04.37h0l-.25 1.84h6l.25-1.84h0l.04-.12.09-.27.14-.29.2-.29.25-.29.28-.27.32-.26.34-.24.34-.2.36-.17.37-.15.36-.11.37-.08.34-.05h.68l.34.05.37.08.36.11.37.15.36.17.34.2.34.24.32.26.28.27.25.29.2.29.14.29.09.27.04.37h0l.25-1.84h-6zm-3 8.3c-1.28 0-2.31 1.03-2.31 2.31s1.03 2.31 2.31 2.31 2.31-1.03 2.31-2.31-1.03-2.31-2.31-2.31zm9.4 6.95l-.06-.01h-8.16v8.3h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h6l-.25 1.84h0l-.04.12-.09.27-.14.29-.2.29-.25.29-.28.27-.32.26-.34.24-.34.2-.36.17-.37.15-.36.11-.37.08-.34.05h-.68l-.34-.05-.37-.08-.36-.11-.37-.15-.36-.17-.34-.2-.34-.24-.32-.26-.28-.27-.25-.29-.2-.29-.14-.29-.09-.27-.04-.37h0l-.25-1.84h-6l.25 1.84h0l.04.12.09.27.14.29.2.29.25.29.28.27.32.26.34.24.34.2.36.17.37.15.36.11.37.08.34.05h.68l.34-.05.37-.08.36-.11.37-.15.36-.17.34-.2.34-.24.32-.26.28-.27.25-.29.2-.29.14-.29.09-.27.04-.37h0l.25-1.84h8.16v-3.06h-5.42l.21.03.28.07.32.12.35.18.36.26.36.36.35.46.32.59.28.73.21.88.14 1.05.05 1.23-.06 1.22-.16 1.04-.24.87-.32.71-.36.57-.4.44-.42.33-.42.24-.4.16-.36.1-.32.05-.24.01h-.16z"/></svg>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-8.3h6l-.25-1.84h0z"/></svg>
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">Python</div>
@@ -412,7 +546,7 @@
 </div>
 
 {# ====================================================================== #}
-{# HEADER — position: fixed, top décalé sous la barre marquee              #}
+{# HEADER                                                                  #}
 {# ====================================================================== #}
 <header id="site-header"
         class="fixed left-0 right-0 z-50 border-b border-transparent backdrop-blur-md"
@@ -426,7 +560,6 @@
       <div class="w-10 h-10 rounded-xl bg-accent text-dark flex items-center justify-center font-display font-bold text-xl
                   group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-accent/20 leading-none"
            aria-hidden="true">H</div>
-
       <span class="font-display font-bold text-xl tracking-wide text-white hidden sm:block">
         Horus<span class="text-muted font-normal text-base"> Global Service</span>
       </span>
@@ -493,7 +626,7 @@
       </a>
     </nav>
 
-    {# Desktop actions #}
+    {# Desktop CTA #}
     <div class="hidden md:flex items-center gap-5">
       <a href="{% url 'contact' %}"
          class="flex items-center gap-2 px-5 py-2.5 text-sm font-display font-bold text-dark bg-accent rounded-xl
@@ -507,138 +640,177 @@
       </a>
     </div>
     {% endwith %}
+
     {# Mobile burger #}
     <button id="burger-btn"
-            class="md:hidden flex flex-col gap-1.5 p-3 rounded-xl hover:bg-white/5 transition-colors relative z-50 border border-transparent hover:border-white/10"
+            class="md:hidden group flex flex-col gap-1.5 p-3 rounded-xl
+                   bg-white/0 hover:bg-white/5
+                   border border-white/10 hover:border-white/20
+                   transition-all duration-200
+                   relative z-50"
             aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
-      <span class="burger-bar w-6 h-0.5 bg-accent origin-center"></span>
-      <span class="burger-bar w-6 h-0.5 bg-accent origin-center"></span>
-      <span class="burger-bar w-4 ml-auto h-0.5 bg-accent origin-center"></span>
+      <span class="burger-bar w-6 h-0.5 rounded-full bg-white/80 group-hover:bg-white"></span>
+      <span class="burger-bar w-6 h-0.5 rounded-full bg-white/60 group-hover:bg-white"></span>
+      <span class="burger-bar w-4 ml-auto h-0.5 rounded-full bg-accent"></span>
     </button>
+
   </div>
 
-  {# Mobile menu — top positionné après header+marquee #}
+  {# ================================================================ #}
+  {# MOBILE MENU #}
+  {# ================================================================ #}
   <div id="mobile-menu"
-       class="md:hidden absolute left-0 right-0 z-50 overflow-hidden pb-8 pt-4
-              bg-[#16161d]/98 backdrop-blur-2xl border-b border-white/20 ring-1 ring-white/10
-              shadow-[0_30px_80px_-30px_rgba(0,0,0,.85)]"
-       style="top: calc(var(--header-h) - 1px);"
-       aria-hidden="true">
+     class="md:hidden absolute left-0 right-0 z-50 overflow-hidden pb-8
+            border-b border-white/10
+            shadow-[0_40px_80px_rgba(0,0,0,0.95)]"
+     style="top: calc(var(--header-h) - 1px);"
+     aria-hidden="true">
 
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-white/6 via-white/2 to-transparent"></div>
-    <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+    {# Liseré accent en haut du menu #}
+    <div class="h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent mb-2"></div>
 
     {% with url_name=request.resolver_match.url_name %}
-    <nav class="flex flex-col px-6 gap-3" aria-label="Navigation mobile">
+    <nav class="flex flex-col px-4 pt-2 gap-1" aria-label="Navigation mobile">
 
+      {# ---- Home ---- #}
       <a href="{% url 'home' %}"
-         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'home' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+         class="group flex items-center gap-4 px-3 py-3 rounded-2xl border transition-all
+                {% if url_name == 'home' %}nav-item-active{% else %}border-transparent hover:bg-white/[0.06] hover:border-white/10{% endif %}">
+        <div class="nav-icon w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border transition-transform group-hover:scale-105">
+          <svg class="w-5 h-5 {% if url_name == 'home' %}text-accent{% else %}text-gray-300{% endif %}"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                   d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
           </svg>
         </div>
-        <div>
-          <span class="block text-lg font-bold {% if url_name == 'home' %}text-white{% else %}text-gray-200{% endif %}">Home</span>
-          <span class="text-xs text-gray-500">Vue d'ensemble</span>
+        <div class="flex-1 min-w-0">
+          <span class="block text-[15px] font-bold {% if url_name == 'home' %}text-white{% else %}text-gray-100{% endif %} leading-snug">Home</span>
+          <span class="block text-xs text-gray-400 mt-0.5">Vue d'ensemble</span>
         </div>
+        {% if url_name == 'home' %}
+          <div class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
+        {% endif %}
       </a>
 
+      {# ---- Projets ---- #}
       <a href="{% url 'portfolio' %}"
-         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'portfolio' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+         class="group flex items-center gap-4 px-3 py-3 rounded-2xl border transition-all
+                {% if url_name == 'portfolio' %}nav-item-active{% else %}border-transparent hover:bg-white/[0.06] hover:border-white/10{% endif %}">
+        <div class="nav-icon w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border transition-transform group-hover:scale-105">
+          <svg class="w-5 h-5 {% if url_name == 'portfolio' %}text-accent{% else %}text-gray-300{% endif %}"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                   d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
           </svg>
         </div>
-        <div>
-          <span class="block text-lg font-bold {% if url_name == 'portfolio' %}text-white{% else %}text-gray-200{% endif %}">Projects</span>
-          <span class="text-xs text-gray-500">Case studies & portfolio</span>
+        <div class="flex-1 min-w-0">
+          <span class="block text-[15px] font-bold {% if url_name == 'portfolio' %}text-white{% else %}text-gray-100{% endif %} leading-snug">Projets</span>
+          <span class="block text-xs text-gray-400 mt-0.5">Case studies & portfolio</span>
         </div>
+        {% if url_name == 'portfolio' %}
+          <div class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
+        {% endif %}
       </a>
 
+      {# ---- Services ---- #}
       <a href="{% url 'services' %}"
-         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'services' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+         class="group flex items-center gap-4 px-3 py-3 rounded-2xl border transition-all
+                {% if url_name == 'services' %}nav-item-active{% else %}border-transparent hover:bg-white/[0.06] hover:border-white/10{% endif %}">
+        <div class="nav-icon w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border transition-transform group-hover:scale-105">
+          <svg class="w-5 h-5 {% if url_name == 'services' %}text-accent{% else %}text-gray-300{% endif %}"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                   d="M13 10V3L4 14h7v7l9-11h-7z"/>
           </svg>
         </div>
-        <div>
-          <span class="block text-lg font-bold {% if url_name == 'services' %}text-white{% else %}text-gray-200{% endif %}">Services</span>
-          <span class="text-xs text-gray-500">Ce que je livre</span>
+        <div class="flex-1 min-w-0">
+          <span class="block text-[15px] font-bold {% if url_name == 'services' %}text-white{% else %}text-gray-100{% endif %} leading-snug">Services</span>
+          <span class="block text-xs text-gray-400 mt-0.5">Ce que je livre</span>
         </div>
+        {% if url_name == 'services' %}
+          <div class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
+        {% endif %}
       </a>
 
+      {# ---- Stack ---- #}
       <a href="{% url 'skills' %}"
-         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'skills' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+         class="group flex items-center gap-4 px-3 py-3 rounded-2xl border transition-all
+                {% if url_name == 'skills' %}nav-item-active{% else %}border-transparent hover:bg-white/[0.06] hover:border-white/10{% endif %}">
+        <div class="nav-icon w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border transition-transform group-hover:scale-105">
+          <svg class="w-5 h-5 {% if url_name == 'skills' %}text-accent{% else %}text-gray-300{% endif %}"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                   d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
           </svg>
         </div>
-        <div>
-          <span class="block text-lg font-bold {% if url_name == 'skills' %}text-white{% else %}text-gray-200{% endif %}">Stack</span>
-          <span class="text-xs text-gray-500">Outils & technologies</span>
+        <div class="flex-1 min-w-0">
+          <span class="block text-[15px] font-bold {% if url_name == 'skills' %}text-white{% else %}text-gray-100{% endif %} leading-snug">Stack</span>
+          <span class="block text-xs text-gray-400 mt-0.5">Outils & technologies</span>
         </div>
+        {% if url_name == 'skills' %}
+          <div class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
+        {% endif %}
       </a>
 
+      {# ---- Blog ---- #}
       <a href="{% url 'blog' %}"
-         class="group flex items-center gap-4 p-3 rounded-2xl transition-all {% if url_name == 'blog' %}bg-white/10 border border-white/10{% else %}hover:bg-white/5 border border-transparent{% endif %}">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white border border-white/5 shadow-inner group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+         class="group flex items-center gap-4 px-3 py-3 rounded-2xl border transition-all
+                {% if url_name == 'blog' %}nav-item-active{% else %}border-transparent hover:bg-white/[0.06] hover:border-white/10{% endif %}">
+        <div class="nav-icon w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border transition-transform group-hover:scale-105">
+          <svg class="w-5 h-5 {% if url_name == 'blog' %}text-accent{% else %}text-gray-300{% endif %}"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                   d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
           </svg>
         </div>
-        <div>
-          <span class="block text-lg font-bold {% if url_name == 'blog' %}text-white{% else %}text-gray-200{% endif %}">Blog</span>
-          <span class="text-xs text-gray-500">Articles & tutoriels</span>
+        <div class="flex-1 min-w-0">
+          <span class="block text-[15px] font-bold {% if url_name == 'blog' %}text-white{% else %}text-gray-100{% endif %} leading-snug">Blog</span>
+          <span class="block text-xs text-gray-400 mt-0.5">Articles & tutoriels</span>
         </div>
+        {% if url_name == 'blog' %}
+          <div class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
+        {% endif %}
       </a>
 
-      <div class="mt-6 pt-6 border-t border-white/10 flex flex-col gap-4">
+      {# ---- CTA Contact ---- #}
+      <div class="mt-3 pt-4 border-t border-white/10 px-1">
         <a href="{% url 'contact' %}"
-           class="py-4 px-6 text-lg font-display font-bold text-dark bg-accent rounded-xl text-center shadow-lg shadow-accent/10 flex items-center justify-center gap-3">
-          <span>Me contacter</span>
+           class="flex items-center justify-center gap-3 w-full py-3.5 px-6 text-[15px] font-display font-bold
+                  text-dark bg-accent rounded-xl text-center shadow-lg
+                  hover:bg-white active:scale-95 transition-all">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
           </svg>
+          <span>Me contacter</span>
         </a>
       </div>
 
     </nav>
     {% endwith %}
 
-  {# Overlay (rend le menu nettement plus lisible) #}
-  <div id="mobile-overlay"
-       class="md:hidden fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300"
-       aria-hidden="true"></div>
+  </div>{# /mobile-menu #}
+
 </header>
+{# overlay EN DEHORS du <header>, au niveau du body #}
+<div id="mobile-overlay"
+     class="md:hidden fixed inset-0 z-40 bg-black/70 transition-opacity duration-300 opacity-0 pointer-events-none"
+     aria-hidden="true"></div>
 
 {# ====================================================================== #}
-{# SPACER — compense marquee (54px) + gap (25px) + header (70px) = 149px total #}
+{# SPACER (REMPLACÉ PAR padding-top SUR <main>)                             #}
 {# ====================================================================== #}
-<div style="height: calc(var(--marquee-h) + var(--gap) + var(--header-h));"></div>
 
 {# ====================================================================== #}
 {# MAIN                                                                    #}
 {# ====================================================================== #}
-<main class="flex-1 w-full relative isolate">
+<main class="flex-1 w-full relative isolate" style="padding-top: calc(var(--header-top) + var(--header-h));">
 
-    {# --- BACKGROUND DÉCORATIF (clean + perf) --- #}
+    {# Background décoratif #}
     <div aria-hidden="true" class="pointer-events-none">
-      {# Grille #}
-      <div class="absolute inset-0 -z-20 bg-[#08080a]
+      <div class="fixed inset-0 -z-20 bg-[#08080a]
                   bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]
                   bg-[size:24px_24px]"></div>
-
-      {# Halos #}
       <div class="fixed inset-0 -z-10 mix-blend-screen">
         <div class="absolute -top-24 -left-24 h-[820px] w-[820px]
                     rounded-full bg-blue-500/10 blur-[140px]
@@ -649,11 +821,11 @@
       </div>
     </div>
 
-    {# --- TOASTS NOTIFICATIONS --- #}
+    {# Toasts #}
     {% if messages %}
         <div id="toast-container"
              class="fixed z-[100] space-y-4 max-w-sm w-full sm:w-96 px-4 sm:px-0"
-             style="top: calc(var(--marquee-h) + var(--header-h) + 1rem); right: 1rem;"
+             style="top: calc(var(--header-top) + var(--header-h) + 1rem); right: 1rem;"
              role="alert" aria-live="polite">
             {% for message in messages %}
                 <div class="toast group flex items-start gap-4 p-4 rounded-xl shadow-2xl animate-slide-in backdrop-blur-md border border-white/10
@@ -661,7 +833,6 @@
                             {% elif message.tags == 'error' %}   bg-red-950/30 border-l-4 border-l-red-500
                             {% elif message.tags == 'warning' %} bg-yellow-950/30 border-l-4 border-l-yellow-500
                             {% else %}                           bg-[#16161a]/80 border-l-4 border-l-blue-500 {% endif %}">
-
                     <div class="shrink-0 mt-0.5">
                         {% if message.tags == 'success' %}
                             <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -673,30 +844,46 @@
                             <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         {% endif %}
                     </div>
-
                     <div class="flex-1">
                         <p class="text-sm font-medium text-white leading-snug">{{ message }}</p>
                     </div>
-
-                    <button onclick="this.closest('.toast').remove()"
-                            class="text-gray-500 hover:text-white transition-colors p-1 rounded-md hover:bg-white/10 -m-1"
+                    <button type="button" data-toast-close class="text-gray-500 hover:text-white transition-colors p-1 rounded-md hover:bg-white/10 -m-1"
                             aria-label="Fermer la notification">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
             {% endfor %}
         </div>
-
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const toasts = document.querySelectorAll('.toast');
-                toasts.forEach((t, i) => {
+                const container = document.getElementById('toast-container');
+                if (!container) return;
+
+                const dismiss = (toast) => {
+                    if (!toast) return;
+                    toast.style.transition = 'all 0.5s ease-in-out';
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(100%)';
                     setTimeout(() => {
-                        t.style.transition = 'all 0.5s ease-in-out';
-                        t.style.opacity = '0';
-                        t.style.transform = 'translateX(100%)';
-                        setTimeout(() => t.remove(), 500);
-                    }, 5000 + (i * 1000));
+                        toast.remove();
+                        if (!container.querySelector('.toast')) {
+                            container.remove();
+                        }
+                    }, 500);
+                };
+
+                // Auto-dismiss
+                const toasts = container.querySelectorAll('.toast');
+                toasts.forEach((t, i) => {
+                    setTimeout(() => dismiss(t), 5000 + (i * 1000));
+                });
+
+                // Manual close (button)
+                container.addEventListener('click', (e) => {
+                    const btn = e.target.closest('[data-toast-close]');
+                    if (!btn) return;
+                    const toast = btn.closest('.toast');
+                    dismiss(toast);
                 });
             });
         </script>
@@ -823,89 +1010,140 @@
 </footer>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    /**
+ * Script de Navigation Premium - 2026
+ * Gère le header dynamique, le menu mobile et l'accessibilité.
+ */
+document.addEventListener('DOMContentLoaded', () => {
 
-        // --- 1. Header Scroll Effect ---
-        const header = document.getElementById('site-header');
-        let ticking = false;
+    // --- 1. CONFIGURATION & ÉLÉMENTS ---
+    const header  = document.getElementById('site-header');
+    const btn     = document.getElementById('burger-btn');
+    const menu    = document.getElementById('mobile-menu');
+    const overlay = document.getElementById('mobile-overlay');
+    const body    = document.body;
 
-        const updateHeader = () => {
-            if (window.scrollY > 20) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            ticking = false;
-        };
+    if (!header || !btn || !menu || !overlay) {
+        console.warn("Éléments de navigation manquants dans le DOM.");
+        return;
+    }
 
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(updateHeader);
-                ticking = true;
-            }
-        }, { passive: true });
+    let isMenuOpen = false;
+    let lastScrollY = window.scrollY;
+    let ticking = false;
 
-        updateHeader();
+    // --- 2. HEADER SCROLL EFFECT (Performances via RequestAnimationFrame) ---
+    const updateHeader = () => {
+        // On utilise 20px comme seuil pour le changement d'apparence
+        if (window.scrollY > 20) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    }, { passive: true });
 
 
-        // --- 2. Mobile Menu Logic ---
-        const btn     = document.getElementById('burger-btn');
-        const menu    = document.getElementById('mobile-menu');
-        const overlay = document.getElementById('mobile-overlay');
-        const body    = document.body;
+    // --- 3. GESTION DU MENU MOBILE ---
+    const openMenu = () => {
+        isMenuOpen = true;
 
-        if (!btn || !menu) return;
+        // États visuels et ARIA
+        btn.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+        menu.classList.add('open');
+        btn.classList.add('active');
+        body.classList.add('menu-open');
 
-        let isMenuOpen = false;
+        // Verrouillage du scroll
+        body.style.overflow = 'hidden';
+        body.style.touchAction = 'none'; // Empêche le bounce iOS
 
-        const toggleMenu = (forceClose = false) => {
-            isMenuOpen = forceClose ? false : !isMenuOpen;
+        // Overlay (Tailwind classes)
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        overlay.classList.add('opacity-100');
+        overlay.style.pointerEvents = 'auto';
 
-            btn.setAttribute('aria-expanded', isMenuOpen);
-            menu.setAttribute('aria-hidden', !isMenuOpen);
+        // Focus management (optionnel mais recommandé)
+        setTimeout(() => menu.querySelector('a')?.focus(), 100);
+    };
 
-            if (isMenuOpen) {
-                menu.classList.add('open');
-                btn.classList.add('active');
-                body.style.overflow = 'hidden';
-                overlay?.classList.remove('opacity-0', 'pointer-events-none');
-                overlay?.classList.add('opacity-100');
-            } else {
-                menu.classList.remove('open');
-                btn.classList.remove('active');
-                body.style.overflow = '';
-                overlay?.classList.add('opacity-0', 'pointer-events-none');
-                overlay?.classList.remove('opacity-100');
-            }
-        };
+    const closeMenu = () => {
+        isMenuOpen = false;
 
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleMenu();
-        });
+        btn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        menu.classList.remove('open');
+        btn.classList.remove('active');
+        body.classList.remove('menu-open');
 
-        overlay?.addEventListener('click', () => {
-            toggleMenu(true);
-        });
+        // Déverrouillage du scroll
+        body.style.overflow = '';
+        body.style.touchAction = '';
 
-        menu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => toggleMenu(true));
-        });
+        // Overlay
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        overlay.classList.remove('opacity-100');
+        overlay.style.pointerEvents = 'none';
+    };
 
-        document.addEventListener('click', (e) => {
-            if (isMenuOpen && !menu.contains(e.target) && !btn.contains(e.target)) {
-                toggleMenu(true);
-            }
-        });
+    // Toggle au clic sur le bouton burger
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isMenuOpen ? closeMenu() : openMenu();
+    });
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && isMenuOpen) {
-                toggleMenu(true);
-                btn.focus();
-            }
+    // Fermeture au clic sur l'overlay
+    overlay.addEventListener('click', closeMenu);
+
+    // --- 4. SÉCURITÉ ET UX ---
+
+    // Fermeture automatique si on redimensionne l'écran (passage en Desktop)
+    const mq = window.matchMedia('(min-width: 768px)');
+    mq.addEventListener('change', (e) => {
+        if (e.matches && isMenuOpen) closeMenu();
+    });
+
+    // Fermeture au clic sur un lien (utile pour les ancres ID)
+    menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            // Petit délai pour laisser l'animation de clic se voir
+            setTimeout(closeMenu, 150);
         });
     });
+
+    // Fermeture via la touche Échap
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isMenuOpen) {
+            closeMenu();
+            btn.focus();
+        }
+    });
+
+    // Empêcher les interactions avec l'overlay pendant l'ouverture
+    const preventScrollIntent = (e) => {
+        if (isMenuOpen) {
+            if (e.target === overlay) {
+                e.preventDefault();
+                closeMenu();
+            }
+        }
+    };
+    overlay.addEventListener('wheel', preventScrollIntent, { passive: false });
+    overlay.addEventListener('touchmove', preventScrollIntent, { passive: false });
+
+    // Initialisation au chargement
+    updateHeader();
+});
 </script>
 
-</body>
+  </body>
+
 </html>

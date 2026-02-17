@@ -1,7 +1,9 @@
-# config/settings.py
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -45,9 +47,11 @@ CSRF_TRUSTED_ORIGINS = _csv(
 # ------------------------------------------------------------
 # Apps
 # ------------------------------------------------------------
-AUTH_USER_MODEL = "core.CustomUser"
 
 INSTALLED_APPS = [
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -100,7 +104,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # - Dev: SQLite par défaut (simple)
 # - Prod: PostgreSQL
-# - Tu peux forcer Postgres en dev en mettant DB_ENGINE=django.db.backends.postgresql
+# - forcer Postgres en dev en mettant DB_ENGINE=django.db.backends.postgresql
 # ------------------------------------------------------------
 DB_ENGINE = os.getenv("DB_ENGINE", "").strip()
 
@@ -133,6 +137,50 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
+UNFOLD = {
+    "SITE_TITLE": "Horus Global Admin",
+    "SITE_HEADER": "Horus Global Service",
+    "SITE_SYMBOL": "speed",
+
+    "COLORS": {
+        "primary": {
+            "50": "236, 253, 245",
+            "100": "209, 250, 229",
+            "200": "167, 243, 208",
+            "300": "110, 231, 183",
+            "400": "52, 211, 153",
+            "500": "16, 185, 129",
+            "600": "5, 150, 105",
+            "700": "4, 120, 87",
+            "800": "6, 95, 70",
+            "900": "4, 63, 48",
+            "950": "2, 44, 34",
+        }
+    },
+
+    "DASHBOARD_CALLBACK": "core.unfold_callbacks.dashboard_callback",
+
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": _("Navigation"),
+                "separator": True,
+                "items": [
+                    {
+                        "title": _("Vue d'ensemble"),
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:index"),
+                        "badge": "core.unfold_callbacks.unread_contacts_badge",
+                        "badge_variant": "warning",
+                        "badge_style": "solid",
+                    },
+                ],
+            },
+        ],
+    },
+}
 
 # ------------------------------------------------------------
 # i18n
@@ -181,9 +229,9 @@ PUBLIC_EMAIL = os.getenv("PUBLIC_EMAIL", "bambadisala@gmail.com")
 # ------------------------------------------------------------
 WHATSAPP_URL = os.getenv("WHATSAPP_URL", "https://wa.me/221773409658")
 GITHUB_URL = os.getenv("GITHUB_URL", "https://github.com/bamba9928")
-LINKEDIN_URL = os.getenv("LINKEDIN_URL", "https://linkedin.com/in/...")
-FACEBOOK_URL = os.getenv("FACEBOOK_URL", "https://facebook.com/...")
-X_URL = os.getenv("X_URL", "https://x.com/...")
+LINKEDIN_URL = os.getenv("LINKEDIN_URL", "https://www.linkedin.com/in/horusglobalservices/")
+FACEBOOK_URL = os.getenv("FACEBOOK_URL", "https://www.facebook.com/dieng.sala.47647")
+X_URL = os.getenv("X_URL", "https://x.com/horuservices")
 
 # ------------------------------------------------------------
 # Logging
@@ -302,3 +350,4 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024      # 10 MB
 # Sites framework
 # ------------------------------------------------------------
 SITE_ID = int(os.getenv("SITE_ID", "1"))
+AUTH_USER_MODEL = "core.CustomUser"
