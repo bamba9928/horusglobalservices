@@ -1,20 +1,40 @@
+# ------------------------------------------------------------
+# Mouhamadou Bamba Dieng 2026
+# ------------------------------------------------------------
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
-
+# ------------------------------------------------------------
+# Base / .env
+# ------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Charger .env
 load_dotenv(BASE_DIR / ".env")
+
+# ------------------------------------------------------------
+# Helpers
+# ------------------------------------------------------------
+def env_bool(name: str, default: str = "False") -> bool:
+    return os.getenv(name, default).strip().lower() in ("1", "true", "yes", "on")
+
+
+def env_int(name: str, default: str) -> int:
+    return int(os.getenv(name, default))
+
+
+def env_csv(name: str, default: str = "") -> list[str]:
+    raw = os.getenv(name, default).strip()
+    return [x.strip() for x in raw.split(",") if x.strip()]
+
 
 # ------------------------------------------------------------
 # ENV / DEBUG
 # ------------------------------------------------------------
 ENV = os.getenv("ENV", "dev").lower()  # dev | prod
-DEBUG = os.getenv("DEBUG", "False").strip().lower() in ("1", "true", "yes", "on")
+DEBUG = env_bool("DEBUG", "False")
 IS_PROD = (ENV == "prod") and (not DEBUG)
 
 # ------------------------------------------------------------
@@ -30,28 +50,37 @@ if not SECRET_KEY:
 # ------------------------------------------------------------
 # Hosts / CSRF
 # ------------------------------------------------------------
-def _csv(name: str, default: str = ""):
-    raw = os.getenv(name, default).strip()
-    return [x.strip() for x in raw.split(",") if x.strip()]
-
-ALLOWED_HOSTS = _csv(
+ALLOWED_HOSTS = env_csv(
     "ALLOWED_HOSTS",
-    default="127.0.0.1,localhost,horuservices.cloud,www.horuservices.cloud",
+    "127.0.0.1,localhost,horuservices.cloud,www.horuservices.cloud",
 )
 
-CSRF_TRUSTED_ORIGINS = _csv(
+CSRF_TRUSTED_ORIGINS = env_csv(
     "CSRF_TRUSTED_ORIGINS",
-    default="https://horuservices.cloud,https://www.horuservices.cloud",
+    "https://horuservices.cloud,https://www.horuservices.cloud",
 )
+
+# ------------------------------------------------------------
+# Core Django
+# ------------------------------------------------------------
+ROOT_URLCONF = "config.urls"
+WSGI_APPLICATION = "config.wsgi.application"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LANGUAGE_CODE = "fr-fr"
+TIME_ZONE = "Africa/Dakar"
+USE_I18N = True
+USE_TZ = True
 
 # ------------------------------------------------------------
 # Apps
 # ------------------------------------------------------------
-
 INSTALLED_APPS = [
+    # Admin UI
     "unfold",
     "unfold.contrib.filters",
     "unfold.contrib.forms",
+    # Django
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -60,8 +89,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.sitemaps",
+    # Rich text
     "ckeditor",
     "ckeditor_uploader",
+    # Project
     "core",
 ]
 
@@ -79,8 +110,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "config.urls"
-
+# ------------------------------------------------------------
+# Templates
+# ------------------------------------------------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -95,20 +127,22 @@ TEMPLATES = [
                 "core.context_processors.global_settings",
             ],
         },
-    },
+    }
 ]
-
-WSGI_APPLICATION = "config.wsgi.application"
-
 # ------------------------------------------------------------
 # Database
-# - Dev: SQLite par défaut (simple)
-# - Prod: PostgreSQL
-# - forcer Postgres en dev en mettant DB_ENGINE=django.db.backends.postgresql
+# - Dev: SQLite par défaut (si DB_ENGINE vide)
+# - Prod: PostgreSQL (ou forcer via DB_ENGINE)
+# - Check prod: refuse si credentials DB manquants
 # ------------------------------------------------------------
 DB_ENGINE = os.getenv("DB_ENGINE", "").strip()
 
-if (not DB_ENGINE and not IS_PROD) or (DB_ENGINE == "django.db.backends.sqlite3"):
+USE_SQLITE = (
+    (not DB_ENGINE and not IS_PROD)
+    or DB_ENGINE == "django.db.backends.sqlite3"
+)
+
+if USE_SQLITE:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -116,110 +150,80 @@ if (not DB_ENGINE and not IS_PROD) or (DB_ENGINE == "django.db.backends.sqlite3"
         }
     }
 else:
+    DB_NAME = os.getenv("DB_NAME", "horuservices")
+    DB_USER = os.getenv("DB_USER", "").strip()
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "").strip()
+    DB_HOST = os.getenv("DB_HOST", "localhost").strip()
+    DB_PORT = os.getenv("DB_PORT", "5432").strip()
+
+    # Check "prod" : credentials obligatoires
+    if IS_PROD:
+        missing = []
+        if not DB_USER:
+            missing.append("DB_USER")
+        if not DB_PASSWORD:
+            missing.append("DB_PASSWORD")
+        if not DB_HOST:
+            missing.append("DB_HOST")
+        if not DB_NAME:
+            missing.append("DB_NAME")
+
+        if missing:
+            raise ValueError(
+                "Configuration DB incomplète en production (ENV=prod, DEBUG=False). "
+                f"Variables manquantes/vides: {', '.join(missing)}"
+            )
+
     DATABASES = {
         "default": {
             "ENGINE": DB_ENGINE or "django.db.backends.postgresql",
-            "NAME": os.getenv("DB_NAME", "horuservices"),
-            "USER": os.getenv("DB_USER", ""),
-            "PASSWORD": os.getenv("DB_PASSWORD", ""),
-            "HOST": os.getenv("DB_HOST", "localhost"),
-            "PORT": os.getenv("DB_PORT", "5432"),
+            "NAME": DB_NAME,
+            "USER": DB_USER,
+            "PASSWORD": DB_PASSWORD,
+            "HOST": DB_HOST,
+            "PORT": DB_PORT,
             "CONN_MAX_AGE": int(os.getenv("DB_CONN_MAX_AGE", "60")),
         }
     }
 
 # ------------------------------------------------------------
-# Password validation
+# Auth / Sites
 # ------------------------------------------------------------
+AUTH_USER_MODEL = "core.CustomUser"
+SITE_ID = env_int("SITE_ID", "1")
+
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
-UNFOLD = {
-    "SITE_TITLE": "Horus Global Admin",
-    "SITE_HEADER": "Horus Global Service",
-    "SITE_SYMBOL": "speed",
-
-    "COLORS": {
-        "primary": {
-            "50": "236, 253, 245",
-            "100": "209, 250, 229",
-            "200": "167, 243, 208",
-            "300": "110, 231, 183",
-            "400": "52, 211, 153",
-            "500": "16, 185, 129",
-            "600": "5, 150, 105",
-            "700": "4, 120, 87",
-            "800": "6, 95, 70",
-            "900": "4, 63, 48",
-            "950": "2, 44, 34",
-        }
-    },
-
-    "DASHBOARD_CALLBACK": "core.unfold_callbacks.dashboard_callback",
-
-    "SIDEBAR": {
-        "show_search": True,
-        "show_all_applications": True,
-        "navigation": [
-            {
-                "title": _("Navigation"),
-                "separator": True,
-                "items": [
-                    {
-                        "title": _("Vue d'ensemble"),
-                        "icon": "dashboard",
-                        "link": reverse_lazy("admin:index"),
-                        "badge": "core.unfold_callbacks.unread_contacts_badge",
-                        "badge_variant": "warning",
-                        "badge_style": "solid",
-                    },
-                ],
-            },
-        ],
-    },
-}
-
-# ------------------------------------------------------------
-# i18n
-# ------------------------------------------------------------
-LANGUAGE_CODE = "fr-fr"
-TIME_ZONE = "Africa/Dakar"
-USE_I18N = True
-USE_TZ = True
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # ------------------------------------------------------------
 # Static / Media
 # ------------------------------------------------------------
 STATIC_URL = "/static/"
-MEDIA_URL = "/media/"
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = []
-STATIC_DIR = BASE_DIR / "static"
-if STATIC_DIR.exists():
-    STATICFILES_DIRS.append(STATIC_DIR)
-
+STATICFILES_DIRS = [BASE_DIR / "static"] if (BASE_DIR / "static").exists() else []
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # ------------------------------------------------------------
 # Email
 # ------------------------------------------------------------
-if DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-else:
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.sendgrid.net")
-    EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
-    EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").strip().lower() in ("1", "true", "yes", "on")
-    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
-    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_BACKEND = (
+    "django.core.mail.backends.console.EmailBackend"
+    if DEBUG
+    else "django.core.mail.backends.smtp.EmailBackend"
+)
+
+EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.sendgrid.net")
+EMAIL_PORT = env_int("EMAIL_PORT", "587")
+EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", "True")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@horuservices.cloud")
 PUBLIC_EMAIL = os.getenv("PUBLIC_EMAIL", "bambadisala@gmail.com")
@@ -268,13 +272,11 @@ LOGGING = {
 }
 
 # ------------------------------------------------------------
-# Security (prod only)
+# Security (prod only) — config (sans débats)
 # ------------------------------------------------------------
 if IS_PROD:
-    # Si derrière proxy (Nginx/Cloudflare/Load balancer)
     USE_X_FORWARDED_HOST = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
     SECURE_SSL_REDIRECT = True
 
     SESSION_COOKIE_SECURE = True
@@ -287,22 +289,19 @@ if IS_PROD:
     X_FRAME_OPTIONS = "DENY"
     SECURE_REFERRER_POLICY = "same-origin"
 
-    SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS", "31536000"))
+    SECURE_HSTS_SECONDS = env_int("SECURE_HSTS_SECONDS", "31536000")
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
 # ------------------------------------------------------------
-# CKEditor
+# CKEditor (sans duplication)
 # ------------------------------------------------------------
 CKEDITOR_UPLOAD_PATH = os.getenv("CKEDITOR_UPLOAD_PATH", "uploads/")
 CKEDITOR_IMAGE_BACKEND = os.getenv("CKEDITOR_IMAGE_BACKEND", "pillow")
+CKEDITOR_ALLOW_NONIMAGE_FILES = env_bool("CKEDITOR_ALLOW_NONIMAGE_FILES", "False")
 
-# Recommandé: limiter aux images
-CKEDITOR_ALLOW_NONIMAGE_FILES = os.getenv("CKEDITOR_ALLOW_NONIMAGE_FILES", "False").strip().lower() in ("1", "true", "yes", "on")
-
-# Limites upload (optionnel)
-FILE_UPLOAD_MAX_MEMORY_SIZE = int(os.getenv("FILE_UPLOAD_MAX_MEMORY_SIZE", str(5 * 1024 * 1024)))
-DATA_UPLOAD_MAX_MEMORY_SIZE = int(os.getenv("DATA_UPLOAD_MAX_MEMORY_SIZE", str(10 * 1024 * 1024)))
+FILE_UPLOAD_MAX_MEMORY_SIZE = env_int("FILE_UPLOAD_MAX_MEMORY_SIZE", str(5 * 1024 * 1024))
+DATA_UPLOAD_MAX_MEMORY_SIZE = env_int("DATA_UPLOAD_MAX_MEMORY_SIZE", str(10 * 1024 * 1024))
 
 CKEDITOR_CONFIGS = {
     "default": {
@@ -342,12 +341,49 @@ CKEDITOR_CONFIGS = {
         ],
     }
 }
-CKEDITOR_ALLOW_NONIMAGE_FILES = False
-FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024       # 5 MB
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024      # 10 MB
 
 # ------------------------------------------------------------
-# Sites framework
+# Unfold (inchangé, juste ré-indenté proprement)
 # ------------------------------------------------------------
-SITE_ID = int(os.getenv("SITE_ID", "1"))
-AUTH_USER_MODEL = "core.CustomUser"
+UNFOLD = {
+    "SITE_TITLE": "Horus Global Admin",
+    "SITE_HEADER": "Horus Global Service",
+    "SITE_SYMBOL": "speed",
+    "COLORS": {
+        "primary": {
+            "50": "236, 253, 245",
+            "100": "209, 250, 229",
+            "200": "167, 243, 208",
+            "300": "110, 231, 183",
+            "400": "52, 211, 153",
+            "500": "16, 185, 129",
+            "600": "5, 150, 105",
+            "700": "4, 120, 87",
+            "800": "6, 95, 70",
+            "900": "4, 63, 48",
+            "950": "2, 44, 34",
+        }
+    },
+    "DASHBOARD_CALLBACK": "core.unfold_callbacks.dashboard_callback",
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": _("Navigation"),
+                "separator": True,
+                "items": [
+                    {
+                        "title": _("Vue d'ensemble"),
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:index"),
+                        "badge": "core.unfold_callbacks.unread_contacts_badge",
+                        "badge_variant": "warning",
+                        "badge_style": "solid",
+                    }
+                ],
+            }
+        ],
+    },
+}
+EMAIL_TIMEOUT = int(os.getenv("EMAIL_TIMEOUT", "20"))
