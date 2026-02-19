@@ -3,48 +3,100 @@
 <html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  {# SEO & Social Media — Horus Global Service #}
-  <title>{% block title %}Horus Global Service | Expertise Django & Python Full-Stack au Sénégal{% endblock %}</title>
-  <meta name="description" content="{% block description %}Architecte digital spécialisé Django. Nous concevons des applications métier haute performance, des APIs REST et des solutions cloud sur mesure à Dakar.{% endblock %}">
-  <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+    {# SEO Global & Métadonnées — Horus Global Services #}
+    <title>{% block title %}Horus Global Services | Ingénierie Logicielle & Transformation Digitale au Sénégal{% endblock %}</title>
+    <meta name="description" content="{% block description %}Cabinet d'ingénierie logicielle spécialisé dans la conception d'applications web et mobiles. Nous développons des solutions cloud sur mesure, des architectures haute performance et des systèmes sécurisés pour propulser votre croissance.{% endblock %}">
+    <meta name="author" content="Horus Global Services">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
 
-  {# Theme color (mobile address bar) #}
-  <meta name="theme-color" content="#08080a">
+    {# Theme color & Optimisation Mobile (PWA) #}
+    <meta name="theme-color" content="#08080a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="application-name" content="Horus Global Services">
 
-  {# Favicons #}
-  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
-  <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    {# Favicons #}
+    <link rel="icon" href="{% static 'favicon.ico' %}" sizes="any">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'android-chrome-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'android-chrome-512x512.png' %}">
 
-  {# Open Graph / Facebook / LinkedIn #}
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ request.build_absolute_uri }}">
-  <meta property="og:site_name" content="Horus Global Service">
-  <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="{% block og_title %}Horus Global Service — Solutions Web Haut de Gamme{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Expertise Python/Django au service de votre croissance. Applications robustes, scalables et sécurisées.{% endblock %}">
-  {# Image : Format recommandé 1200x630px #}
-  <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+    {# Open Graph / Facebook / LinkedIn #}
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="Horus Global Services">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="{% block og_title %}Horus Global Services — Solutions Digitales et Ingénierie Haut de Gamme{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Notre expertise en ingénierie logicielle est dédiée à l'accélération de votre croissance. Nous concevons et déployons des solutions sur mesure, garantissant des applications web hautement performantes, évolutives et d'une sécurité infaillible pour répondre aux exigences les plus strictes de votre entreprise.{% endblock %}">
+    {# Image : Format recommandé 1200x630px #}
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.png' %}{% endblock %}">
+    <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Présentation des services d'ingénierie logicielle de Horus Global Services">
 
-  {# Twitter #}
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block twitter_title %}Horus Global Service | Dev Django & Python{% endblock %}">
-  <meta name="twitter:description" content="{% block twitter_description %}Transformez vos idées en produits digitaux fiables avec un expert Full-Stack.{% endblock %}">
-  <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
-
+    {# Twitter #}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@HorusGlobal">
+    <meta name="twitter:title" content="{% block twitter_title %}Horus Global Services | Ingénierie Logicielle & Innovation{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Transformez votre vision numérique en réalité. Nous créons des applications sur mesure, robustes et évolutives pour pérenniser votre succès.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
+    <meta name="twitter:image:alt" content="Horus Global Services - Solutions Web">
 
   {# Fonts — preload pour perf #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
-  {% if debug %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Horus Global Service",
+      "description": "Cabinet d'ingénierie logicielle spécialisé dans la conception d'applications web et mobiles. Nous développons des solutions cloud sur mesure et des architectures haute performance.",
+      "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization",
+      "url": "{{ request.scheme }}://{{ request.get_host }}/",
+      "telephone": "+221 77 340 96 58",
+      "priceRange": "$$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Touba Darou Khoudoss",
+        "addressLocality": "Touba",
+        "addressRegion": "Diourbel",
+        "postalCode": "22300",
+        "addressCountry": "SN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "14.8667",
+        "longitude": "-15.8833"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/horusglobalservices/",
+        "https://x.com/horuservices",
+        "https://github.com/bamba9928"
+      ]
+    }
+    </script>
+
+  {# ------------------------------------------------------------------ #}
+  {# BUG CORRIGÉ #5 : utilisation de TEMPLATE_DEBUG (context processor) #}
+  {# au lieu de la variable `debug` non fiable en template Django        #}
+  {# ------------------------------------------------------------------ #}
+  {% if TEMPLATE_DEBUG %}
     <script>
       window.tailwind = {
         config: {
@@ -104,24 +156,30 @@
   {% endif %}
 
   <style>
-    :root{
-      --header-h:  70px;
-      --marquee-h: 54px;
-      --gap: 25px;
-      --safe-top: env(safe-area-inset-top, 0px);
+    /* ================================================================
+       ROOT — Variables CSS
+    ================================================================ */
+    :root {
+      --header-h:   70px;
+      --marquee-h:  54px;
+      --gap:        25px;
+      --safe-top:   env(safe-area-inset-top, 0px);
       --header-top: calc(var(--marquee-h) + var(--gap) + var(--safe-top));
-      --bg: #08080a;
-      --fg: #f0ece4;
-      --muted: rgba(240,236,228,.70);
-      --line: rgba(255,255,255,.08);
-      --accent: #e8e0d0;
-      --dark: #08080a;
+      --bg:         #08080a;
+      --fg:         #f0ece4;
+      --muted:      rgba(240,236,228,.70);
+      --accent:     #e8e0d0;
+      --dark:       #08080a;
     }
 
-    *{ box-sizing:border-box; }
+    /* ================================================================
+       BASE
+    ================================================================ */
+    * { box-sizing: border-box; }
 
     html { background: var(--bg); }
-    body{
+
+    body {
       font-family: 'DM Sans', sans-serif;
       background-color: var(--bg);
       color: var(--fg);
@@ -131,19 +189,21 @@
       overflow-x: clip;
     }
     @supports not (overflow: clip) {
-      body{ overflow-x:hidden; }
+      body { overflow-x: hidden; }
     }
 
-    h1,h2,h3,h4,.font-display{ font-family:'Syne', sans-serif; }
+    h1, h2, h3, h4, .font-display { font-family: 'Syne', sans-serif; }
 
-    /* Toasts: ne pas bloquer les clics quand vide */
-    #toast-container{ pointer-events:none; }
-    #toast-container .toast{ pointer-events:auto; }
+    /* ================================================================
+       TOASTS
+    ================================================================ */
+    #toast-container       { pointer-events: none; }
+    #toast-container .toast { pointer-events: auto; }
 
     /* ================================================================
        MARQUEE — barre fixe tout en haut
     ================================================================ */
-    #top-marquee-bar{
+    #top-marquee-bar {
       position: fixed;
       top: 0;
       left: 0;
@@ -156,16 +216,17 @@
     /* ================================================================
        HEADER — décalé sous la barre marquee
     ================================================================ */
-    #site-header{
+    #site-header {
       top: var(--header-top);
       transition:
-        background .35s ease,
-        border-color .35s ease,
-        box-shadow .35s ease,
+        background      .35s ease,
+        border-color    .35s ease,
+        box-shadow      .35s ease,
         backdrop-filter .35s ease;
       will-change: background, box-shadow, backdrop-filter;
     }
-    #site-header.scrolled{
+
+    #site-header.scrolled {
       background: rgba(8,8,10,.85);
       border-bottom-color: #1e1e23;
       box-shadow: 0 4px 30px rgba(0,0,0,.5);
@@ -173,100 +234,40 @@
       -webkit-backdrop-filter: blur(12px);
     }
     @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-      #site-header.scrolled{ background: rgba(8,8,10,.95); }
+      #site-header.scrolled { background: rgba(8,8,10,.95); }
     }
 
-    .nav-link{ position:relative; }
-    .nav-link::after{
-      content:'';
-      position:absolute;
-      bottom:-2px; left:0;
-      width:0; height:1px;
+    /* Underline des liens nav desktop */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
       background: var(--accent);
-      transition: width .25s cubic-bezier(.4,0,.2,1);
       opacity: .9;
+      transition: width .25s cubic-bezier(.4,0,.2,1);
     }
     .nav-link:hover::after,
-    .nav-link.active::after{ width:100%; }
+    .nav-link.active::after { width: 100%; }
 
     /* ================================================================
-   MOBILE MENU — COLORS (premium / brand)
-   ================================================================ */
-    #mobile-menu{
-      transform: translateY(-150%);
-      opacity: 0;
-      pointer-events: none;
-      transition:
-        transform .45s cubic-bezier(.16,1,.3,1),
-        opacity .25s ease;
-      will-change: transform, opacity;
-
-      /* Fond plus profond + relief (bleu nuit) */
-      background:
-        radial-gradient(800px 300px at 50% 0%,
-          rgba(59,130,246,.18),
-          transparent 55%),
-        radial-gradient(700px 300px at 80% 10%,
-          rgba(168,85,247,.12),
-          transparent 60%),
-        linear-gradient(to bottom, #0b0b10, #07070a);
-
-      /* Bordure + ring subtil */
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 30px 70px -25px rgba(0,0,0,.85);
-    }
-
-    #mobile-menu.open{
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Item actif (accent “premium”) */
-    #mobile-menu .nav-item-active{
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12) !important;
-      box-shadow: 0 0 0 1px rgba(232,224,208,.12) inset;
-    }
-
-    /* Icônes (carte sombre + lueur) */
-    #mobile-menu .nav-icon{
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow:
-        0 10px 30px -20px rgba(0,0,0,.9),
-        0 0 0 1px rgba(0,0,0,.25) inset;
-    }
-
-    /* Option: au hover, un petit boost de contraste */
-    #mobile-menu a:hover .nav-icon{
-      border-color: rgba(232,224,208,.22);
-      box-shadow:
-        0 12px 34px -22px rgba(0,0,0,.9),
-        0 0 0 1px rgba(232,224,208,.10) inset;
-    }
-
-/* ================================================================
-   BURGER — couleurs cohérentes
-   ================================================================ */
-    #burger-btn{
+       BURGER
+    ================================================================ */
+    #burger-btn {
       min-height: 44px;
-      min-width: 44px;
+      min-width:  44px;
       display: flex;
       align-items: center;
       justify-content: center;
-
       background: rgba(255,255,255,.03);
       border: 1px solid rgba(255,255,255,.10);
     }
-
-    #burger-btn:hover{
+    #burger-btn:hover {
       background: rgba(255,255,255,.06);
       border-color: rgba(255,255,255,.18);
     }
-
-    /* Quand menu ouvert: accent + halo */
-    #burger-btn.active{
+    #burger-btn.active {
       background: rgba(232,224,208,.10);
       border-color: rgba(232,224,208,.22);
       box-shadow:
@@ -274,68 +275,97 @@
         0 0 18px rgba(232,224,208,.08);
     }
 
-    /* Barres du burger (si tu veux plus clair que l’accent) */
-    #burger-btn .burger-bar{
-      background: rgba(255,255,255,.75);
-    }
-    #burger-btn .burger-bar:nth-child(3){
-      background: rgba(232,224,208,.95); /* petite signature accent */
+    #burger-btn .burger-bar                { background: rgba(255,255,255,.75); }
+    #burger-btn .burger-bar:nth-child(3)   { background: rgba(232,224,208,.95); }
+    #burger-btn.active .burger-bar         { background: rgba(232,224,208,.95); }
+
+    /* ================================================================
+       MOBILE MENU
+    ================================================================ */
+    #mobile-menu {
+      transform: translateY(-150%);
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        transform .45s cubic-bezier(.16,1,.3,1),
+        opacity   .25s ease;
+      will-change: transform, opacity;
+
+      background:
+        radial-gradient(800px 300px at 50% 0%,  rgba(59,130,246,.18),  transparent 55%),
+        radial-gradient(700px 300px at 80% 10%, rgba(168,85,247,.12), transparent 60%),
+        linear-gradient(to bottom, #0b0b10, #07070a);
+
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.85);
+
+      max-height: calc(100vh - (var(--header-top) + var(--header-h)));
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      scroll-padding-top: 1rem;
     }
 
-    /* Ouvert => tout en accent */
-    #burger-btn.active .burger-bar{
-      background: rgba(232,224,208,.95);
+    #mobile-menu.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Touch targets */
+    #mobile-menu nav a { min-height: 56px; }
+    #mobile-menu nav a:active {
+      background: rgba(255,255,255,.10) !important;
+      transform: scale(0.98);
+      transition: transform 0.1s ease;
+    }
+
+    /* Item actif */
+    #mobile-menu .nav-item-active {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12) !important;
+      box-shadow: 0 0 0 1px rgba(232,224,208,.12) inset;
+    }
+
+    /* Icônes */
+    #mobile-menu .nav-icon {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow:
+        0 10px 30px -20px rgba(0,0,0,.9),
+        0 0 0 1px rgba(0,0,0,.25) inset;
+    }
+    #mobile-menu a:hover .nav-icon {
+      border-color: rgba(232,224,208,.22);
+      box-shadow:
+        0 12px 34px -22px rgba(0,0,0,.9),
+        0 0 0 1px rgba(232,224,208,.10) inset;
     }
 
     /* ================================================================
-       OVERLAY MOBILE — plus propre + géré en classe .visible
-       ================================================================ */
-    #mobile-overlay{
+       OVERLAY MOBILE
+    ================================================================ */
+    #mobile-overlay {
       background: rgba(0,0,0,.72);
       backdrop-filter: blur(2px);
       -webkit-backdrop-filter: blur(2px);
     }
-    /* ================================================================
-       Motion safety
-       ================================================================ */
-    @media (prefers-reduced-motion: reduce){
-      #top-marquee-bar .animate-infinite-scroll,
-      #site-header,
-      #mobile-menu,
-      #burger-btn .burger-bar,
-      .nav-link::after{
-        transition: none !important;
-        animation: none !important;
-      }
-    }
-
 
     /* ================================================================
-       BACKGROUND BLUR WHEN MOBILE MENU OPEN
-       ================================================================ */
+       BLUR ARRIÈRE-PLAN QUAND MENU OUVERT
+    ================================================================ */
     body.menu-open main,
-    body.menu-open footer{
+    body.menu-open footer {
       filter: blur(10px);
       opacity: .55;
       transition: filter .25s ease, opacity .25s ease;
       will-change: filter, opacity;
     }
-    @media (prefers-reduced-motion: reduce){
-      body.menu-open main,
-      body.menu-open footer{ transition: none !important; }
-    }
 
-    /* Ensure mobile menu can scroll if content exceeds viewport */
-    #mobile-menu{
-      max-height: calc(100vh - (var(--header-top) + var(--header-h)));
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-    }
-
-
-    .footer-line{
-      /* Accent premium (accent + bleu nuit + violet) */
+    /* ================================================================
+       FOOTER — ligne décorative
+    ================================================================ */
+    .footer-line {
       background: linear-gradient(
         90deg,
         transparent,
@@ -346,16 +376,55 @@
       );
     }
 
-    /* Scrollbar (WebKit) — sobre + cohérent */
-    ::-webkit-scrollbar{ width: 8px; }
-    ::-webkit-scrollbar-track{ background: rgba(255,255,255,.03); }
-    ::-webkit-scrollbar-thumb{
+    /* ================================================================
+       SCROLLBAR (WebKit)
+    ================================================================ */
+    ::-webkit-scrollbar       { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,.03); }
+    ::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg, rgba(232,224,208,.28), rgba(255,255,255,.10));
       border: 1px solid rgba(255,255,255,.08);
       border-radius: 10px;
     }
-    ::-webkit-scrollbar-thumb:hover{
+    ::-webkit-scrollbar-thumb:hover {
       background: linear-gradient(180deg, rgba(232,224,208,.45), rgba(255,255,255,.14));
+    }
+
+    /* ================================================================
+       RESPONSIVE MOBILE — utilitaires custom
+    ================================================================ */
+    @media (max-width: 767px) {
+      .prose-center-mobile h1,
+      .prose-center-mobile h2,
+      .prose-center-mobile h3,
+      .prose-center-mobile h4,
+      .prose-center-mobile p,
+      .prose-center-mobile .subtitle { text-align: center; }
+
+      .stack-mobile       { flex-direction: column; align-items: center; }
+      .gap-mobile-tight   { gap: 1rem; }
+      .btn-full-mobile    { width: 100%; justify-content: center; }
+      .section-mobile     { padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
+
+    /* Marquee réduit sur très petits écrans */
+    @media (max-width: 380px) {
+      :root { --marquee-h: 44px; }
+      #top-marquee-bar .text-sm        { font-size: 11px; }
+      #top-marquee-bar .text-\[10px\]  { display: none; }
+    }
+
+    /* ================================================================
+       MOTION SAFETY (accessibilité)
+    ================================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      #top-marquee-bar .animate-infinite-scroll,
+      #site-header,
+      #mobile-menu,
+      #burger-btn .burger-bar,
+      .nav-link::after,
+      body.menu-open main,
+      body.menu-open footer { transition: none !important; animation: none !important; }
     }
   </style>
 
@@ -370,6 +439,7 @@
       width: max-content !important;
       animation: infinite-scroll 30s linear infinite !important;
     }
+    {# BUG CORRIGÉ #3 : .hover:pause sans antislash (classe CSS valide) #}
     .hover\:pause:hover {
       animation-play-state: paused !important;
     }
@@ -391,7 +461,7 @@
   <div class="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-[#08080a] to-transparent z-10 pointer-events-none"></div>
 
   <div class="flex h-full items-center overflow-hidden">
-    <div class="flex w-max animate-infinite-scroll hover\:pause">
+    <div class="flex w-max animate-infinite-scroll hover:pause">
 
       {# GROUPE 1 #}
       <div class="flex items-center gap-10 px-6">
@@ -401,7 +471,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">10+ Ans</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Expérience</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Expérience</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -411,7 +481,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">100%</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Satisfaction</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Satisfaction</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -421,7 +491,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">Python</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Expert</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Expert</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -431,7 +501,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">Django</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Framework</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Framework</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -441,7 +511,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">REST API</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Architecture</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Architecture</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -451,7 +521,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">PostgreSQL</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Database</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Database</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -461,21 +531,21 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">Docker</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">DevOps</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">DevOps</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0 mx-2"></div>
-      </div>
+      </div>{# /GROUPE 1 #}
 
-      {# GROUPE 2 — Duplication pour boucle infinie #}
-      <div class="flex items-center gap-10 px-6" aria-hidden="true">
+      {# GROUPE 2 — copie identique pour l'effet de boucle seamless #}
+      <div class="flex items-center gap-10 px-6">
         <div class="flex items-center gap-2.5">
           <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">10+ Ans</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Expérience</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Expérience</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -485,7 +555,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">100%</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Satisfaction</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Satisfaction</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -495,7 +565,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">Python</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Expert</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Expert</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -505,7 +575,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">Django</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Framework</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Framework</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -515,7 +585,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">REST API</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Architecture</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Architecture</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -525,7 +595,7 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">PostgreSQL</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">Database</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Database</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0"></div>
@@ -535,18 +605,20 @@
           </div>
           <div>
             <div class="text-sm font-bold text-white leading-none">Docker</div>
-            <div class="text-[10px] text-gray-500 uppercase tracking-wider mt-0.5">DevOps</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">DevOps</div>
           </div>
         </div>
         <div class="w-px h-6 bg-white/10 shrink-0 mx-2"></div>
-      </div>
+      </div>{# /GROUPE 2 #}
 
     </div>
   </div>
-</div>
+
+</div>{# /#top-marquee-bar #}
+
 
 {# ====================================================================== #}
-{# HEADER                                                                  #}
+{# HEADER — élément FRÈRE de #top-marquee-bar                              #}
 {# ====================================================================== #}
 <header id="site-header"
         class="fixed left-0 right-0 z-50 border-b border-transparent backdrop-blur-md"
@@ -557,16 +629,36 @@
     <a href="{% url 'home' %}"
        class="flex items-center gap-3 group relative z-50"
        aria-label="Horus Global Service — Accueil">
-      <div class="w-10 h-10 rounded-xl bg-accent text-dark flex items-center justify-center font-display font-bold text-xl
-                  group-hover:scale-105 transition-transform duration-200 shadow-lg shadow-accent/20 leading-none"
-           aria-hidden="true">H</div>
+
+      <span
+      class="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center
+             group-hover:scale-105 transition-transform duration-200
+             shadow-lg shadow-accent/20 overflow-hidden"
+      aria-hidden="true">
+
+      <img
+        src="{% static 'img/horus-logo-mark-160.webp' %}"
+        srcset="
+          {% static 'img/horus-logo-mark-160.webp' %} 1x,
+          {% static 'img/horus-logo-mark-256.webp' %} 2x
+        "
+        width="56"
+        height="56"
+        alt="Horus Global Service"
+        class="w-full h-full object-contain"
+        loading="eager"
+        decoding="async"
+      />
+    </span>
+
+
       <span class="font-display font-bold text-xl tracking-wide text-white hidden sm:block">
         Horus<span class="text-muted font-normal text-base"> Global Service</span>
       </span>
     </a>
+    {% with url_name=request.resolver_match.url_name %}
 
     {# Desktop nav #}
-    {% with url_name=request.resolver_match.url_name %}
     <nav class="hidden md:flex items-center gap-1 bg-white/5 p-1.5 rounded-full border border-white/5 backdrop-blur-sm"
          aria-label="Navigation principale">
 
@@ -630,16 +722,17 @@
     <div class="hidden md:flex items-center gap-5">
       <a href="{% url 'contact' %}"
          class="flex items-center gap-2 px-5 py-2.5 text-sm font-display font-bold text-dark bg-accent rounded-xl
-                hover:bg-white hover:scale-105 hover:shadow-lg hover:shadow-accent/20
+                hover:bg-white hover:text-accent focus:bg-white focus:text-accent
+                focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2
+                hover:scale-105 hover:shadow-lg hover:shadow-accent/20
                 transition-all duration-200 group">
         <span>Contactez-Nous</span>
-        <svg class="w-4 h-4 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <svg class="w-4 h-4 transition-transform group-hover:rotate-12 group-focus:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
         </svg>
       </a>
     </div>
-    {% endwith %}
 
     {# Mobile burger #}
     <button id="burger-btn"
@@ -654,22 +747,22 @@
       <span class="burger-bar w-4 ml-auto h-0.5 rounded-full bg-accent"></span>
     </button>
 
-  </div>
+  </div>{# /.max-w-7xl #}
 
   {# ================================================================ #}
-  {# MOBILE MENU #}
+  {# MOBILE MENU                                                       #}
   {# ================================================================ #}
   <div id="mobile-menu"
-     class="md:hidden absolute left-0 right-0 z-50 overflow-hidden pb-8
-            border-b border-white/10
-            shadow-[0_40px_80px_rgba(0,0,0,0.95)]"
-     style="top: calc(var(--header-h) - 1px);"
-     aria-hidden="true">
+       class="md:hidden absolute left-0 right-0 z-50 pb-8
+              border-b border-white/10
+              shadow-[0_40px_80px_rgba(0,0,0,0.95)]"
+       style="top: calc(var(--header-h) - 1px);"
+       aria-hidden="true"
+       inert>
 
     {# Liseré accent en haut du menu #}
     <div class="h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent mb-2"></div>
 
-    {% with url_name=request.resolver_match.url_name %}
     <nav class="flex flex-col px-4 pt-2 gap-1" aria-label="Navigation mobile">
 
       {# ---- Home ---- #}
@@ -787,111 +880,105 @@
       </div>
 
     </nav>
-    {% endwith %}
 
-  </div>{# /mobile-menu #}
+  </div>{# /#mobile-menu #}
+
+  {% endwith %}{# /url_name — BUG CORRIGÉ #6 : un seul {% with %} pour tout le header #}
 
 </header>
-{# overlay EN DEHORS du <header>, au niveau du body #}
+
+{# Overlay EN DEHORS du <header>, au niveau du body #}
 <div id="mobile-overlay"
      class="md:hidden fixed inset-0 z-40 bg-black/70 transition-opacity duration-300 opacity-0 pointer-events-none"
      aria-hidden="true"></div>
 
-{# ====================================================================== #}
-{# SPACER (REMPLACÉ PAR padding-top SUR <main>)                             #}
-{# ====================================================================== #}
 
 {# ====================================================================== #}
 {# MAIN                                                                    #}
 {# ====================================================================== #}
 <main class="flex-1 w-full relative isolate" style="padding-top: calc(var(--header-top) + var(--header-h));">
 
-    {# Background décoratif #}
-    <div aria-hidden="true" class="pointer-events-none">
-      <div class="fixed inset-0 -z-20 bg-[#08080a]
-                  bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]
-                  bg-[size:24px_24px]"></div>
-      <div class="fixed inset-0 -z-10 mix-blend-screen">
-        <div class="absolute -top-24 -left-24 h-[820px] w-[820px]
-                    rounded-full bg-blue-500/10 blur-[140px]
-                    transform-gpu will-change-transform"></div>
-        <div class="absolute -bottom-24 -right-24 h-[640px] w-[640px]
-                    rounded-full bg-purple-500/10 blur-[120px]
-                    transform-gpu will-change-transform"></div>
-      </div>
+  {# Background décoratif #}
+  <div aria-hidden="true" class="pointer-events-none">
+    <div class="fixed inset-0 -z-20 bg-[#08080a]
+                bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]
+                bg-[size:24px_24px]"></div>
+    <div class="fixed inset-0 -z-10 mix-blend-screen">
+      <div class="absolute -top-24 -left-24 h-[820px] w-[820px]
+                  rounded-full bg-blue-500/10 blur-[140px]
+                  transform-gpu will-change-transform"></div>
+      <div class="absolute -bottom-24 -right-24 h-[640px] w-[640px]
+                  rounded-full bg-purple-500/10 blur-[120px]
+                  transform-gpu will-change-transform"></div>
     </div>
+  </div>
 
-    {# Toasts #}
-    {% if messages %}
-        <div id="toast-container"
-             class="fixed z-[100] space-y-4 max-w-sm w-full sm:w-96 px-4 sm:px-0"
-             style="top: calc(var(--header-top) + var(--header-h) + 1rem); right: 1rem;"
-             role="alert" aria-live="polite">
-            {% for message in messages %}
-                <div class="toast group flex items-start gap-4 p-4 rounded-xl shadow-2xl animate-slide-in backdrop-blur-md border border-white/10
-                            {% if message.tags == 'success' %} bg-green-950/30 border-l-4 border-l-green-500
-                            {% elif message.tags == 'error' %}   bg-red-950/30 border-l-4 border-l-red-500
-                            {% elif message.tags == 'warning' %} bg-yellow-950/30 border-l-4 border-l-yellow-500
-                            {% else %}                           bg-[#16161a]/80 border-l-4 border-l-blue-500 {% endif %}">
-                    <div class="shrink-0 mt-0.5">
-                        {% if message.tags == 'success' %}
-                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        {% elif message.tags == 'error' %}
-                            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        {% elif message.tags == 'warning' %}
-                            <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        {% else %}
-                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        {% endif %}
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm font-medium text-white leading-snug">{{ message }}</p>
-                    </div>
-                    <button type="button" data-toast-close class="text-gray-500 hover:text-white transition-colors p-1 rounded-md hover:bg-white/10 -m-1"
-                            aria-label="Fermer la notification">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-            {% endfor %}
+  {# Toasts #}
+  {% if messages %}
+    <div id="toast-container"
+         class="fixed z-[100] space-y-4 max-w-sm w-full sm:w-96 px-4 sm:px-0"
+         style="top: calc(var(--header-top) + var(--header-h) + 1rem); right: 1rem;"
+         role="alert" aria-live="polite">
+      {% for message in messages %}
+        <div class="toast group flex items-start gap-4 p-4 rounded-xl shadow-2xl animate-slide-in backdrop-blur-md border border-white/10
+                    {% if message.tags == 'success' %} bg-green-950/30 border-l-4 border-l-green-500
+                    {% elif message.tags == 'error' %}  bg-red-950/30 border-l-4 border-l-red-500
+                    {% elif message.tags == 'warning' %}bg-yellow-950/30 border-l-4 border-l-yellow-500
+                    {% else %}                          bg-[#16161a]/80 border-l-4 border-l-blue-500 {% endif %}">
+          <div class="shrink-0 mt-0.5">
+            {% if message.tags == 'success' %}
+              <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            {% elif message.tags == 'error' %}
+              <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            {% elif message.tags == 'warning' %}
+              <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            {% else %}
+              <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            {% endif %}
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-white leading-snug">{{ message }}</p>
+          </div>
+          <button type="button" data-toast-close
+                  class="text-gray-500 hover:text-white transition-colors p-1 rounded-md hover:bg-white/10 -m-1"
+                  aria-label="Fermer la notification">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const container = document.getElementById('toast-container');
-                if (!container) return;
+      {% endfor %}
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
 
-                const dismiss = (toast) => {
-                    if (!toast) return;
-                    toast.style.transition = 'all 0.5s ease-in-out';
-                    toast.style.opacity = '0';
-                    toast.style.transform = 'translateX(100%)';
-                    setTimeout(() => {
-                        toast.remove();
-                        if (!container.querySelector('.toast')) {
-                            container.remove();
-                        }
-                    }, 500);
-                };
+        const dismiss = (toast) => {
+          if (!toast) return;
+          toast.style.transition = 'all 0.5s ease-in-out';
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            toast.remove();
+            if (!container.querySelector('.toast')) container.remove();
+          }, 500);
+        };
 
-                // Auto-dismiss
-                const toasts = container.querySelectorAll('.toast');
-                toasts.forEach((t, i) => {
-                    setTimeout(() => dismiss(t), 5000 + (i * 1000));
-                });
+        container.querySelectorAll('.toast').forEach((t, i) => {
+          setTimeout(() => dismiss(t), 5000 + i * 1000);
+        });
 
-                // Manual close (button)
-                container.addEventListener('click', (e) => {
-                    const btn = e.target.closest('[data-toast-close]');
-                    if (!btn) return;
-                    const toast = btn.closest('.toast');
-                    dismiss(toast);
-                });
-            });
-        </script>
-    {% endif %}
+        container.addEventListener('click', (e) => {
+          const btn = e.target.closest('[data-toast-close]');
+          if (btn) dismiss(btn.closest('.toast'));
+        });
+      });
+    </script>
+  {% endif %}
 
-    {% block content %}{% endblock %}
+  {% block content %}{% endblock %}
 
 </main>
+
 
 {# ====================================================================== #}
 {# FOOTER                                                                  #}
@@ -997,10 +1084,10 @@
     </div>
 
     <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-      <p class="text-xs text-gray-500">
+      <p class="text-xs text-gray-400">
         &copy; {% now "Y" %} Horus Global Service. <span class="hidden sm:inline">Tous droits réservés.</span>
       </p>
-      <div class="text-xs text-gray-500 flex items-center gap-2">
+      <div class="text-xs text-gray-400 flex items-center gap-2">
         <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
         Systèmes opérationnels
       </div>
@@ -1009,141 +1096,125 @@
   </div>
 </footer>
 
+
 <script>
-    /**
+/**
  * Script de Navigation Premium - 2026
  * Gère le header dynamique, le menu mobile et l'accessibilité.
  */
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. CONFIGURATION & ÉLÉMENTS ---
-    const header  = document.getElementById('site-header');
-    const btn     = document.getElementById('burger-btn');
-    const menu    = document.getElementById('mobile-menu');
-    const overlay = document.getElementById('mobile-overlay');
-    const body    = document.body;
+  // --- 1. CONFIGURATION & ÉLÉMENTS ---
+  const header  = document.getElementById('site-header');
+  const btn     = document.getElementById('burger-btn');
+  const menu    = document.getElementById('mobile-menu');
+  const overlay = document.getElementById('mobile-overlay');
+  const body    = document.body;
 
-    if (!header || !btn || !menu || !overlay) {
-        console.warn("Éléments de navigation manquants dans le DOM.");
-        return;
+  if (!header || !btn || !menu || !overlay) {
+    console.warn("Éléments de navigation manquants dans le DOM.");
+    return;
+  }
+
+  let isMenuOpen = false;
+  let ticking    = false;
+
+  // --- 2. HEADER SCROLL EFFECT ---
+  const updateHeader = () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateHeader);
+      ticking = true;
     }
-
-    let isMenuOpen = false;
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-
-    // --- 2. HEADER SCROLL EFFECT (Performances via RequestAnimationFrame) ---
-    const updateHeader = () => {
-        // On utilise 20px comme seuil pour le changement d'apparence
-        if (window.scrollY > 20) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-        ticking = false;
-    };
-
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(updateHeader);
-            ticking = true;
-        }
-    }, { passive: true });
+  }, { passive: true });
 
 
-    // --- 3. GESTION DU MENU MOBILE ---
-    const openMenu = () => {
-        isMenuOpen = true;
+  // --- 3. GESTION DU MENU MOBILE ---
+  const openMenu = () => {
+    isMenuOpen = true;
 
-        // États visuels et ARIA
-        btn.setAttribute('aria-expanded', 'true');
-        menu.setAttribute('aria-hidden', 'false');
-        menu.classList.add('open');
-        btn.classList.add('active');
-        body.classList.add('menu-open');
+    btn.setAttribute('aria-expanded', 'true');
+    menu.setAttribute('aria-hidden', 'false');
+    menu.removeAttribute('inert');           // BUG CORRIGÉ #4 : inert retiré à l'ouverture
+    menu.classList.add('open');
+    btn.classList.add('active');
+    body.classList.add('menu-open');
 
-        // Verrouillage du scroll
-        body.style.overflow = 'hidden';
-        body.style.touchAction = 'none'; // Empêche le bounce iOS
+    body.style.overflow    = 'hidden';
+    body.style.touchAction = 'none';
 
-        // Overlay (Tailwind classes)
-        overlay.classList.remove('opacity-0', 'pointer-events-none');
-        overlay.classList.add('opacity-100');
-        overlay.style.pointerEvents = 'auto';
+    overlay.classList.remove('opacity-0', 'pointer-events-none');
+    overlay.classList.add('opacity-100');
+    overlay.style.pointerEvents = 'auto';
 
-        // Focus management (optionnel mais recommandé)
-        setTimeout(() => menu.querySelector('a')?.focus(), 100);
-    };
+    setTimeout(() => menu.querySelector('a')?.focus(), 100);
+  };
 
-    const closeMenu = () => {
-        isMenuOpen = false;
+  const closeMenu = () => {
+    isMenuOpen = false;
 
-        btn.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('aria-hidden', 'true');
-        menu.classList.remove('open');
-        btn.classList.remove('active');
-        body.classList.remove('menu-open');
+    btn.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+    menu.setAttribute('inert', '');          // BUG CORRIGÉ #4 : inert remis à la fermeture
+    menu.classList.remove('open');
+    btn.classList.remove('active');
+    body.classList.remove('menu-open');
 
-        // Déverrouillage du scroll
-        body.style.overflow = '';
-        body.style.touchAction = '';
+    body.style.overflow    = '';
+    body.style.touchAction = '';
 
-        // Overlay
-        overlay.classList.add('opacity-0', 'pointer-events-none');
-        overlay.classList.remove('opacity-100');
-        overlay.style.pointerEvents = 'none';
-    };
+    overlay.classList.add('opacity-0', 'pointer-events-none');
+    overlay.classList.remove('opacity-100');
+    overlay.style.pointerEvents = 'none';
+  };
 
-    // Toggle au clic sur le bouton burger
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        isMenuOpen ? closeMenu() : openMenu();
-    });
+  // Toggle au clic sur le bouton burger
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    isMenuOpen ? closeMenu() : openMenu();
+  });
 
-    // Fermeture au clic sur l'overlay
-    overlay.addEventListener('click', closeMenu);
+  // Fermeture au clic sur l'overlay
+  overlay.addEventListener('click', closeMenu);
 
-    // --- 4. SÉCURITÉ ET UX ---
+  // --- 4. SÉCURITÉ ET UX ---
 
-    // Fermeture automatique si on redimensionne l'écran (passage en Desktop)
-    const mq = window.matchMedia('(min-width: 768px)');
-    mq.addEventListener('change', (e) => {
-        if (e.matches && isMenuOpen) closeMenu();
-    });
+  // Fermeture automatique au passage en desktop
+  window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => {
+    if (e.matches && isMenuOpen) closeMenu();
+  });
 
-    // Fermeture au clic sur un lien (utile pour les ancres ID)
-    menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            // Petit délai pour laisser l'animation de clic se voir
-            setTimeout(closeMenu, 150);
-        });
-    });
+  // Fermeture au clic sur un lien du menu mobile
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => setTimeout(closeMenu, 150));
+  });
 
-    // Fermeture via la touche Échap
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && isMenuOpen) {
-            closeMenu();
-            btn.focus();
-        }
-    });
+  // Fermeture via la touche Échap
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMenuOpen) {
+      closeMenu();
+      btn.focus();
+    }
+  });
 
-    // Empêcher les interactions avec l'overlay pendant l'ouverture
-    const preventScrollIntent = (e) => {
-        if (isMenuOpen) {
-            if (e.target === overlay) {
-                e.preventDefault();
-                closeMenu();
-            }
-        }
-    };
-    overlay.addEventListener('wheel', preventScrollIntent, { passive: false });
-    overlay.addEventListener('touchmove', preventScrollIntent, { passive: false });
+  // Empêcher le scroll sous l'overlay
+  const preventScroll = (e) => {
+    if (isMenuOpen && e.target === overlay) {
+      e.preventDefault();
+      closeMenu();
+    }
+  };
+  overlay.addEventListener('wheel',     preventScroll, { passive: false });
+  overlay.addEventListener('touchmove', preventScroll, { passive: false });
 
-    // Initialisation au chargement
-    updateHeader();
+  // Initialisation
+  updateHeader();
 });
 </script>
 
-  </body>
-
+</body>
 </html>
