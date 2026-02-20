@@ -30,7 +30,6 @@ class Contact(models.Model):
     def __str__(self):
         return f"{self.name} - {self.email}"
 
-
 # ---------------------------------------------------------------------------
 # Article
 # ---------------------------------------------------------------------------
@@ -59,7 +58,6 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return reverse("article_detail", kwargs={"slug": self.slug})
-
 
 # ---------------------------------------------------------------------------
 # Project
@@ -127,10 +125,6 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    """
-    Utilisateur personnalisé — identifiant principal : email (pas username).
-    Étendre ce modèle pour ajouter des champs métier supplémentaires.
-    """
 
     email = models.EmailField(unique=True, verbose_name="Adresse email")
     first_name = models.CharField(max_length=50, blank=True, verbose_name="Prénom")
@@ -174,3 +168,23 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name or self.email
+# Legale Page
+class LegalPage(models.Model):
+    """Modèle pour les pages contractuelles (Mentions légales, RGPD, etc.)"""
+    TITLE_CHOICES = [
+        ('mentions-legales', 'Mentions Légales'),
+        ('confidentialite', 'Politique de Confidentialité'),
+        ('cookies', 'Politique des Cookies'),
+    ]
+
+    title = models.CharField(max_length=200, choices=TITLE_CHOICES, unique=True, verbose_name="Type de page")
+    slug = models.SlugField(unique=True, help_text="Ex: mentions-legales")
+    content = RichTextUploadingField(verbose_name="Contenu de la page")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Dernière mise à jour")
+
+    class Meta:
+        verbose_name = "Page Légale"
+        verbose_name_plural = "Pages Légales"
+
+    def __str__(self):
+        return self.get_title_display()

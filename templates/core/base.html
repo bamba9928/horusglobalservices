@@ -52,8 +52,7 @@
   {# Fonts — preload pour perf #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -91,375 +90,646 @@
       ]
     }
     </script>
-
-  {# ------------------------------------------------------------------ #}
-  {# BUG CORRIGÉ #5 : utilisation de TEMPLATE_DEBUG (context processor) #}
-  {# au lieu de la variable `debug` non fiable en template Django        #}
-  {# ------------------------------------------------------------------ #}
-  {% if TEMPLATE_DEBUG %}
-    <script>
-      window.tailwind = {
-        config: {
-          theme: {
-            extend: {
-              colors: {
-                dark:   '#08080a',
-                card:   '#111114',
-                border: '#1e1e23',
-                muted:  '#9ca3af',
-                accent: '#e8e0d0',
+    {# ------------------------------------------------------------------ #}
+    {% if TEMPLATE_DEBUG %}
+        <script>
+          window.tailwind = {
+            config: {
+              theme: {
+                extend: {
+                  // ✅ CORRECT : screens au bon niveau dans extend
+                  screens: {
+                    'xs': '475px',  // S'ajoute aux breakpoints par défaut
+                  },
+                  colors: {
+                    dark:   '#08080a',
+                    card:   '#111114',
+                    border: '#1e1e23',
+                    muted:  '#9ca3af',
+                    accent: '#e8e0d0',
+                  },
+                  fontFamily: {
+                    display: ['Plus Jakarta Sans', 'sans-serif'],
+                    body:    ['Inter', 'sans-serif'],
+                  },
+                  keyframes: {
+                    'slide-in': {
+                      '0%':   { opacity: '0', transform: 'translateX(1rem)' },
+                      '100%': { opacity: '1', transform: 'translateX(0)' },
+                    },
+                    'fade-out': {
+                      '0%':   { opacity: '1', transform: 'translateX(0)' },
+                      '100%': { opacity: '0', transform: 'translateX(1rem)' },
+                    },
+                    'fade-down': {
+                      '0%':   { opacity: '0', transform: 'translateY(-8px)' },
+                      '100%': { opacity: '1', transform: 'translateY(0)' },
+                    },
+                    'infinite-scroll': {
+                      '0%':   { transform: 'translateX(0)' },
+                      '100%': { transform: 'translateX(-50%)' },
+                    },
+                  },
+                  animation: {
+                    'slide-in':        'slide-in 0.3s ease-out forwards',
+                    'fade-out':        'fade-out 0.4s ease-in forwards',
+                    'fade-down':       'fade-down 0.4s ease-out forwards',
+                    'infinite-scroll': 'infinite-scroll 40s linear infinite',
+                  },
+                }
               },
-              fontFamily: {
-                display: ['Syne', 'sans-serif'],
-                body:    ['DM Sans', 'sans-serif'],
-              },
-              keyframes: {
-                'slide-in': {
-                  '0%':   { opacity: '0', transform: 'translateX(1rem)' },
-                  '100%': { opacity: '1', transform: 'translateX(0)' },
-                },
-                'fade-out': {
-                  '0%':   { opacity: '1', transform: 'translateX(0)' },
-                  '100%': { opacity: '0', transform: 'translateX(1rem)' },
-                },
-                'fade-down': {
-                  '0%':   { opacity: '0', transform: 'translateY(-8px)' },
-                  '100%': { opacity: '1', transform: 'translateY(0)' },
-                },
-                'infinite-scroll': {
-                  '0%':   { transform: 'translateX(0)' },
-                  '100%': { transform: 'translateX(-50%)' },
-                },
-              },
-              animation: {
-                'slide-in':        'slide-in 0.3s ease-out forwards',
-                'fade-out':        'fade-out 0.4s ease-in forwards',
-                'fade-down':       'fade-down 0.4s ease-out forwards',
-                'infinite-scroll': 'infinite-scroll 40s linear infinite',
-              },
+              plugins: [
+                function({ addUtilities }) {
+                  addUtilities(
+                    {
+                      '.pause': { 'animation-play-state': 'paused' },
+                      '.pause-hover:hover': { 'animation-play-state': 'paused' }
+                    },
+                    ['responsive', 'hover']
+                  )
+                }
+              ]
             }
-          },
-          plugins: [
-            function({ addUtilities }) {
-              addUtilities(
-                { '.pause': { 'animation-play-state': 'paused' } },
-                ['hover']
-              )
-            }
-          ]
-        }
-      };
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-  {% else %}
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
-  {% endif %}
+          };
+        </script>
+        <script src="https://cdn.tailwindcss.com"></script>
+      {% else %}
+        <link rel="stylesheet" href="{% static 'css/output.css' %}">
+      {% endif %}
 
-  <style>
-    /* ================================================================
-       ROOT — Variables CSS
-    ================================================================ */
-    :root {
-      --header-h:   70px;
-      --marquee-h:  54px;
-      --gap:        25px;
-      --safe-top:   env(safe-area-inset-top, 0px);
-      --header-top: calc(var(--marquee-h) + var(--gap) + var(--safe-top));
-      --bg:         #08080a;
-      --fg:         #f0ece4;
-      --muted:      rgba(240,236,228,.70);
-      --accent:     #e8e0d0;
-      --dark:       #08080a;
-    }
-
-    /* ================================================================
-       BASE
-    ================================================================ */
-    * { box-sizing: border-box; }
-
-    html { background: var(--bg); }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background-color: var(--bg);
-      color: var(--fg);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-      overflow-x: clip;
-    }
-    @supports not (overflow: clip) {
-      body { overflow-x: hidden; }
-    }
-
-    h1, h2, h3, h4, .font-display { font-family: 'Syne', sans-serif; }
-
-    /* ================================================================
-       TOASTS
-    ================================================================ */
-    #toast-container       { pointer-events: none; }
-    #toast-container .toast { pointer-events: auto; }
-
-    /* ================================================================
-       MARQUEE — barre fixe tout en haut
-    ================================================================ */
-    #top-marquee-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: var(--marquee-h);
-      z-index: 60;
-      overflow: hidden;
-    }
-
-    /* ================================================================
-       HEADER — décalé sous la barre marquee
-    ================================================================ */
-    #site-header {
-      top: var(--header-top);
-      transition:
-        background      .35s ease,
-        border-color    .35s ease,
-        box-shadow      .35s ease,
-        backdrop-filter .35s ease;
-      will-change: background, box-shadow, backdrop-filter;
-    }
-
-    #site-header.scrolled {
-      background: rgba(8,8,10,.85);
-      border-bottom-color: #1e1e23;
-      box-shadow: 0 4px 30px rgba(0,0,0,.5);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-      #site-header.scrolled { background: rgba(8,8,10,.95); }
-    }
-
-    /* Underline des liens nav desktop */
-    .nav-link { position: relative; }
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 1px;
-      background: var(--accent);
-      opacity: .9;
-      transition: width .25s cubic-bezier(.4,0,.2,1);
-    }
-    .nav-link:hover::after,
-    .nav-link.active::after { width: 100%; }
-
-    /* ================================================================
-       BURGER
-    ================================================================ */
-    #burger-btn {
-      min-height: 44px;
-      min-width:  44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.10);
-    }
-    #burger-btn:hover {
-      background: rgba(255,255,255,.06);
-      border-color: rgba(255,255,255,.18);
-    }
-    #burger-btn.active {
-      background: rgba(232,224,208,.10);
-      border-color: rgba(232,224,208,.22);
-      box-shadow:
-        0 0 0 1px rgba(232,224,208,.10) inset,
-        0 0 18px rgba(232,224,208,.08);
-    }
-
-    #burger-btn .burger-bar                { background: rgba(255,255,255,.75); }
-    #burger-btn .burger-bar:nth-child(3)   { background: rgba(232,224,208,.95); }
-    #burger-btn.active .burger-bar         { background: rgba(232,224,208,.95); }
-
-    /* ================================================================
-       MOBILE MENU
-    ================================================================ */
-    #mobile-menu {
-      transform: translateY(-150%);
-      opacity: 0;
-      pointer-events: none;
-      transition:
-        transform .45s cubic-bezier(.16,1,.3,1),
-        opacity   .25s ease;
-      will-change: transform, opacity;
-
-      background:
-        radial-gradient(800px 300px at 50% 0%,  rgba(59,130,246,.18),  transparent 55%),
-        radial-gradient(700px 300px at 80% 10%, rgba(168,85,247,.12), transparent 60%),
-        linear-gradient(to bottom, #0b0b10, #07070a);
-
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 30px 70px -25px rgba(0,0,0,.85);
-
-      max-height: calc(100vh - (var(--header-top) + var(--header-h)));
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-      scroll-padding-top: 1rem;
-    }
-
-    #mobile-menu.open {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Touch targets */
-    #mobile-menu nav a { min-height: 56px; }
-    #mobile-menu nav a:active {
-      background: rgba(255,255,255,.10) !important;
-      transform: scale(0.98);
-      transition: transform 0.1s ease;
-    }
-
-    /* Item actif */
-    #mobile-menu .nav-item-active {
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12) !important;
-      box-shadow: 0 0 0 1px rgba(232,224,208,.12) inset;
-    }
-
-    /* Icônes */
-    #mobile-menu .nav-icon {
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow:
-        0 10px 30px -20px rgba(0,0,0,.9),
-        0 0 0 1px rgba(0,0,0,.25) inset;
-    }
-    #mobile-menu a:hover .nav-icon {
-      border-color: rgba(232,224,208,.22);
-      box-shadow:
-        0 12px 34px -22px rgba(0,0,0,.9),
-        0 0 0 1px rgba(232,224,208,.10) inset;
-    }
-
-    /* ================================================================
-       OVERLAY MOBILE
-    ================================================================ */
-    #mobile-overlay {
-      background: rgba(0,0,0,.72);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-    }
-
-    /* ================================================================
-       BLUR ARRIÈRE-PLAN QUAND MENU OUVERT
-    ================================================================ */
-    body.menu-open main,
-    body.menu-open footer {
-      filter: blur(10px);
-      opacity: .55;
-      transition: filter .25s ease, opacity .25s ease;
-      will-change: filter, opacity;
-    }
-
-    /* ================================================================
-       FOOTER — ligne décorative
-    ================================================================ */
-    .footer-line {
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(232,224,208,.55),
-        rgba(59,130,246,.30),
-        rgba(168,85,247,.22),
-        transparent
-      );
-    }
-
-    /* ================================================================
-       SCROLLBAR (WebKit)
-    ================================================================ */
-    ::-webkit-scrollbar       { width: 8px; }
-    ::-webkit-scrollbar-track { background: rgba(255,255,255,.03); }
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, rgba(232,224,208,.28), rgba(255,255,255,.10));
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, rgba(232,224,208,.45), rgba(255,255,255,.14));
-    }
-
-    /* ================================================================
-       RESPONSIVE MOBILE — utilitaires custom
-    ================================================================ */
-    @media (max-width: 767px) {
-      .prose-center-mobile h1,
-      .prose-center-mobile h2,
-      .prose-center-mobile h3,
-      .prose-center-mobile h4,
-      .prose-center-mobile p,
-      .prose-center-mobile .subtitle { text-align: center; }
-
-      .stack-mobile       { flex-direction: column; align-items: center; }
-      .gap-mobile-tight   { gap: 1rem; }
-      .btn-full-mobile    { width: 100%; justify-content: center; }
-      .section-mobile     { padding-left: 1.25rem; padding-right: 1.25rem; }
-    }
-
-    /* Marquee réduit sur très petits écrans */
-    @media (max-width: 380px) {
-      :root { --marquee-h: 44px; }
-      #top-marquee-bar .text-sm        { font-size: 11px; }
-      #top-marquee-bar .text-\[10px\]  { display: none; }
-    }
-
-    /* ================================================================
-       MOTION SAFETY (accessibilité)
-    ================================================================ */
-    @media (prefers-reduced-motion: reduce) {
-      #top-marquee-bar .animate-infinite-scroll,
-      #site-header,
-      #mobile-menu,
-      #burger-btn .burger-bar,
-      .nav-link::after,
-      body.menu-open main,
-      body.menu-open footer { transition: none !important; animation: none !important; }
-    }
-  </style>
-
-  {# Animation marquee #}
-  <style>
-      /* ================================================================
-       SÉCURITÉ : Forcer la disparition du menu mobile sur Desktop
+      <style>
+        /* ================================================================
+           ROOT — Variables CSS (Mobile-First)
         ================================================================ */
+        :root {
+          --header-h:   60px;        /* Réduit pour mobile */
+          --marquee-h:  44px;        /* Réduit pour mobile */
+          --gap:        12px;        /* Réduit pour mobile */
+          --safe-top:   env(safe-area-inset-top, 0px);
+          --safe-bottom: env(safe-area-inset-bottom, 0px);
+          --header-top: calc(var(--marquee-h) + var(--gap) + var(--safe-top));
+          --bg:         #08080a;
+          --fg:         #f0ece4;
+          --muted:      rgba(240,236,228,.70);
+          --accent:     #e8e0d0;
+          --dark:       #08080a;
+          --section-py: 3rem;        /* Padding vertical section mobile */
+          --container-px: 1rem;      /* Padding horizontal mobile */
+        }
+
+        /* Tablet */
+        @media (min-width: 640px) {
+          :root {
+            --header-h:   64px;
+            --marquee-h:  48px;
+            --gap:        16px;
+            --section-py: 4rem;
+            --container-px: 1.5rem;
+          }
+        }
+
+        /* Desktop */
         @media (min-width: 768px) {
-          #mobile-menu,
-          #burger-btn,
+          :root {
+            --header-h:   70px;
+            --marquee-h:  54px;
+            --gap:        25px;
+            --section-py: 5rem;
+            --container-px: 2rem;
+          }
+        }
+
+        /* ================================================================
+           BASE — Mobile Optimizations
+        ================================================================ */
+        * {
+          box-sizing: border-box;
+          -webkit-tap-highlight-color: transparent; /* Supprime flash bleu sur tap */
+        }
+
+        html {
+          background: var(--bg);
+          scroll-padding-top: calc(var(--header-top) + var(--header-h) + 1rem);
+        }
+        body {
+          font-family: 'Inter', sans-serif;
+          background-color: var(--bg);
+          color: var(--fg);
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          text-rendering: optimizeLegibility;
+          overflow-x: clip;
+          /* Empêche le bounce sur iOS quand menu ouvert */
+          overscroll-behavior: none;
+        }
+
+        @media (min-width: 768px) {
+          body {
+            overscroll-behavior: auto;
+          }
+        }
+
+        @supports not (overflow: clip) {
+          body { overflow-x: hidden; }
+        }
+
+        h1, h2, h3, h4, .font-display {
+          font-family: 'Plus Jakarta Sans', sans-serif;
+          line-height: 1.2; /* Meilleur espacement lignes sur mobile */
+        }
+
+        /* Empêche zoom iOS sur input focus */
+        @media (max-width: 767px) {
+          input, textarea, select {
+            font-size: 16px !important;
+          }
+        }
+
+        /* ================================================================
+           TOASTS — Mobile positioning
+        ================================================================ */
+        #toast-container {
+          pointer-events: none;
+          /* Position fixe en haut sur mobile pour éviter keyboard */
+          top: calc(var(--header-top) + var(--header-h) + 0.5rem) !important;
+          right: 0.5rem !important;
+          left: 0.5rem !important;
+          max-width: none !important;
+          width: auto !important;
+        }
+
+        @media (min-width: 640px) {
+          #toast-container {
+            top: calc(var(--header-top) + var(--header-h) + 1rem) !important;
+            right: 1rem !important;
+            left: auto !important;
+            width: 24rem !important;
+            max-width: 24rem !important;
+          }
+        }
+
+        #toast-container .toast {
+          pointer-events: auto;
+          /* Pleine largeur sur mobile */
+          width: 100%;
+        }
+
+        @media (min-width: 640px) {
+          #toast-container .toast {
+            width: auto;
+          }
+        }
+
+        /* ================================================================
+           MARQUEE — barre fixe tout en haut (Mobile-First)
+        ================================================================ */
+        #top-marquee-bar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: var(--marquee-h);
+          min-height: var(--marquee-h); /* Sécurité contenu */
+          z-index: 60;
+          overflow: hidden;
+          contain: layout style paint; /* Performance */
+        }
+
+        /* ================================================================
+           HEADER — décalé sous la barre marquee
+        ================================================================ */
+        #site-header {
+          position: fixed; /* Ajout explicite */
+          left: 0;
+          right: 0;
+          top: var(--header-top);
+          transition:
+            background      .35s ease,
+            border-color    .35s ease,
+            box-shadow      .35s ease,
+            backdrop-filter .35s ease;
+          will-change: background, box-shadow, backdrop-filter;
+          contain: layout style;
+          overflow: visible;
+        }
+
+        #site-header.scrolled {
+          background: rgba(8,8,10,.90); /* Plus opaque pour lisibilité */
+          border-bottom-color: #1e1e23;
+          box-shadow: 0 4px 30px rgba(0,0,0,.5);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+        }
+
+        @media (min-width: 768px) {
+          #site-header.scrolled {
+            background: rgba(8,8,10,.85);
+          }
+        }
+
+        @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+          #site-header.scrolled { background: rgba(8,8,10,.98); }
+        }
+
+        /* Underline des liens nav desktop */
+        .nav-link { position: relative; }
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -2px; left: 0;
+          width: 0; height: 1px;
+          background: var(--accent);
+          opacity: .9;
+          transition: width .25s cubic-bezier(.4,0,.2,1);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after { width: 100%; }
+
+        /* ================================================================
+           BURGER — Améliorations tactiles (Mobile uniquement)
+        ================================================================ */
+        #burger-btn {
+          min-height: 44px;
+          min-width:  44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255,255,255,.03);
+          border: 1px solid rgba(255,255,255,.10);
+          /* Zone tactile plus grande */
+          padding: 12px;
+          margin: -4px; /* Compense le padding pour alignement */
+          border-radius: 12px;
+          touch-action: manipulation; /* Optimisation tactile */
+        }
+        @media (min-width: 768px) {
+          #burger-btn {
+            display: none !important;
+          }
+        }
+
+        #burger-btn:hover {
+          background: rgba(255,255,255,.06);
+          border-color: rgba(255,255,255,.18);
+        }
+        #burger-btn:active {
+          transform: scale(0.95); /* Feedback tactile */
+        }
+        #burger-btn.active {
+          background: rgba(232,224,208,.10);
+          border-color: rgba(232,224,208,.22);
+          box-shadow:
+            0 0 0 1px rgba(232,224,208,.10) inset,
+            0 0 18px rgba(232,224,208,.08);
+        }
+
+        #burger-btn .burger-bar                { background: rgba(255,255,255,.75); }
+        #burger-btn .burger-bar:nth-child(3)   { background: rgba(232,224,208,.95); }
+        #burger-btn.active .burger-bar         { background: rgba(232,224,208,.95); }
+
+        /* ================================================================
+           MOBILE MENU — Optimisé pour touch
+        ================================================================ */
+        #mobile-menu {
+          /* État fermé par défaut */
+          transform: translateY(-150%);
+          opacity: 0;
+          pointer-events: none;
+          transition:
+            transform .45s cubic-bezier(.16,1,.3,1),
+            opacity   .25s ease;
+          will-change: transform, opacity;
+
+          background:
+            radial-gradient(800px 300px at 50% 0%,  rgba(59,130,246,.18),  transparent 55%),
+            radial-gradient(700px 300px at 80% 10%, rgba(168,85,247,.12), transparent 60%),
+            linear-gradient(to bottom, #0b0b10, #07070a);
+
+          border-bottom: 1px solid rgba(255,255,255,.10);
+          box-shadow: 0 30px 70px -25px rgba(0,0,0,.85);
+
+          /* Hauteur dynamique sécurisée */
+          max-height: calc(100dvh - var(--header-top) - var(--header-h));
+          height: auto;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior: contain;
+          scroll-padding-top: 1rem;
+          /* Safe area bottom pour iPhone */
+          padding-bottom: calc(1rem + var(--safe-bottom));
+
+          /* Positionnement */
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: calc(var(--header-h) - 1px);
+          z-index: 50;
+        }
+        @media (min-width: 768px) {
+          #mobile-menu {
+            display: none !important;
+          }
+        }
+
+        #mobile-menu.open {
+          transform: translateY(0);
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        /* Touch targets améliorés */
+        #mobile-menu nav a {
+          min-height: 56px;
+          padding: 0.875rem 0.75rem; /* Plus d'espace tactile */
+        }
+
+        #mobile-menu nav a:active {
+          background: rgba(255,255,255,.10) !important;
+          transform: scale(0.98);
+          transition: transform 0.1s ease;
+        }
+
+        /* Item actif */
+        #mobile-menu .nav-item-active {
+          background: rgba(255,255,255,.06);
+          border: 1px solid rgba(255,255,255,.12) !important;
+          box-shadow: 0 0 0 1px rgba(232,224,208,.12) inset;
+        }
+
+        /* Icônes */
+        #mobile-menu .nav-icon {
+          background: rgba(255,255,255,.04);
+          border: 1px solid rgba(255,255,255,.10);
+          box-shadow:
+            0 10px 30px -20px rgba(0,0,0,.9),
+            0 0 0 1px rgba(0,0,0,.25) inset;
+          /* Taille fixe pour stabilité */
+          width: 44px;
+          height: 44px;
+          flex-shrink: 0;
+        }
+        #mobile-menu a:hover .nav-icon {
+          border-color: rgba(232,224,208,.22);
+          box-shadow:
+            0 12px 34px -22px rgba(0,0,0,.9),
+            0 0 0 1px rgba(232,224,208,.10) inset;
+        }
+
+        /* ================================================================
+           OVERLAY MOBILE
+        ================================================================ */
+        #mobile-overlay {
+          background: rgba(0,0,0,.72);
+          backdrop-filter: blur(2px);
+          -webkit-backdrop-filter: blur(2px);
+          /* Positionnement */
+          position: fixed;
+          inset: 0;
+          z-index: 40;
+          /* État fermé par défaut */
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+        }
+
+        #mobile-overlay.open {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        /* CORRECTION : Cacher overlay sur desktop */
+        @media (min-width: 768px) {
           #mobile-overlay {
             display: none !important;
           }
         }
-    @keyframes infinite-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    .animate-infinite-scroll {
-      display: flex !important;
-      width: max-content !important;
-      animation: infinite-scroll 30s linear infinite !important;
-    }
-    {# BUG CORRIGÉ #3 : .hover:pause sans antislash (classe CSS valide) #}
-    .hover\:pause:hover {
-      animation-play-state: paused !important;
-    }
-  </style>
 
+        /* ================================================================
+           BLUR ARRIÈRE-PLAN QUAND MENU OUVERT
+        ================================================================ */
+        body.menu-open main,
+        body.menu-open footer {
+          filter: blur(8px); /* Réduit pour mobile */
+          opacity: .6;
+          transition: filter .25s ease, opacity .25s ease;
+          will-change: filter, opacity;
+          /* Empêche scroll */
+          overflow: hidden;
+          touch-action: none;
+        }
+
+        @media (min-width: 768px) {
+          body.menu-open main,
+          body.menu-open footer {
+            filter: blur(10px);
+            opacity: .55;
+          }
+        }
+
+        /* ================================================================
+           FOOTER — Espacements responsives
+        ================================================================ */
+        .footer-line {
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(232,224,208,.55),
+            rgba(59,130,246,.30),
+            rgba(168,85,247,.22),
+            transparent
+          );
+        }
+
+        /* Correction espacement footer */
+        footer {
+          margin-top: 4rem; /* Mobile */
+        }
+
+        @media (min-width: 640px) {
+          footer {
+            margin-top: 5rem;
+          }
+        }
+
+        @media (min-width: 768px) {
+          footer {
+            margin-top: 6rem;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          footer {
+            margin-top: 8rem; /* 32 */
+          }
+        }
+
+        /* ================================================================
+           SCROLLBAR (WebKit) — Plus fin sur mobile
+        ================================================================ */
+        ::-webkit-scrollbar {
+          width: 6px; /* Fin sur mobile */
+        }
+
+        @media (min-width: 768px) {
+          ::-webkit-scrollbar {
+            width: 8px;
+          }
+        }
+
+        ::-webkit-scrollbar-track {
+          background: rgba(255,255,255,.03);
+        }
+        ::-webkit-scrollbar-thumb {
+          background: linear-gradient(180deg, rgba(232,224,208,.28), rgba(255,255,255,.10));
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(180deg, rgba(232,224,208,.45), rgba(255,255,255,.14));
+        }
+
+        /* ================================================================
+           IMAGES — Responsive par défaut
+        ================================================================ */
+        img {
+          max-width: 100%;
+          height: auto;
+          vertical-align: middle; /* Évite espace sous images */
+        }
+
+        /* Logo spécifique - correction taille */
+        #site-header img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
+        /* Conteneurs d'images */
+        .img-container {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .img-container img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        /* ================================================================
+           RESPONSIVE UTILITIES — Mobile-First
+        ================================================================ */
+        @media (max-width: 767px) {
+          .prose-center-mobile h1,
+          .prose-center-mobile h2,
+          .prose-center-mobile h3,
+          .prose-center-mobile h4,
+          .prose-center-mobile p,
+          .prose-center-mobile .subtitle {
+            text-align: center;
+          }
+
+          .stack-mobile {
+            flex-direction: column;
+            align-items: center;
+          }
+          .gap-mobile-tight { gap: 0.75rem; }
+          .btn-full-mobile {
+            width: 100%;
+            justify-content: center;
+          }
+          .section-mobile {
+            padding-left: var(--container-px);
+            padding-right: var(--container-px);
+          }
+        }
+
+        /* Très petits écrans */
+        @media (max-width: 380px) {
+          :root {
+            --marquee-h: 40px;
+            --header-h: 56px;
+          }
+          #top-marquee-bar .text-sm { font-size: 11px; }
+          #top-marquee-bar .text-\[10px\] { display: none; }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+          :root {
+            --marquee-h: 36px;
+            --header-h: 50px;
+          }
+          #mobile-menu {
+            max-height: calc(100dvh - var(--header-top) - var(--header-h));
+          }
+        }
+
+        /* ================================================================
+           MOTION SAFETY (accessibilité)
+        ================================================================ */
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+
+          #top-marquee-bar .animate-infinite-scroll,
+          #site-header,
+          #mobile-menu,
+          #burger-btn .burger-bar,
+          .nav-link::after,
+          body.menu-open main,
+          body.menu-open footer {
+            transition: none !important;
+            animation: none !important;
+          }
+        }
+
+        /* ================================================================
+           FOCUS VISIBLE — Accessibilité clavier
+        ================================================================ */
+        :focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
+        }
+
+        :focus:not(:focus-visible) {
+          outline: none;
+        }
+      </style>
+      {# Animation marquee #}
+      <style>
+        @keyframes infinite-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+
+        .animate-infinite-scroll {
+          display: flex !important;
+          width: max-content !important;
+          animation: infinite-scroll 30s linear infinite !important;
+          will-change: transform; /* Performance GPU */
+        }
+
+        .hover\:pause:hover {
+          animation-play-state: paused !important;
+        }
+
+        /* Pause quand onglet inactive (économie batterie) */
+        @media (prefers-reduced-motion: no-preference) {
+          .animate-infinite-scroll {
+            animation-play-state: running;
+          }
+        }
+      </style>
   {% block extra_head %}{% endblock %}
 </head>
-
 <body class="flex flex-col min-h-screen">
-
 {# ====================================================================== #}
 {# MARQUEE BAR — fixe, tout en haut (z-60)                                #}
 {# ====================================================================== #}
@@ -474,13 +744,13 @@
     <div class="flex w-max animate-infinite-scroll hover:pause">
 
       {# GROUPE 1 #}
-      <div class="flex items-center gap-10 px-6">
+      <div class="flex items-center gap-6 sm:gap-10 px-4 sm:px-6">
         <div class="flex items-center gap-2.5">
           <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           </div>
           <div>
-            <div class="text-sm font-bold text-white leading-none">10+ Ans</div>
+            <div class="text-sm font-bold text-white leading-none">+10</div>
             <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Expérience</div>
           </div>
         </div>
@@ -520,7 +790,7 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
           </div>
           <div>
-            <div class="text-sm font-bold text-white leading-none">REST API</div>
+            <div class="text-sm font-bold text-white leading-none">API</div>
             <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Architecture</div>
           </div>
         </div>
@@ -548,13 +818,13 @@
       </div>{# /GROUPE 1 #}
 
       {# GROUPE 2 — copie identique pour l'effet de boucle seamless #}
-      <div class="flex items-center gap-10 px-6">
+      <div class="flex items-center gap-6 sm:gap-10 px-4 sm:px-6">
         <div class="flex items-center gap-2.5">
           <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           </div>
           <div>
-            <div class="text-sm font-bold text-white leading-none">10+ Ans</div>
+            <div class="text-sm font-bold text-white leading-none">+10</div>
             <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Expérience</div>
           </div>
         </div>
@@ -594,7 +864,7 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
           </div>
           <div>
-            <div class="text-sm font-bold text-white leading-none">REST API</div>
+            <div class="text-sm font-bold text-white leading-none">API</div>
             <div class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Architecture</div>
           </div>
         </div>
@@ -623,17 +893,14 @@
 
     </div>
   </div>
-
-</div>{# /#top-marquee-bar #}
-
-
+</div>
 {# ====================================================================== #}
 {# HEADER — élément FRÈRE de #top-marquee-bar                              #}
 {# ====================================================================== #}
 <header id="site-header"
         class="fixed left-0 right-0 z-50 border-b border-transparent backdrop-blur-md"
         style="top: var(--header-top); height: var(--header-h);">
-  <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
 
     {# Logo #}
     <a href="{% url 'home' %}"
@@ -645,7 +912,6 @@
              group-hover:scale-105 transition-transform duration-200
              shadow-lg shadow-accent/20 overflow-hidden"
       aria-hidden="true">
-
       <img
         src="{% static 'img/horus-logo-mark-160.webp' %}"
         srcset="
@@ -660,8 +926,6 @@
         decoding="async"
       />
     </span>
-
-
       <span class="font-display font-bold text-xl tracking-wide text-white hidden sm:block">
         Horus<span class="text-muted font-normal text-base"> Global Service</span>
       </span>
@@ -693,7 +957,6 @@
         </svg>
         <span>Projets</span>
       </a>
-
       <a href="{% url 'services' %}"
          class="group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
                 {% if url_name == 'services' %}bg-white/10 text-white shadow-inner{% else %}text-muted hover:text-white hover:bg-white/5{% endif %}">
@@ -704,7 +967,6 @@
         </svg>
         <span>Services</span>
       </a>
-
       <a href="{% url 'skills' %}"
          class="group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
                 {% if url_name == 'skills' %}bg-white/10 text-white shadow-inner{% else %}text-muted hover:text-white hover:bg-white/5{% endif %}">
@@ -715,7 +977,6 @@
         </svg>
         <span>Stack</span>
       </a>
-
       <a href="{% url 'blog' %}"
          class="group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
                 {% if url_name == 'blog' %}bg-white/10 text-white shadow-inner{% else %}text-muted hover:text-white hover:bg-white/5{% endif %}">
@@ -727,7 +988,6 @@
         <span>Article</span>
       </a>
     </nav>
-
     {# Desktop CTA #}
     <div class="hidden md:flex items-center gap-5">
       <a href="{% url 'contact' %}"
@@ -743,7 +1003,6 @@
         </svg>
       </a>
     </div>
-
     {# Mobile burger #}
     <button id="burger-btn"
             class="md:hidden group flex flex-col gap-1.5 p-3 rounded-xl
@@ -757,7 +1016,7 @@
       <span class="burger-bar w-4 ml-auto h-0.5 rounded-full bg-accent"></span>
     </button>
 
-  </div>{# /.max-w-7xl #}
+  </div>
 
   {# ================================================================ #}
   {# MOBILE MENU                                                       #}
@@ -875,19 +1134,22 @@
         {% endif %}
       </a>
 
-      {# ---- CTA Contact ---- #}
       <div class="mt-3 pt-4 border-t border-white/10 px-1">
-        <a href="{% url 'contact' %}"
-           class="flex items-center justify-center gap-3 w-full py-3.5 px-6 text-[15px] font-display font-bold
-                  text-dark bg-accent rounded-xl text-center shadow-lg
-                  hover:bg-white active:scale-95 transition-all">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-          </svg>
-          <span>Me contacter</span>
-        </a>
-      </div>
+      <a href="{% url 'contact' %}"
+         class="flex items-center justify-center gap-3 w-full py-3.5 px-6 text-[15px] font-display font-bold
+                text-dark bg-accent rounded-xl text-center shadow-lg shadow-black/40
+                hover:-translate-y-0.5
+                hover:shadow-[0_18px_50px_-25px_rgba(232,224,208,0.45)]
+                hover:ring-1 hover:ring-accent/40
+                focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-[#08080a]
+                active:translate-y-0 active:scale-95 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+        </svg>
+        <span>Me contacter</span>
+      </a>
+    </div>
 
     </nav>
 
@@ -957,39 +1219,9 @@
         </div>
       {% endfor %}
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const container = document.getElementById('toast-container');
-        if (!container) return;
-
-        const dismiss = (toast) => {
-          if (!toast) return;
-          toast.style.transition = 'all 0.5s ease-in-out';
-          toast.style.opacity = '0';
-          toast.style.transform = 'translateX(100%)';
-          setTimeout(() => {
-            toast.remove();
-            if (!container.querySelector('.toast')) container.remove();
-          }, 500);
-        };
-
-        container.querySelectorAll('.toast').forEach((t, i) => {
-          setTimeout(() => dismiss(t), 5000 + i * 1000);
-        });
-
-        container.addEventListener('click', (e) => {
-          const btn = e.target.closest('[data-toast-close]');
-          if (btn) dismiss(btn.closest('.toast'));
-        });
-      });
-    </script>
   {% endif %}
-
   {% block content %}{% endblock %}
-
 </main>
-
-
 {# ====================================================================== #}
 {# FOOTER                                                                  #}
 {# ====================================================================== #}
@@ -998,7 +1230,7 @@
   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
   <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-accent/5 blur-[80px] rounded-full pointer-events-none"></div>
 
-  <div class="max-w-7xl mx-auto px-6 pt-16 md:pt-24 pb-8 relative z-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-14 md:pt-24 pb-8 relative z-10">
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">
 
@@ -1105,29 +1337,33 @@
 
   </div>
 </footer>
-<script>
+    <script>
 /**
- * Script de Navigation Premium - 2026
- * Gère le header dynamique, le menu mobile et l'accessibilité.
+ * Navigation Premium - 2026 (UNIFIÉ)
+ * Header dynamique + Menu mobile + Accessibilité.
  */
 document.addEventListener('DOMContentLoaded', () => {
-
-  // --- 1. CONFIGURATION & ÉLÉMENTS ---
   const header  = document.getElementById('site-header');
   const btn     = document.getElementById('burger-btn');
   const menu    = document.getElementById('mobile-menu');
   const overlay = document.getElementById('mobile-overlay');
   const body    = document.body;
 
-  if (!header || !btn || !menu || !overlay) {
-    console.warn("Éléments de navigation manquants dans le DOM.");
+  // Header, burger, menu sont requis. Overlay peut être optionnel (mais recommandé).
+  if (!header || !btn || !menu) {
+    console.warn('Navigation: éléments requis manquants (#site-header, #burger-btn, #mobile-menu).');
     return;
   }
 
-  let isMenuOpen = false;
-  let ticking    = false;
+  const firstFocusableSelector = 'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-  // --- 2. HEADER SCROLL EFFECT ---
+  let isMenuOpen = false;
+  let ticking = false;
+  let lastFocus = null;
+
+  // -----------------------------
+  // Header scroll effect (rAF)
+  // -----------------------------
   const updateHeader = () => {
     header.classList.toggle('scrolled', window.scrollY > 20);
     ticking = false;
@@ -1140,89 +1376,121 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
+  // -----------------------------
+  // Helpers: lock/unlock scroll
+  // -----------------------------
+  const lockBody = () => {
+    // Évite le “jump” quand scrollbar disparaît (desktop)
+    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollBarWidth > 0) body.style.paddingRight = `${scrollBarWidth}px`;
 
-  // --- 3. GESTION DU MENU MOBILE ---
+    body.style.overflow = 'hidden';
+    body.style.touchAction = 'none';
+    body.classList.add('menu-open');
+  };
+
+  const unlockBody = () => {
+    body.style.overflow = '';
+    body.style.touchAction = '';
+    body.style.paddingRight = '';
+    body.classList.remove('menu-open');
+  };
+
+  // -----------------------------
+  // Open / Close
+  // -----------------------------
   const openMenu = () => {
+    if (isMenuOpen) return;
     isMenuOpen = true;
 
-    btn.setAttribute('aria-expanded', 'true');
-    menu.setAttribute('aria-hidden', 'false');
-    menu.removeAttribute('inert');           // BUG CORRIGÉ #4 : inert retiré à l'ouverture
-    menu.classList.add('open');
+    lastFocus = document.activeElement;
+
     btn.classList.add('active');
-    body.classList.add('menu-open');
+    btn.setAttribute('aria-expanded', 'true');
 
-    body.style.overflow    = 'hidden';
-    body.style.touchAction = 'none';
+    menu.classList.add('open');
+    menu.setAttribute('aria-hidden', 'false');
+    menu.removeAttribute('inert');
 
-    overlay.classList.remove('opacity-0', 'pointer-events-none');
-    overlay.classList.add('opacity-100');
-    overlay.style.pointerEvents = 'auto';
+    if (overlay) overlay.classList.add('open');
 
-    setTimeout(() => menu.querySelector('a')?.focus(), 100);
+    lockBody();
+
+    // Focus premier élément
+    window.setTimeout(() => {
+      const first = menu.querySelector(firstFocusableSelector);
+      if (first) first.focus({ preventScroll: true });
+    }, 50);
   };
 
   const closeMenu = () => {
+    if (!isMenuOpen) return;
     isMenuOpen = false;
 
-    btn.setAttribute('aria-expanded', 'false');
-    menu.setAttribute('aria-hidden', 'true');
-    menu.setAttribute('inert', '');          // BUG CORRIGÉ #4 : inert remis à la fermeture
-    menu.classList.remove('open');
     btn.classList.remove('active');
-    body.classList.remove('menu-open');
+    btn.setAttribute('aria-expanded', 'false');
 
-    body.style.overflow    = '';
-    body.style.touchAction = '';
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden', 'true');
+    menu.setAttribute('inert', '');
 
-    overlay.classList.add('opacity-0', 'pointer-events-none');
-    overlay.classList.remove('opacity-100');
-    overlay.style.pointerEvents = 'none';
+    if (overlay) overlay.classList.remove('open');
+
+    unlockBody();
+
+    // Restore focus (accessibilité)
+    if (lastFocus && typeof lastFocus.focus === 'function') {
+      window.setTimeout(() => lastFocus.focus({ preventScroll: true }), 0);
+    }
   };
 
-  // Toggle au clic sur le bouton burger
+  const toggleMenu = () => (isMenuOpen ? closeMenu() : openMenu());
+
+  // -----------------------------
+  // Events
+  // -----------------------------
   btn.addEventListener('click', (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    isMenuOpen ? closeMenu() : openMenu();
+    toggleMenu();
   });
 
-  // Fermeture au clic sur l'overlay
-  overlay.addEventListener('click', closeMenu);
+  // Overlay click -> close
+  if (overlay) overlay.addEventListener('click', closeMenu);
 
-  // --- 4. SÉCURITÉ ET UX ---
-
-  // Fermeture automatique au passage en desktop
-  window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => {
-    if (e.matches && isMenuOpen) closeMenu();
-  });
-
-  // Fermeture au clic sur un lien du menu mobile
-  menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => setTimeout(closeMenu, 150));
-  });
-
-  // Fermeture via la touche Échap
+  // Close on ESC
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isMenuOpen) {
-      closeMenu();
-      btn.focus();
-    }
+    if (e.key === 'Escape' && isMenuOpen) closeMenu();
   });
 
-  // Empêcher le scroll sous l'overlay
-  const preventScroll = (e) => {
-    if (isMenuOpen && e.target === overlay) {
-      e.preventDefault();
-      closeMenu();
-    }
-  };
-  overlay.addEventListener('wheel',     preventScroll, { passive: false });
-  overlay.addEventListener('touchmove', preventScroll, { passive: false });
+  // Close on click on a menu link
+  menu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => window.setTimeout(closeMenu, 120));
+  });
 
-  // Initialisation
+  // Close when switching to desktop
+  const mq = window.matchMedia('(min-width: 768px)');
+  const onMQChange = (e) => { if (e.matches) closeMenu(); };
+  if (mq.addEventListener) mq.addEventListener('change', onMQChange);
+  else mq.addListener(onMQChange);
+
+  // (Optionnel) Empêcher scroll sur overlay (utile iOS)
+  if (overlay) {
+    overlay.addEventListener('touchmove', (e) => {
+      if (isMenuOpen) e.preventDefault();
+    }, { passive: false });
+    overlay.addEventListener('wheel', (e) => {
+      if (isMenuOpen) e.preventDefault();
+    }, { passive: false });
+  }
+
+  // Init
   updateHeader();
+  // Sécurise l’état initial si HTML n’est pas prêt
+  btn.setAttribute('aria-expanded', 'false');
+  menu.setAttribute('aria-hidden', 'true');
+  if (!menu.hasAttribute('inert')) menu.setAttribute('inert', '');
 });
 </script>
-
 </body>
 </html>

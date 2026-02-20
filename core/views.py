@@ -4,19 +4,17 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.paginator import Paginator
-
+from .models import LegalPage
 from .forms import ContactForm
 from .models import Article, Project
 
 logger = logging.getLogger(__name__)
 
-# Constantes pour la clarté du code
 AUDIT_REQUEST_TYPE = "audit"
 AUDIT_PREFILL_MESSAGE = (
     "Bonjour, je souhaiterais obtenir un audit complet "
     "(performance, SQL, sécurité) pour mon projet."
 )
-
 
 def home(request):
     """Page d'accueil"""
@@ -117,3 +115,10 @@ def portfolio(request):
 def project_detail(request, slug):
     project = get_object_or_404(Project, slug=slug)
     return render(request, "core/project_detail.html", {"project": project})
+
+def legal_page_detail(request, slug):
+    page = get_object_or_404(LegalPage, slug=slug)
+    return render(request, 'core/legal.html', {'page': page})
+
+def custom_bad_request_view(request, exception):
+    return render(request, '404.html', status=404)

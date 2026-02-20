@@ -1,0 +1,10 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6">{{ page.get_title_display }}</h1>
+    <div class="prose max-w-none">
+        {{ page.content|safe }}
+    </div>
+    <p class="text-sm text-gray-500 mt-8">Dernière mise à jour : {{ page.updated_at|date:"d F Y" }}</p>
+</div>
+{% endblock %}
