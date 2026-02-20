@@ -430,6 +430,16 @@
 
   {# Animation marquee #}
   <style>
+      /* ================================================================
+       SÉCURITÉ : Forcer la disparition du menu mobile sur Desktop
+        ================================================================ */
+        @media (min-width: 768px) {
+          #mobile-menu,
+          #burger-btn,
+          #mobile-overlay {
+            display: none !important;
+          }
+        }
     @keyframes infinite-scroll {
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
@@ -722,9 +732,9 @@
     <div class="hidden md:flex items-center gap-5">
       <a href="{% url 'contact' %}"
          class="flex items-center gap-2 px-5 py-2.5 text-sm font-display font-bold text-dark bg-accent rounded-xl
-                hover:bg-white hover:text-accent focus:bg-white focus:text-accent
-                focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2
-                hover:scale-105 hover:shadow-lg hover:shadow-accent/20
+                hover:bg-white hover:text-dark focus:bg-white focus:text-dark
+                focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#08080a]
+                hover:scale-105 hover:shadow-lg hover:shadow-white/20
                 transition-all duration-200 group">
         <span>Contactez-Nous</span>
         <svg class="w-4 h-4 transition-transform group-hover:rotate-12 group-focus:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1095,8 +1105,6 @@
 
   </div>
 </footer>
-
-
 <script>
 /**
  * Script de Navigation Premium - 2026
