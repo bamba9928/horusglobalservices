@@ -104,7 +104,7 @@ Message :
 
 def portfolio(request):
     """Page Portfolio avec pagination"""
-    projects_list = Project.objects.all().order_id("-id")  # Optionnel: tri par ID
+    projects_list = Project.objects.all().order_by("-id")
     paginator = Paginator(projects_list, 9)
     page_number = request.GET.get("page")
     projects = paginator.get_page(page_number)
