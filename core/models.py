@@ -4,6 +4,7 @@ from django.utils.text import slugify
 from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from ckeditor_uploader.fields import RichTextUploadingField
+from django_resized import ResizedImageField
 
 CATEGORY_CHOICES = [
     ('tutorial', 'Tutoriel'),
@@ -39,9 +40,19 @@ class Article(models.Model):
     summary = models.TextField(max_length=500, verbose_name="Résumé pour SEO")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, blank=True)
     content = RichTextUploadingField(verbose_name="Contenu")
-    image = models.ImageField(upload_to="blog/", blank=True, null=True, verbose_name="Image de couverture")
+    image = ResizedImageField(
+        size=[1200, 675],
+        crop=['middle', 'center'],
+        quality=85,
+        upload_to="blog/",
+        force_format="WEBP",
+        blank=True,
+        null=True,
+        verbose_name="Image de couverture",
+    )
     created_at = models.DateTimeField(default=timezone.now, verbose_name="Date de publication")
     is_published = models.BooleanField(default=True, verbose_name="Publié")
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Article"
@@ -66,7 +77,13 @@ class Project(models.Model):
     title = models.CharField(max_length=200, verbose_name="Titre du projet")
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(verbose_name="Description courte")
-    image = models.ImageField(upload_to="portfolio/", verbose_name="Image de présentation")
+    image = ResizedImageField(
+        size=[1200, 900],  # format portfolio
+        quality=85,
+        upload_to="portfolio/",
+        force_format="WEBP",
+        verbose_name="Image de présentation",
+    )
     url = models.URLField(blank=True, verbose_name="Lien vers le site (Live)")
     github_url = models.URLField(blank=True, verbose_name="Lien GitHub (Optionnel)")
     technologies = models.CharField(
@@ -75,6 +92,7 @@ class Project(models.Model):
     )
     created_at = models.DateField(default=timezone.now, verbose_name="Date de réalisation")
     is_featured = models.BooleanField(default=False, verbose_name="Afficher sur l'accueil ?")
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Projet"
@@ -130,7 +148,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=50, blank=True, verbose_name="Prénom")
     last_name = models.CharField(max_length=50, blank=True, verbose_name="Nom")
     phone = models.CharField(max_length=20, blank=True, verbose_name="Téléphone")
-    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True, verbose_name="Photo de profil")
+    avatar = ResizedImageField(
+        size=[400, 400],
+        quality=85,
+        upload_to="avatars/",
+        force_format="WEBP",
+        blank=True,
+        null=True,
+        verbose_name="Photo de profil",
+    )
 
     # Rôle / profil métier
     ROLE_CHOICES = [

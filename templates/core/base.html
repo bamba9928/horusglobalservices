@@ -12,8 +12,6 @@
     <meta name="author" content="Horus Global Services">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
-
-    {# Theme color & Optimisation Mobile (PWA) #}
     <meta name="theme-color" content="#08080a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -90,16 +88,14 @@
       ]
     }
     </script>
-    {# ------------------------------------------------------------------ #}
     {% if TEMPLATE_DEBUG %}
         <script>
           window.tailwind = {
             config: {
               theme: {
                 extend: {
-                  // ✅ CORRECT : screens au bon niveau dans extend
                   screens: {
-                    'xs': '475px',  // S'ajoute aux breakpoints par défaut
+                    'xs': '475px',
                   },
                   colors: {
                     dark:   '#08080a',
@@ -158,9 +154,6 @@
       {% endif %}
 
       <style>
-        /* ================================================================
-           ROOT — Variables CSS (Mobile-First)
-        ================================================================ */
         :root {
           --header-h:   60px;        /* Réduit pour mobile */
           --marquee-h:  44px;        /* Réduit pour mobile */
@@ -173,11 +166,9 @@
           --muted:      rgba(240,236,228,.70);
           --accent:     #e8e0d0;
           --dark:       #08080a;
-          --section-py: 3rem;        /* Padding vertical section mobile */
-          --container-px: 1rem;      /* Padding horizontal mobile */
+          --section-py: 3rem;
+          --container-px: 1rem;
         }
-
-        /* Tablet */
         @media (min-width: 640px) {
           :root {
             --header-h:   64px;
@@ -187,8 +178,6 @@
             --container-px: 1.5rem;
           }
         }
-
-        /* Desktop */
         @media (min-width: 768px) {
           :root {
             --header-h:   70px;
@@ -198,13 +187,9 @@
             --container-px: 2rem;
           }
         }
-
-        /* ================================================================
-           BASE — Mobile Optimizations
-        ================================================================ */
         * {
           box-sizing: border-box;
-          -webkit-tap-highlight-color: transparent; /* Supprime flash bleu sur tap */
+          -webkit-tap-highlight-color: transparent;
         }
 
         html {
@@ -244,10 +229,6 @@
             font-size: 16px !important;
           }
         }
-
-        /* ================================================================
-           TOASTS — Mobile positioning
-        ================================================================ */
         #toast-container {
           pointer-events: none;
           /* Position fixe en haut sur mobile pour éviter keyboard */
@@ -279,10 +260,6 @@
             width: auto;
           }
         }
-
-        /* ================================================================
-           MARQUEE — barre fixe tout en haut (Mobile-First)
-        ================================================================ */
         #top-marquee-bar {
           position: fixed;
           top: 0;
@@ -294,10 +271,6 @@
           overflow: hidden;
           contain: layout style paint; /* Performance */
         }
-
-        /* ================================================================
-           HEADER — décalé sous la barre marquee
-        ================================================================ */
         #site-header {
           position: fixed; /* Ajout explicite */
           left: 0;
@@ -314,7 +287,7 @@
         }
 
         #site-header.scrolled {
-          background: rgba(8,8,10,.90); /* Plus opaque pour lisibilité */
+          background: rgba(8,8,10,.90);
           border-bottom-color: #1e1e23;
           box-shadow: 0 4px 30px rgba(0,0,0,.5);
           backdrop-filter: blur(12px);
@@ -345,9 +318,6 @@
         .nav-link:hover::after,
         .nav-link.active::after { width: 100%; }
 
-        /* ================================================================
-           BURGER — Améliorations tactiles (Mobile uniquement)
-        ================================================================ */
         #burger-btn {
           min-height: 44px;
           min-width:  44px;
@@ -358,9 +328,9 @@
           border: 1px solid rgba(255,255,255,.10);
           /* Zone tactile plus grande */
           padding: 12px;
-          margin: -4px; /* Compense le padding pour alignement */
+          margin: -4px;
           border-radius: 12px;
-          touch-action: manipulation; /* Optimisation tactile */
+          touch-action: manipulation;
         }
         @media (min-width: 768px) {
           #burger-btn {
@@ -373,7 +343,7 @@
           border-color: rgba(255,255,255,.18);
         }
         #burger-btn:active {
-          transform: scale(0.95); /* Feedback tactile */
+          transform: scale(0.95);
         }
         #burger-btn.active {
           background: rgba(232,224,208,.10);
@@ -387,9 +357,6 @@
         #burger-btn .burger-bar:nth-child(3)   { background: rgba(232,224,208,.95); }
         #burger-btn.active .burger-bar         { background: rgba(232,224,208,.95); }
 
-        /* ================================================================
-           MOBILE MENU — Optimisé pour touch
-        ================================================================ */
         #mobile-menu {
           /* État fermé par défaut */
           transform: translateY(-150%);
@@ -474,10 +441,6 @@
             0 12px 34px -22px rgba(0,0,0,.9),
             0 0 0 1px rgba(232,224,208,.10) inset;
         }
-
-        /* ================================================================
-           OVERLAY MOBILE
-        ================================================================ */
         #mobile-overlay {
           background: rgba(0,0,0,.72);
           backdrop-filter: blur(2px);
@@ -496,17 +459,11 @@
           opacity: 1;
           pointer-events: auto;
         }
-
-        /* CORRECTION : Cacher overlay sur desktop */
         @media (min-width: 768px) {
           #mobile-overlay {
             display: none !important;
           }
         }
-
-        /* ================================================================
-           BLUR ARRIÈRE-PLAN QUAND MENU OUVERT
-        ================================================================ */
         body.menu-open main,
         body.menu-open footer {
           filter: blur(8px); /* Réduit pour mobile */
@@ -525,10 +482,6 @@
             opacity: .55;
           }
         }
-
-        /* ================================================================
-           FOOTER — Espacements responsives
-        ================================================================ */
         .footer-line {
           background: linear-gradient(
             90deg,
@@ -540,7 +493,6 @@
           );
         }
 
-        /* Correction espacement footer */
         footer {
           margin-top: 4rem; /* Mobile */
         }
@@ -562,10 +514,6 @@
             margin-top: 8rem; /* 32 */
           }
         }
-
-        /* ================================================================
-           SCROLLBAR (WebKit) — Plus fin sur mobile
-        ================================================================ */
         ::-webkit-scrollbar {
           width: 6px; /* Fin sur mobile */
         }
@@ -587,10 +535,6 @@
         ::-webkit-scrollbar-thumb:hover {
           background: linear-gradient(180deg, rgba(232,224,208,.45), rgba(255,255,255,.14));
         }
-
-        /* ================================================================
-           IMAGES — Responsive par défaut
-        ================================================================ */
         img {
           max-width: 100%;
           height: auto;
@@ -615,10 +559,6 @@
           height: 100%;
           object-fit: cover;
         }
-
-        /* ================================================================
-           RESPONSIVE UTILITIES — Mobile-First
-        ================================================================ */
         @media (max-width: 767px) {
           .prose-center-mobile h1,
           .prose-center-mobile h2,
@@ -664,10 +604,6 @@
             max-height: calc(100dvh - var(--header-top) - var(--header-h));
           }
         }
-
-        /* ================================================================
-           MOTION SAFETY (accessibilité)
-        ================================================================ */
         @media (prefers-reduced-motion: reduce) {
           *,
           *::before,
@@ -689,10 +625,6 @@
             animation: none !important;
           }
         }
-
-        /* ================================================================
-           FOCUS VISIBLE — Accessibilité clavier
-        ================================================================ */
         :focus-visible {
           outline: 2px solid var(--accent);
           outline-offset: 2px;
@@ -730,9 +662,6 @@
   {% block extra_head %}{% endblock %}
 </head>
 <body class="flex flex-col min-h-screen">
-{# ====================================================================== #}
-{# MARQUEE BAR — fixe, tout en haut (z-60)                                #}
-{# ====================================================================== #}
 <div id="top-marquee-bar"
      class="border-b border-white/5 bg-[#08080a]/95 backdrop-blur-sm"
      style="height: var(--marquee-h);">
@@ -894,9 +823,6 @@
     </div>
   </div>
 </div>
-{# ====================================================================== #}
-{# HEADER — élément FRÈRE de #top-marquee-bar                              #}
-{# ====================================================================== #}
 <header id="site-header"
         class="fixed left-0 right-0 z-50 border-b border-transparent backdrop-blur-md"
         style="top: var(--header-top); height: var(--header-h);">
@@ -1017,10 +943,6 @@
     </button>
 
   </div>
-
-  {# ================================================================ #}
-  {# MOBILE MENU                                                       #}
-  {# ================================================================ #}
   <div id="mobile-menu"
        class="md:hidden absolute left-0 right-0 z-50 pb-8
               border-b border-white/10
@@ -1029,7 +951,6 @@
        aria-hidden="true"
        inert>
 
-    {# Liseré accent en haut du menu #}
     <div class="h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent mb-2"></div>
 
     <nav class="flex flex-col px-4 pt-2 gap-1" aria-label="Navigation mobile">
@@ -1338,159 +1259,174 @@
   </div>
 </footer>
     <script>
-/**
- * Navigation Premium - 2026 (UNIFIÉ)
- * Header dynamique + Menu mobile + Accessibilité.
- */
-document.addEventListener('DOMContentLoaded', () => {
-  const header  = document.getElementById('site-header');
-  const btn     = document.getElementById('burger-btn');
-  const menu    = document.getElementById('mobile-menu');
-  const overlay = document.getElementById('mobile-overlay');
-  const body    = document.body;
+    /**
+     * Navigation Premium - 2026 (UNIFIÉ)
+     * Header dynamique + Menu mobile + Accessibilité.
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      const header  = document.getElementById('site-header');
+      const btn     = document.getElementById('burger-btn');
+      const menu    = document.getElementById('mobile-menu');
+      const overlay = document.getElementById('mobile-overlay');
+      const body    = document.body;
 
-  // Header, burger, menu sont requis. Overlay peut être optionnel (mais recommandé).
-  if (!header || !btn || !menu) {
-    console.warn('Navigation: éléments requis manquants (#site-header, #burger-btn, #mobile-menu).');
-    return;
-  }
+      // Header, burger, menu sont requis. Overlay peut être optionnel (mais recommandé).
+      if (!header || !btn || !menu) {
+        console.warn('Navigation: éléments requis manquants (#site-header, #burger-btn, #mobile-menu).');
+      } else {
+        const firstFocusableSelector = 'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-  const firstFocusableSelector = 'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        let isMenuOpen = false;
+        let ticking = false;
+        let lastFocus = null;
 
-  let isMenuOpen = false;
-  let ticking = false;
-  let lastFocus = null;
+        // -----------------------------
+        // Header scroll effect (rAF)
+        // -----------------------------
+        const updateHeader = () => {
+          header.classList.toggle('scrolled', window.scrollY > 20);
+          ticking = false;
+        };
 
-  // -----------------------------
-  // Header scroll effect (rAF)
-  // -----------------------------
-  const updateHeader = () => {
-    header.classList.toggle('scrolled', window.scrollY > 20);
-    ticking = false;
-  };
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            window.requestAnimationFrame(updateHeader);
+            ticking = true;
+          }
+        }, { passive: true });
 
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(updateHeader);
-      ticking = true;
-    }
-  }, { passive: true });
+        // -----------------------------
+        // Helpers: lock/unlock scroll
+        // -----------------------------
+        const lockBody = () => {
+          const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+          if (scrollBarWidth > 0) body.style.paddingRight = `${scrollBarWidth}px`;
 
-  // -----------------------------
-  // Helpers: lock/unlock scroll
-  // -----------------------------
-  const lockBody = () => {
-    // Évite le “jump” quand scrollbar disparaît (desktop)
-    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-    if (scrollBarWidth > 0) body.style.paddingRight = `${scrollBarWidth}px`;
+          body.style.overflow = 'hidden';
+          body.style.touchAction = 'none';
+          body.classList.add('menu-open');
+        };
 
-    body.style.overflow = 'hidden';
-    body.style.touchAction = 'none';
-    body.classList.add('menu-open');
-  };
+        const unlockBody = () => {
+          body.style.overflow = '';
+          body.style.touchAction = '';
+          body.style.paddingRight = '';
+          body.classList.remove('menu-open');
+        };
 
-  const unlockBody = () => {
-    body.style.overflow = '';
-    body.style.touchAction = '';
-    body.style.paddingRight = '';
-    body.classList.remove('menu-open');
-  };
+        // -----------------------------
+        // Open / Close
+        // -----------------------------
+        const openMenu = () => {
+          if (isMenuOpen) return;
+          isMenuOpen = true;
 
-  // -----------------------------
-  // Open / Close
-  // -----------------------------
-  const openMenu = () => {
-    if (isMenuOpen) return;
-    isMenuOpen = true;
+          lastFocus = document.activeElement;
 
-    lastFocus = document.activeElement;
+          btn.classList.add('active');
+          btn.setAttribute('aria-expanded', 'true');
 
-    btn.classList.add('active');
-    btn.setAttribute('aria-expanded', 'true');
+          menu.classList.add('open');
+          menu.setAttribute('aria-hidden', 'false');
+          menu.removeAttribute('inert');
 
-    menu.classList.add('open');
-    menu.setAttribute('aria-hidden', 'false');
-    menu.removeAttribute('inert');
+          if (overlay) overlay.classList.add('open');
 
-    if (overlay) overlay.classList.add('open');
+          lockBody();
 
-    lockBody();
+          window.setTimeout(() => {
+            const first = menu.querySelector(firstFocusableSelector);
+            if (first) first.focus({ preventScroll: true });
+          }, 50);
+        };
 
-    // Focus premier élément
-    window.setTimeout(() => {
-      const first = menu.querySelector(firstFocusableSelector);
-      if (first) first.focus({ preventScroll: true });
-    }, 50);
-  };
+        const closeMenu = () => {
+          if (!isMenuOpen) return;
+          isMenuOpen = false;
 
-  const closeMenu = () => {
-    if (!isMenuOpen) return;
-    isMenuOpen = false;
+          btn.classList.remove('active');
+          btn.setAttribute('aria-expanded', 'false');
 
-    btn.classList.remove('active');
-    btn.setAttribute('aria-expanded', 'false');
+          menu.classList.remove('open');
+          menu.setAttribute('aria-hidden', 'true');
+          menu.setAttribute('inert', '');
 
-    menu.classList.remove('open');
-    menu.setAttribute('aria-hidden', 'true');
-    menu.setAttribute('inert', '');
+          if (overlay) overlay.classList.remove('open');
 
-    if (overlay) overlay.classList.remove('open');
+          unlockBody();
 
-    unlockBody();
+          if (lastFocus && typeof lastFocus.focus === 'function') {
+            window.setTimeout(() => lastFocus.focus({ preventScroll: true }), 0);
+          }
+        };
 
-    // Restore focus (accessibilité)
-    if (lastFocus && typeof lastFocus.focus === 'function') {
-      window.setTimeout(() => lastFocus.focus({ preventScroll: true }), 0);
-    }
-  };
+        const toggleMenu = () => (isMenuOpen ? closeMenu() : openMenu());
 
-  const toggleMenu = () => (isMenuOpen ? closeMenu() : openMenu());
+        // -----------------------------
+        // Events
+        // -----------------------------
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleMenu();
+        });
 
-  // -----------------------------
-  // Events
-  // -----------------------------
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleMenu();
-  });
+        if (overlay) overlay.addEventListener('click', closeMenu);
 
-  // Overlay click -> close
-  if (overlay) overlay.addEventListener('click', closeMenu);
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && isMenuOpen) closeMenu();
+        });
 
-  // Close on ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isMenuOpen) closeMenu();
-  });
+        menu.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => window.setTimeout(closeMenu, 120));
+        });
 
-  // Close on click on a menu link
-  menu.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => window.setTimeout(closeMenu, 120));
-  });
+        const mq = window.matchMedia('(min-width: 768px)');
+        const onMQChange = (e) => { if (e.matches) closeMenu(); };
+        if (mq.addEventListener) mq.addEventListener('change', onMQChange);
+        else mq.addListener(onMQChange);
 
-  // Close when switching to desktop
-  const mq = window.matchMedia('(min-width: 768px)');
-  const onMQChange = (e) => { if (e.matches) closeMenu(); };
-  if (mq.addEventListener) mq.addEventListener('change', onMQChange);
-  else mq.addListener(onMQChange);
+        if (overlay) {
+          overlay.addEventListener('touchmove', (e) => {
+            if (isMenuOpen) e.preventDefault();
+          }, { passive: false });
 
-  // (Optionnel) Empêcher scroll sur overlay (utile iOS)
-  if (overlay) {
-    overlay.addEventListener('touchmove', (e) => {
-      if (isMenuOpen) e.preventDefault();
-    }, { passive: false });
-    overlay.addEventListener('wheel', (e) => {
-      if (isMenuOpen) e.preventDefault();
-    }, { passive: false });
-  }
+          overlay.addEventListener('wheel', (e) => {
+            if (isMenuOpen) e.preventDefault();
+          }, { passive: false });
+        }
 
-  // Init
-  updateHeader();
-  // Sécurise l’état initial si HTML n’est pas prêt
-  btn.setAttribute('aria-expanded', 'false');
-  menu.setAttribute('aria-hidden', 'true');
-  if (!menu.hasAttribute('inert')) menu.setAttribute('inert', '');
-});
-</script>
+        // Init
+        updateHeader();
+        btn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        if (!menu.hasAttribute('inert')) menu.setAttribute('inert', '');
+      }
+
+      // ---------------------------------------------------
+      // Toasts (placés DANS DOMContentLoaded -> plus sûr)
+      // ---------------------------------------------------
+      const removeToast = (toast) => {
+        if (!toast) return;
+        toast.classList.add('animate-fade-out');
+        window.setTimeout(() => {
+          if (toast.parentNode) toast.remove();
+        }, 400);
+      };
+
+      document.querySelectorAll('[data-toast-close]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const toast = button.closest('.toast');
+          removeToast(toast);
+        });
+      });
+
+      document.querySelectorAll('.toast').forEach((toast) => {
+        window.setTimeout(() => {
+          if (toast.parentNode) removeToast(toast);
+        }, 5000);
+      });
+    });
+    </script>
 </body>
 </html>

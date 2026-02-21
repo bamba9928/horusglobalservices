@@ -1,13 +1,16 @@
 import logging
+
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.paginator import Paginator
-from .models import LegalPage
+from .models import LegalPage, Article, Project
 from .forms import ContactForm
-from .models import Article, Project
 
+# Configuration du logger
 logger = logging.getLogger(__name__)
 
 AUDIT_REQUEST_TYPE = "audit"
@@ -16,10 +19,12 @@ AUDIT_PREFILL_MESSAGE = (
     "(performance, SQL, sécurité) pour mon projet."
 )
 
+
 def home(request):
-    """Page d'accueil"""
-    recent_articles = Article.objects.filter(is_published=True)[:3]
-    featured_projects = Project.objects.filter(is_featured=True)[:3]
+    """Page d'accueil optimisée"""
+    # On limite les requêtes SQL pour accélérer le FCP
+    recent_articles = Article.objects.filter(is_published=True).order_by("-created_at")[:3]
+    featured_projects = Project.objects.filter(is_featured=True).order_by("-id")[:3]
 
     return render(request, "core/home.html", {
         "recent_articles": recent_articles,
@@ -36,7 +41,8 @@ def skills(request):
 
 
 def blog(request):
-    articles = Article.objects.filter(is_published=True)
+    """Liste des articles"""
+    articles = Article.objects.filter(is_published=True).order_by("-created_at")
     return render(request, "core/blog.html", {"articles": articles})
 
 
@@ -46,7 +52,7 @@ def article_detail(request, slug):
 
 
 def contact(request):
-    # Récupération du type de demande (GET pour l'affichage, POST pour le traitement)
+    """Gestion du formulaire de contact et demande d'audit"""
     request_type = request.GET.get("type") or request.POST.get("request_type")
     is_audit_request = request_type == AUDIT_REQUEST_TYPE
 
@@ -103,8 +109,11 @@ Message :
 
 
 def portfolio(request):
-    """Page Portfolio avec pagination"""
+    """Page Portfolio avec pagination et correction order_by"""
+    # Correction de l'erreur 500 : order_by au lieu de order_id
     projects_list = Project.objects.all().order_by("-id")
+
+    # Pagination : 9 projets par page
     paginator = Paginator(projects_list, 9)
     page_number = request.GET.get("page")
     projects = paginator.get_page(page_number)
@@ -116,9 +125,18 @@ def project_detail(request, slug):
     project = get_object_or_404(Project, slug=slug)
     return render(request, "core/project_detail.html", {"project": project})
 
+
 def legal_page_detail(request, slug):
     page = get_object_or_404(LegalPage, slug=slug)
     return render(request, 'core/legal.html', {'page': page})
 
+
 def custom_bad_request_view(request, exception):
+    """Vue 404 personnalisée"""
     return render(request, '404.html', status=404)
+def robots_txt(request):
+    content = render_to_string("robots.txt", {
+        "domain": request.get_host(),
+        "scheme": "https" if request.is_secure() else "http",
+    })
+    return HttpResponse(content, content_type="text/plain")

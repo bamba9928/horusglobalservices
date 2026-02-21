@@ -4,8 +4,9 @@ from .models import Article, Project
 
 
 class StaticViewSitemap(Sitemap):
-    priority = 0.8
-    changefreq = 'weekly'
+    """Sitemap pour les pages institutionnelles fixes"""
+    priority = 0.9  # Augmenté pour les pages piliers
+    changefreq = 'monthly'
 
     def items(self):
         return ['home', 'services', 'skills', 'portfolio', 'blog', 'contact']
@@ -14,23 +15,27 @@ class StaticViewSitemap(Sitemap):
         return reverse(item)
 
 
+class ProjectSitemap(Sitemap):
+    """Sitemap pour tes études de cas (Portfolio)"""
+    changefreq = 'weekly'
+    priority = 0.8 # Priorité haute pour tes réalisations
+
+    def items(self):
+        # On s'assure de l'ordre pour un sitemap stable
+        return Project.objects.all().order_by('-id')
+
+    def lastmod(self, obj):
+        # Utilise updated_at si tu l'as, sinon created_at
+        return getattr(obj, 'updated_at', obj.created_at)
+
+
 class ArticleSitemap(Sitemap):
+    """Sitemap pour les articles de blog"""
     changefreq = 'weekly'
     priority = 0.6
 
     def items(self):
-        return Article.objects.filter(is_published=True)
+        return Article.objects.filter(is_published=True).order_by('-created_at')
 
     def lastmod(self, obj):
-        return obj.created_at
-
-
-class ProjectSitemap(Sitemap):
-    changefreq = 'monthly'
-    priority = 0.7
-
-    def items(self):
-        return Project.objects.all()
-
-    def lastmod(self, obj):
-        return obj.created_at
+        return getattr(obj, 'updated_at', obj.created_at)

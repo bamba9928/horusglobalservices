@@ -1,22 +1,38 @@
 {% extends 'core/base.html' %}
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Horus Global Service",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ request.scheme }}://{{ request.get_host }}/blog/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  },
+  "sameAs": []
+}
+</script>
+{% endblock %}
 
 {% block content %}
-
-{# =========================================================== #}
-{# HERO — Mobile-First Optimisé                                 #}
-{# =========================================================== #}
 <div class="relative pt-12 pb-10 sm:pt-16 sm:pb-14 md:pt-24 md:pb-20 lg:pt-32 lg:pb-24
             px-4 sm:px-6 md:px-8 lg:px-12
             max-w-full mx-auto text-center overflow-clip">
 
-    {# Halo — Taille adaptée mobile #}
     <div class="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
         <div class="absolute left-0 right-0 top-0 m-auto
                     h-[200px] w-[200px] sm:h-[240px] sm:w-[240px] md:h-[280px] md:w-[280px] lg:h-[310px] lg:w-[310px]
-                    rounded-full bg-blue-500/15 blur-[80px] sm:blur-[100px]"></div>
+                    rounded-full bg-blue-500/15
+                    blur-[60px] sm:blur-[80px] md:blur-[100px]
+                    will-change-transform"></div>
     </div>
 
-    {# Titre — Échelle mobile-first #}
+    {# Titre h1 — LCP probable sur desktop (pas d'image au-dessus) #}
     <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl
                font-extrabold tracking-tighter mb-4 sm:mb-6 md:mb-8
                text-white relative z-10 font-display leading-[1.1] sm:leading-[1.05]">
@@ -27,7 +43,6 @@
         </span>
     </h1>
 
-    {# Accroche — Lisibilité mobile améliorée #}
     <p class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-400
               max-w-xl sm:max-w-2xl md:max-w-3xl mx-auto leading-relaxed mb-6 sm:mb-8 md:mb-10
               relative z-10 px-2 sm:px-4 md:px-1">
@@ -44,7 +59,6 @@
         pour automatiser, durcir et optimiser vos systèmes.
     </p>
 
-    {# CTAs — Stack vertical sur mobile, horizontal sur sm #}
     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center
                 relative z-10 px-4 sm:px-0 max-w-md sm:max-w-none mx-auto">
         <a href="{% url 'contact' %}"
@@ -72,20 +86,15 @@
         </a>
     </div>
 
-    {# Séparateur #}
     <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-px
                 bg-gradient-to-r from-transparent via-white/10 to-transparent"
          aria-hidden="true"></div>
 </div>
 
-{# =========================================================== #}
-{# GARANTIES — Cartes pleine largeur mobile                     #}
-{# =========================================================== #}
 <section class="py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl mx-auto"
          aria-labelledby="garanties-title">
     <h2 id="garanties-title" class="sr-only">Nos garanties</h2>
 
-    {# Stack vertical sur mobile, 3 colonnes sur sm #}
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
 
         <div class="bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl
@@ -124,7 +133,6 @@
     </div>
 </section>
 
-{# Séparateur décoratif — Adapté mobile #}
 <div class="relative mx-auto max-w-5xl px-4 sm:px-6" aria-hidden="true">
     <div class="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"></div>
     <div class="absolute left-1/2 top-1/2 h-1.5 w-1.5 sm:h-2 sm:w-2
@@ -132,17 +140,15 @@
                 bg-blue-400/80 shadow-[0_0_12px_rgba(59,130,246,0.7)] sm:shadow-[0_0_18px_rgba(59,130,246,0.7)]"></div>
 </div>
 
-{# =========================================================== #}
-{# PROJETS MIS EN AVANT — Images optimisées                     #}
-{# =========================================================== #}
 {% if featured_projects %}
-<section class="py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl mx-auto">
+<section class="py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl mx-auto"
+         aria-labelledby="projects-title">
     <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 sm:gap-3 mb-6 sm:mb-10 md:mb-12">
         <div>
             <p class="text-[10px] sm:text-xs font-bold text-blue-400 uppercase tracking-widest mb-1 sm:mb-2">
                 Portfolio
             </p>
-            <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-white font-display">
+            <h2 id="projects-title" class="text-xl sm:text-2xl md:text-3xl font-bold text-white font-display">
                 Projets récents
             </h2>
         </div>
@@ -152,39 +158,51 @@
         </a>
     </div>
 
-    {# 1 colonne mobile, 2 sm, 3 md #}
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
         {% for project in featured_projects %}
-        <a href="{% url 'project_detail' project.slug %}"
-           class="group block bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl
-                  overflow-hidden hover:border-white/20 transition-all">
 
-            {# Conteneur image avec aspect ratio fixe #}
+        <a href="{% url 'project_detail' project.slug %}"
+           aria-label="Voir le projet : {{ project.title }}"
+           class="group block bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl
+                  overflow-hidden hover:border-white/20 transition-all
+                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
+
             <div class="relative aspect-[4/3] sm:aspect-video overflow-hidden bg-gray-900">
                 {% if project.image %}
                     <img src="{{ project.image.url }}"
                          alt="{{ project.title }}"
-                         loading="lazy"
+                         width="600"
+                         height="400"
+                         {% if forloop.first %}
+                             loading="eager"
+                             fetchpriority="high"
+                         {% else %}
+                             loading="lazy"
+                         {% endif %}
                          decoding="async"
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 sm:duration-700">
                 {% else %}
-                    {# Fallback si pas d'image #}
                     <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900
-                                flex items-center justify-center text-gray-600">
-                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                flex items-center justify-center text-gray-600"
+                         role="img"
+                         aria-label="Aucune image pour {{ project.title }}">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
                                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
                     </div>
                 {% endif %}
-                <div class="absolute inset-0 bg-gradient-to-t from-[#111114] to-transparent opacity-60"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#111114] to-transparent opacity-60"
+                     aria-hidden="true"></div>
             </div>
 
             <div class="p-4 sm:p-5">
-                <h3 class="text-sm sm:text-base text-white font-bold group-hover:text-blue-400 transition-colors">
+                {# h3 visible → le aria-label du <a> prend le relais pour les SR #}
+                <h3 class="text-sm sm:text-base text-white font-bold group-hover:text-blue-400 transition-colors"
+                    aria-hidden="true">
                     {{ project.title }}
                 </h3>
-                <p class="text-gray-400 text-xs sm:text-sm mt-2 line-clamp-2">
+                <p class="text-gray-400 text-xs sm:text-sm mt-2 line-clamp-2" aria-hidden="true">
                     {{ project.description|truncatechars:80 }}
                 </p>
             </div>
@@ -194,9 +212,6 @@
 </section>
 {% endif %}
 
-{# =========================================================== #}
-{# SERVICES — Grille 2x2 mobile                                  #}
-{# =========================================================== #}
 <section class="py-10 sm:py-14 md:py-16 px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl mx-auto text-center"
          aria-labelledby="services-title">
     <div class="flex flex-col items-center mb-8 sm:mb-10 md:mb-12">
@@ -211,11 +226,10 @@
         </p>
     </div>
 
-    {# 1 colonne sur très petit, 2 sur sm+ #}
     <div class="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
         <div class="group bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl
                     p-4 sm:p-6 hover:border-emerald-500/25 transition-all text-center">
-            <div class="text-lg sm:text-xl mb-2 sm:mb-3">⚡</div>
+            <div class="text-lg sm:text-xl mb-2 sm:mb-3" aria-hidden="true">⚡</div>
             <h3 class="font-bold text-white mb-1 sm:mb-2 text-sm sm:text-base group-hover:text-emerald-400">
                 Applications métier
             </h3>
@@ -226,7 +240,7 @@
 
         <div class="group bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl
                     p-4 sm:p-6 hover:border-blue-500/25 transition-all text-center">
-            <div class="text-lg sm:text-xl mb-2 sm:mb-3">🔌</div>
+            <div class="text-lg sm:text-xl mb-2 sm:mb-3" aria-hidden="true">🔌</div>
             <h3 class="font-bold text-white mb-1 sm:mb-2 text-sm sm:text-base group-hover:text-blue-400">
                 API REST & intégrations
             </h3>
@@ -237,7 +251,7 @@
 
         <div class="group bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl
                     p-4 sm:p-6 hover:border-purple-500/25 transition-all text-center">
-            <div class="text-lg sm:text-xl mb-2 sm:mb-3">🎨</div>
+            <div class="text-lg sm:text-xl mb-2 sm:mb-3" aria-hidden="true">🎨</div>
             <h3 class="font-bold text-white mb-1 sm:mb-2 text-sm sm:text-base group-hover:text-purple-400">
                 Sites & landing pages
             </h3>
@@ -248,7 +262,7 @@
 
         <div class="group bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl
                     p-4 sm:p-6 hover:border-red-500/25 transition-all text-center">
-            <div class="text-lg sm:text-xl mb-2 sm:mb-3">🔍</div>
+            <div class="text-lg sm:text-xl mb-2 sm:mb-3" aria-hidden="true">🔍</div>
             <h3 class="font-bold text-white mb-1 sm:mb-2 text-sm sm:text-base group-hover:text-red-400">
                 Audit & sécurité
             </h3>
@@ -258,10 +272,6 @@
         </div>
     </div>
 </section>
-
-{# =========================================================== #}
-{# PROCESS — Timeline vertical mobile                           #}
-{# =========================================================== #}
 <section class="py-10 sm:py-14 md:py-16 px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl mx-auto text-center"
          aria-labelledby="process-title">
     <div class="flex flex-col items-center mb-8 sm:mb-10">
@@ -276,12 +286,12 @@
         </p>
     </div>
 
-    {# Stack sur mobile, 3 colonnes sur lg #}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         <div class="bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
             <div class="flex justify-center mb-3 sm:mb-4">
                 <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-500/10 border border-blue-400/25
-                             text-blue-300 text-xs sm:text-sm font-bold flex items-center justify-center">
+                             text-blue-300 text-xs sm:text-sm font-bold flex items-center justify-center"
+                      aria-hidden="true">
                     1
                 </span>
             </div>
@@ -292,7 +302,8 @@
         <div class="bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
             <div class="flex justify-center mb-3 sm:mb-4">
                 <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-500/10 border border-blue-400/25
-                             text-blue-300 text-xs sm:text-sm font-bold flex items-center justify-center">
+                             text-blue-300 text-xs sm:text-sm font-bold flex items-center justify-center"
+                      aria-hidden="true">
                     2
                 </span>
             </div>
@@ -303,7 +314,8 @@
         <div class="bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
             <div class="flex justify-center mb-3 sm:mb-4">
                 <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-500/10 border border-blue-400/25
-                             text-blue-300 text-xs sm:text-sm font-bold flex items-center justify-center">
+                             text-blue-300 text-xs sm:text-sm font-bold flex items-center justify-center"
+                      aria-hidden="true">
                     3
                 </span>
             </div>
@@ -313,9 +325,6 @@
     </div>
 </section>
 
-{# =========================================================== #}
-{# BLOG — Images optimisées                                     #}
-{# =========================================================== #}
 <section class="py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl mx-auto"
          aria-labelledby="blog-title">
     <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 sm:gap-3 mb-6 sm:mb-10 md:mb-12">
@@ -336,21 +345,28 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
         {% for article in recent_articles %}
         <a href="{% url 'article_detail' article.slug %}"
+           aria-label="Lire l'article : {{ article.title }}"
            class="group block bg-[#111114] border border-white/5 rounded-xl sm:rounded-2xl
-                  overflow-hidden hover:border-white/20 transition-all">
+                  overflow-hidden hover:border-white/20 transition-all
+                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
 
-            {# Image avec lazy loading et fallback #}
+            {# aspect-video + width/height 16:9 → zéro CLS #}
             <div class="aspect-video bg-gray-800 relative overflow-hidden">
                 {% if article.image %}
                     <img src="{{ article.image.url }}"
                          alt="{{ article.title }}"
+                         width="600"
+                         height="337"
                          loading="lazy"
                          decoding="async"
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 {% else %}
                     <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900
-                                flex items-center justify-center text-gray-600">
-                        <svg class="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                flex items-center justify-center text-gray-600"
+                         role="img"
+                         aria-label="Aucune image pour {{ article.title }}">
+                        <svg class="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="currentColor"
+                             viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
                                   d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                         </svg>
@@ -359,16 +375,16 @@
             </div>
 
             <div class="p-4 sm:p-5 md:p-6">
-                <h3 class="text-sm sm:text-base text-white font-bold group-hover:text-blue-400 transition-colors">
+                <h3 class="text-sm sm:text-base text-white font-bold group-hover:text-blue-400 transition-colors"
+                    aria-hidden="true">
                     {{ article.title }}
                 </h3>
-                <p class="text-gray-400 text-xs sm:text-sm mt-2 line-clamp-2">
+                <p class="text-gray-400 text-xs sm:text-sm mt-2 line-clamp-2" aria-hidden="true">
                     {{ article.summary }}
                 </p>
             </div>
         </a>
         {% empty %}
-        {# État vide #}
         <div class="col-span-full text-center py-12 text-gray-500 text-sm">
             Aucun article disponible pour le moment.
         </div>
