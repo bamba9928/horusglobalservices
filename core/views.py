@@ -7,8 +7,10 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.paginator import Paginator
+
 from .models import LegalPage, Article, Project
 from .forms import ContactForm
+
 
 # Configuration du logger
 logger = logging.getLogger(__name__)
@@ -18,6 +20,15 @@ AUDIT_PREFILL_MESSAGE = (
     "Bonjour, je souhaiterais obtenir un audit complet "
     "(performance, SQL, sécurité) pour mon projet."
 )
+
+
+def _get_client_ip(request):
+    """Récupère l'IP client (proxy-aware)."""
+    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+    if x_forwarded_for:
+        # premier IP = client d'origine (souvent)
+        return x_forwarded_for.split(",")[0].strip()
+    return request.META.get("REMOTE_ADDR", "")
 
 
 def home(request):
@@ -61,7 +72,9 @@ def contact(request):
         initial_data["message"] = AUDIT_PREFILL_MESSAGE
 
     if request.method == "POST":
-        form = ContactForm(request.POST)
+        # ✅ IMPORTANT : on passe request au formulaire (honeypot / logs / anti-spam)
+        form = ContactForm(request.POST, request=request)
+
         if form.is_valid():
             contact_obj = form.save()
 
@@ -70,6 +83,9 @@ def contact(request):
             if is_audit_request:
                 subject = f"🚨 DEMANDE D'AUDIT - {contact_obj.name}"
 
+            client_ip = _get_client_ip(request)
+            user_agent = request.META.get("HTTP_USER_AGENT", "N/A")
+
             message = f"""
 Nouveau message reçu depuis le site :
 
@@ -77,29 +93,70 @@ Type : {'Audit' if is_audit_request else 'Contact standard'}
 Nom : {contact_obj.name}
 Email : {contact_obj.email}
 Téléphone : {contact_obj.phone}
+IP : {client_ip}
+User-Agent : {user_agent}
 
 Message :
 {contact_obj.message}
 """.strip()
 
-            try:
-                send_mail(
-                    subject,
-                    message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [settings.PUBLIC_EMAIL],
-                    fail_silently=False,
+            recipient_email = getattr(settings, "PUBLIC_EMAIL", None)
+            from_email = getattr(settings, "DEFAULT_FROM_EMAIL", None)
+
+            if recipient_email and from_email:
+                try:
+                    send_mail(
+                        subject,
+                        message,
+                        from_email,
+                        [recipient_email],
+                        fail_silently=False,
+                    )
+                except Exception as e:
+                    logger.error(
+                        "Erreur envoi email contact | email=%s ip=%s err=%s",
+                        contact_obj.email,
+                        client_ip,
+                        e,
+                        exc_info=True,
+                    )
+            else:
+                logger.warning(
+                    "Email non envoyé : DEFAULT_FROM_EMAIL ou PUBLIC_EMAIL manquant "
+                    "| from=%s to=%s",
+                    from_email,
+                    recipient_email,
                 )
-            except Exception as e:
-                logger.error("Erreur envoi email contact : %s", e, exc_info=True)
+
+            logger.info(
+                "Contact enregistré | type=%s name=%s email=%s ip=%s",
+                "audit" if is_audit_request else "standard",
+                contact_obj.name,
+                contact_obj.email,
+                client_ip,
+            )
 
             messages.success(
                 request,
                 f"Merci {contact_obj.name} ! Votre demande a bien été envoyée."
             )
+
+            # ✅ conserve le contexte audit après redirection
+            if is_audit_request:
+                return redirect(f"{request.path}?type={AUDIT_REQUEST_TYPE}")
             return redirect("contact")
+
+        # ✅ Log utile si validation échoue (anti-spam / erreurs)
+        logger.warning(
+            "Contact form invalide | ip=%s ua=%s errors=%s",
+            _get_client_ip(request),
+            request.META.get("HTTP_USER_AGENT", "N/A"),
+            form.errors.as_json(),
+        )
+
     else:
-        form = ContactForm(initial=initial_data)
+        # ✅ IMPORTANT : on passe aussi request au GET
+        form = ContactForm(initial=initial_data, request=request)
 
     return render(request, "core/contact.html", {
         "form": form,
@@ -110,7 +167,6 @@ Message :
 
 def portfolio(request):
     """Page Portfolio avec pagination et correction order_by"""
-    # Correction de l'erreur 500 : order_by au lieu de order_id
     projects_list = Project.objects.all().order_by("-id")
 
     # Pagination : 9 projets par page
@@ -128,12 +184,14 @@ def project_detail(request, slug):
 
 def legal_page_detail(request, slug):
     page = get_object_or_404(LegalPage, slug=slug)
-    return render(request, 'core/legal.html', {'page': page})
+    return render(request, "core/legal.html", {"page": page})
 
 
 def custom_bad_request_view(request, exception):
     """Vue 404 personnalisée"""
-    return render(request, '404.html', status=404)
+    return render(request, "404.html", status=404)
+
+
 def robots_txt(request):
     content = render_to_string("robots.txt", {
         "domain": request.get_host(),

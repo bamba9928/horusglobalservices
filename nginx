@@ -1,0 +1,56 @@
+# 1. BLOC PAR DÉFAUT : Rejette les accès directs par adresse IP ou domaines inconnus
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    return 444; # Ferme la connexion sans réponse pour économiser les ressources
+}
+
+# 2. BLOC PRINCIPAL : Du site web
+server {
+    listen 80;
+    server_name horuservices.cloud www.horuservices.cloud;
+
+    # Taille max des uploads (pour tes projets et avatars)
+    client_max_body_size 20M;
+
+    # Logs de maintenance
+    access_log /var/www/horusglobalservices/horusglobalservices/logs/nginx-access.log;
+    error_log /var/www/horusglobalservices/horusglobalservices/logs/nginx-error.log;
+
+    # Optimisation des fichiers inutiles dans les logs
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    # Gestion des fichiers statiques (CSS, JS, Images)
+    location /static/ {
+        alias /var/www/horusglobalservices/horusglobalservices/staticfiles/;
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000, immutable";
+    }
+
+    # Gestion des fichiers média (Uploads utilisateurs)
+    location /media/ {
+        alias /var/www/horusglobalservices/horusglobalservices/media/;
+        expires 7d;
+        add_header Cache-Control "public, max-age=604800";
+    }
+
+    # SÉCURITÉ : Bloque l'accès aux fichiers cachés (.env, .git, etc.)
+    # On autorise uniquement .well-known pour les certificats SSL
+    location ~ /\.(?!well-known).* {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
+    # Proxy vers Django (Gunicorn)
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/var/www/horusglobalservices/horusglobalservices/horus.sock;
+
+        # Paramètres de sécurité proxy supplémentaires
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+    }
+}
