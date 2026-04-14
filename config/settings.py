@@ -387,4 +387,16 @@ UNFOLD = {
         ],
     },
 }
+# ------------------------------------------------------------
+# Cache (rate limiting anti-spam)
+# FileBasedCache fonctionne avec Gunicorn multi-workers
+# ------------------------------------------------------------
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": str(BASE_DIR / "cache"),
+        "TIMEOUT": 3600,
+    }
+}
+
 EMAIL_TIMEOUT = int(os.getenv("EMAIL_TIMEOUT", "20"))
