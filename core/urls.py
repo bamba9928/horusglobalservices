@@ -11,6 +11,7 @@ urlpatterns = [
     path('portfolio/', views.portfolio, name='portfolio'),
     path('portfolio/<slug:slug>/', views.project_detail, name='project_detail'),
     path('contact/', views.contact, name='contact'),
+    path('recherche/', views.search, name='search'),
     path('feed.xml', LatestArticlesFeed(), name='article_feed'),
     path('legal/<slug:slug>/', views.legal_page_detail, name='legal_page'),
 ]

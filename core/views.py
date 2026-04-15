@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.core.paginator import Paginator
 
+from django.db import models
 from .models import LegalPage, Article, Project
 from .forms import ContactForm
 
@@ -52,9 +53,40 @@ def skills(request):
 
 
 def blog(request):
-    """Liste des articles"""
-    articles = Article.objects.filter(is_published=True).order_by("-created_at")
+    """Liste des articles avec pagination"""
+    articles_list = Article.objects.filter(is_published=True).order_by("-created_at")
+    paginator = Paginator(articles_list, 9)
+    page_number = request.GET.get("page")
+    articles = paginator.get_page(page_number)
     return render(request, "core/blog.html", {"articles": articles})
+
+
+def search(request):
+    """Recherche sur les articles et projets"""
+    query = request.GET.get("q", "").strip()
+    articles = []
+    projects = []
+
+    if query:
+        articles = Article.objects.filter(
+            is_published=True
+        ).filter(
+            models.Q(title__icontains=query)
+            | models.Q(summary__icontains=query)
+            | models.Q(content__icontains=query)
+        ).order_by("-created_at")[:20]
+
+        projects = Project.objects.filter(
+            models.Q(title__icontains=query)
+            | models.Q(description__icontains=query)
+            | models.Q(technologies__icontains=query)
+        ).order_by("-id")[:20]
+
+    return render(request, "core/search.html", {
+        "query": query,
+        "articles": articles,
+        "projects": projects,
+    })
 
 
 def article_detail(request, slug):
