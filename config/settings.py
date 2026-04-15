@@ -241,7 +241,7 @@ X_URL = os.getenv("X_URL", "https://x.com/horuservices")
 # ------------------------------------------------------------
 # Google Analytics 4
 # ------------------------------------------------------------
-GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", "")
+GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", "G-2875RWT67C")
 
 # ------------------------------------------------------------
 # Logging
