@@ -239,6 +239,11 @@ FACEBOOK_URL = os.getenv("FACEBOOK_URL", "https://www.facebook.com/dieng.sala.47
 X_URL = os.getenv("X_URL", "https://x.com/horuservices")
 
 # ------------------------------------------------------------
+# Google Analytics 4
+# ------------------------------------------------------------
+GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", "")
+
+# ------------------------------------------------------------
 # Logging
 # ------------------------------------------------------------
 LOG_DIR = BASE_DIR / "logs"
