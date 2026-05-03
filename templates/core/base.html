@@ -1456,7 +1456,7 @@
 {# ====================================================================== #}
 {# BANNIERE COOKIE RGPD                                                   #}
 {# ====================================================================== #}
-<div id="cookie-banner" class="fixed bottom-0 inset-x-0 z-[9999] transition-transform duration-500 translate-y-full" role="dialog" aria-label="Consentement cookies">
+<div id="cookie-banner" class="fixed bottom-0 inset-x-0 z-[9999] transition-transform duration-500" style="transform: translateY(100%);" role="dialog" aria-label="Consentement cookies">
   <div class="max-w-5xl mx-auto px-4 pb-4">
     <div class="bg-[#111114] border border-white/10 rounded-2xl p-5 md:p-6 shadow-2xl shadow-black/60 backdrop-blur-xl flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
       <div class="flex-1 min-w-0">
@@ -1487,11 +1487,13 @@
 
   // Si pas encore de choix, afficher la banniere apres 1s
   if (!consent) {
-    setTimeout(function(){ banner.classList.remove('translate-y-full'); }, 1000);
+    setTimeout(function(){ banner.style.transform = 'translateY(0)'; }, 1000);
+  } else {
+    banner.style.display = 'none';
   }
 
   function hideBanner() {
-    banner.classList.add('translate-y-full');
+    banner.style.transform = 'translateY(100%)';
     setTimeout(function(){ banner.style.display = 'none'; }, 500);
   }
 
