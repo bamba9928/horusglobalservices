@@ -56,7 +56,7 @@
     {
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
-      "name": "Horus Global Service",
+      "name": "Horus Global Services",
       "description": "Cabinet d'ingénierie logicielle spécialisé dans la conception d'applications web et mobiles. Nous développons des solutions cloud sur mesure et des architectures haute performance.",
       "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}",
       "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization",
@@ -850,7 +850,7 @@
     {# Logo #}
     <a href="{% url 'home' %}"
        class="flex items-center gap-3 group relative z-50"
-       aria-label="Horus Global Service — Accueil">
+       aria-label="Horus Global Services — Accueil">
 
       <span
       class="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center
@@ -865,7 +865,7 @@
         "
         width="56"
         height="56"
-        alt="Horus Global Service"
+        alt="Horus Global Services"
         class="w-full h-full object-contain"
         loading="eager"
         decoding="async"
@@ -1267,7 +1267,7 @@
 
     <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
       <p class="text-xs text-gray-400">
-        &copy; {% now "Y" %} Horus Global Service. <span class="hidden sm:inline">Tous droits réservés.</span>
+        &copy; {% now "Y" %} Horus Global Services. <span class="hidden sm:inline">Tous droits réservés.</span>
       </p>
       <div class="flex items-center gap-3 text-xs text-gray-500">
         <a href="{% url 'legal_page' 'mentions-legales' %}" class="hover:text-white transition-colors">Mentions legales</a>
@@ -1275,10 +1275,6 @@
         <a href="{% url 'legal_page' 'confidentialite' %}" class="hover:text-white transition-colors">Confidentialite</a>
         <span class="text-white/10">|</span>
         <a href="{% url 'legal_page' 'cookies' %}" class="hover:text-white transition-colors">Cookies</a>
-      </div>
-      <div class="text-xs text-gray-400 flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-        Systèmes opérationnels
       </div>
     </div>
 

@@ -227,7 +227,7 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@horuservices.cloud")
-PUBLIC_EMAIL = os.getenv("PUBLIC_EMAIL", "bambadisala@gmail.com")
+PUBLIC_EMAIL = os.getenv("PUBLIC_EMAIL", "contact@horus-assur.digital")
 
 # ------------------------------------------------------------
 # URLs de contact
@@ -235,7 +235,7 @@ PUBLIC_EMAIL = os.getenv("PUBLIC_EMAIL", "bambadisala@gmail.com")
 WHATSAPP_URL = os.getenv("WHATSAPP_URL", "https://wa.me/221773409658")
 GITHUB_URL = os.getenv("GITHUB_URL", "https://github.com/bamba9928")
 LINKEDIN_URL = os.getenv("LINKEDIN_URL", "https://www.linkedin.com/in/horusglobalservices/")
-FACEBOOK_URL = os.getenv("FACEBOOK_URL", "https://www.facebook.com/dieng.sala.47647")
+FACEBOOK_URL = os.getenv("FACEBOOK_URL", "https://www.facebook.com/share/1EXSwjQNYy/")
 X_URL = os.getenv("X_URL", "https://x.com/horuservices")
 
 # ------------------------------------------------------------
