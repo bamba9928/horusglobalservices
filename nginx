@@ -18,9 +18,23 @@ server {
     access_log /var/www/horusglobalservices/horusglobalservices/logs/nginx-access.log;
     error_log /var/www/horusglobalservices/horusglobalservices/logs/nginx-error.log;
 
-    # Optimisation des fichiers inutiles dans les logs
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
+    # Favicon : servi directement depuis les statiques.
+    # ATTENTION — la version precedente etait
+    #   location = /favicon.ico { access_log off; log_not_found off; }
+    # Un "location =" capture l'URL : sans alias ni proxy_pass, nginx cherchait
+    # le fichier dans sa racine par defaut, renvoyait 404, et la requete
+    # n'atteignait jamais Django (la redirection de config/urls.py etait donc
+    # inoperante).
+    location = /favicon.ico {
+        alias /var/www/horusglobalservices/horusglobalservices/staticfiles/favicon.ico;
+        access_log off;
+        log_not_found off;
+        expires 30d;
+    }
+
+    # robots.txt : PAS de bloc dedie. Il est genere par Django
+    # (config/urls.py -> templates/robots.txt) et doit donc passer par
+    # location / vers Gunicorn. Un "location = /robots.txt" vide le shadowait.
 
     # Gestion des fichiers statiques (CSS, JS, Images)
     location /static/ {

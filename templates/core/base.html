@@ -153,7 +153,10 @@
         </script>
         <script src="https://cdn.tailwindcss.com"></script>
       {% else %}
-        <link rel="stylesheet" href="{% static 'css/output.css' %}">
+        {# ?v=<mtime du build> : indispensable, l'URL est mise en cache 30 jours
+           par Cloudflare avec "immutable". Sans ce suffixe, un changement de
+           style n'atteint pas les visiteurs avant un mois. #}
+        <link rel="stylesheet" href="{% static 'css/output.css' %}{% if CSS_VERSION %}?v={{ CSS_VERSION }}{% endif %}">
       {% endif %}
 
       <style>
