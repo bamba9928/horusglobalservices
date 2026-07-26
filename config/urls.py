@@ -3,7 +3,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, RedirectView
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.contrib.admin.views.decorators import staff_member_required
 
 from core.sitemaps import StaticViewSitemap, ArticleSitemap, ProjectSitemap
@@ -34,6 +35,13 @@ urlpatterns = [
     path(
         "robots.txt",
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+    ),
+
+    # Les navigateurs demandent /favicon.ico a la racine, quels que soient les
+    # <link rel="icon"> : sans cette redirection, chaque visite loggue un 404.
+    path(
+        "favicon.ico",
+        RedirectView.as_view(url=staticfiles_storage.url("favicon.ico"), permanent=True),
     ),
 ]
 handler404 = 'core.views.custom_bad_request_view'

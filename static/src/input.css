@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Theme du projet — Tailwind v4 (configuration CSS-first)
+   Sans ce bloc, les classes text-accent / bg-accent / text-muted / text-dark
+   et les animations animate-fade-down / slide-in / fade-out ne sont PAS
+   generees : elles etaient absentes de la CSS de production.
+   Les memes valeurs sont dupliquees dans tailwind.config.js (build v3)
+   et dans le bloc <script> de base.html (CDN, mode DEBUG).
+   --------------------------------------------------------------------------- */
+@theme {
+  --breakpoint-xs: 475px;
+
+  --color-dark:   #08080a;
+  --color-card:   #111114;
+  --color-border: #1e1e23;
+  --color-muted:  #9ca3af;
+  --color-accent: #e8e0d0;
+
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-body:    "Inter", sans-serif;
+
+  --animate-slide-in:        slide-in 0.3s ease-out forwards;
+  --animate-fade-out:        fade-out 0.4s ease-in forwards;
+  --animate-fade-down:       fade-down 0.4s ease-out forwards;
+  --animate-infinite-scroll: infinite-scroll 40s linear infinite;
+
+  @keyframes slide-in {
+    0%   { opacity: 0; transform: translateX(1rem); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fade-out {
+    0%   { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(1rem); }
+  }
+  @keyframes fade-down {
+    0%   { opacity: 0; transform: translateY(-8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes infinite-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+}
+
+/* Utilitaire maison (equivalent du plugin addUtilities cote v3) */
+@utility pause {
+  animation-play-state: paused;
+}

@@ -33,8 +33,10 @@
     <meta property="og:locale" content="fr_FR">
     <meta property="og:title" content="{% block og_title %}Horus Global Services — Solutions Digitales et Ingénierie Haut de Gamme{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Notre expertise en ingénierie logicielle est dédiée à l'accélération de votre croissance. Nous concevons et déployons des solutions sur mesure, garantissant des applications web hautement performantes, évolutives et d'une sécurité infaillible pour répondre aux exigences les plus strictes de votre entreprise.{% endblock %}">
-    {# Image : Format recommandé 1200x630px #}
-    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.png' %}{% endblock %}">
+    {# Image : Format recommandé 1200x630px — on sert le JPG (73 Ko) et non le
+       PNG (1,8 Mo) : og:image et og:image:secure_url doivent designer le meme
+       fichier, et certains scrapers rejettent les images trop lourdes. #}
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
     <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -772,6 +774,34 @@
         :focus:not(:focus-visible) {
           outline: none;
         }
+
+        /* -------------------------------------------------------------------
+           FILET DE SECURITE — palette accent/muted/dark
+           Ces utilitaires viennent normalement du theme Tailwind. La CSS de
+           production a longtemps ete compilee SANS ce theme : les classes
+           bg-accent / text-accent / text-muted / text-dark ne produisaient
+           donc AUCUN style (bouton "Contactez-Nous" sans fond, hierarchie de
+           gris perdue). Le theme est desormais declare dans
+           static/src/input.css (@theme) et tailwind.config.js ; ces regles
+           garantissent le rendu correct meme si la CSS livree est plus
+           ancienne. Valeurs identiques a celles du theme.
+           ------------------------------------------------------------------- */
+        .text-accent { color: #e8e0d0; }
+        .text-muted  { color: #9ca3af; }
+        .text-dark   { color: #08080a; }
+
+        .bg-accent      { background-color: #e8e0d0; }
+        .bg-accent\/5   { background-color: rgba(232,224,208,.05); }
+        .bg-accent\/10  { background-color: rgba(232,224,208,.10); }
+        .bg-accent\/50  { background-color: rgba(232,224,208,.50); }
+
+        .hover\:text-dark:hover           { color: #08080a; }
+        .focus\:text-dark:focus           { color: #08080a; }
+        .hover\:border-accent\/30:hover   { border-color: rgba(232,224,208,.30); }
+
+        .group:hover .group-hover\:text-accent { color: #e8e0d0; }
+        .group:hover .group-hover\:text-dark   { color: #08080a; }
+        .group:hover .group-hover\:bg-accent   { background-color: #e8e0d0; }
       </style>
       {# Animation marquee #}
       <style>
@@ -903,8 +933,10 @@
         <div class="w-px h-6 bg-white/10 shrink-0 mx-2"></div>
       </div>{# /GROUPE 1 #}
 
-      {# GROUPE 2 — copie identique pour l'effet de boucle seamless #}
-      <div class="flex items-center gap-6 sm:gap-10 px-4 sm:px-6">
+      {# GROUPE 2 — copie identique pour l'effet de boucle seamless.
+         aria-hidden : c'est un duplicata purement visuel, sans quoi un lecteur
+         d'ecran enonce toute la liste deux fois. #}
+      <div class="flex items-center gap-6 sm:gap-10 px-4 sm:px-6" aria-hidden="true">
         <div class="flex items-center gap-2.5">
           <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
