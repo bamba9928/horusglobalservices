@@ -1,0 +1,14 @@
+/* NE PAS COMPILER CE FICHIER.
+ *
+ * Ancien point d'entree Tailwind v3 (@tailwind base/components/utilities).
+ * Le projet compile en v4 : le seul fichier source valide est
+ *   static/src/input.css
+ * qui contient le bloc @theme (palette accent/muted/dark, animations).
+ *
+ * Compiler ce fichier-ci produisait une CSS sans le theme : les classes
+ * bg-accent / text-accent / text-muted / text-dark n'existaient pas et le
+ * bouton "Contactez-Nous" s'affichait sans fond en production.
+ *
+ * Build : npm run build:css     (watch : npm run watch:css)
+ */
+@import "tailwindcss";

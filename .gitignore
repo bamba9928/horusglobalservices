@@ -1,0 +1,31 @@
+# Django / Python
+.env
+.env-prod.exemple
+.env-prod.exemple/
+*.log
+db.sqlite3
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# IDE (PyCharm)
+.idea/
+
+# Node / Tailwind
+node_modules/
+
+# Static collecte (regenere par collectstatic)
+staticfiles/
+
+# Cache de fichiers Django (FileBasedCache)
+cache/
+
+# Outils locaux (config de lancement du serveur de dev)
+.claude/
+
+# A NE PAS IGNORER — ces fichiers doivent etre versionnes :
+#   core/migrations/*.py   -> le schema de la base fait partie du code
+#   static/css/output.css  -> CSS compilee servie en production
+#   package.json / package-lock.json -> build Tailwind reproductible
