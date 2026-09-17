@@ -179,9 +179,9 @@
                          alt="{{ project.title }}"
                          width="600"
                          height="400"
-                         {# Section portfolio toujours sous la ligne de flottaison :
+                         {% comment %} Section portfolio toujours sous la ligne de flottaison :
                             un eager + fetchpriority=high ici volait de la priorite
-                            au vrai element LCP (le titre h1). #}
+                            au vrai element LCP (le titre h1). {% endcomment %}
                          loading="lazy"
                          decoding="async"
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 sm:duration-700">
