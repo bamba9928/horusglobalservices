@@ -2,6 +2,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import re
+import shutil
 import tempfile
 from html.parser import HTMLParser
 from io import BytesIO
@@ -11,10 +12,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.staticfiles import finders
 from django.template.loader import get_template
 from django.core import mail
+from django.core.management import call_command
 from django.core.cache import cache
 from django.core.mail.backends.smtp import EmailBackend as SmtpEmailBackend
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, RequestFactory, SimpleTestCase, TestCase, override_settings
+from django.templatetags.static import static
 from django.urls import reverse
 from django.views.defaults import server_error
 
@@ -790,3 +793,67 @@ class ContentSecurityPolicyTests(TestCase):
         self.assertEqual(policy["default-src"], ["'none'"])
         self.assertEqual(policy["style-src"], ["'unsafe-inline'"])  # <style> de templates/500.html
         self.assertNotIn("script-src", policy)
+
+
+PRODUCTION_STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+}
+
+
+class VersionedStaticFilesTests(TestCase):
+    """Production : fichiers statiques a empreinte (app.<hash>.js).
+
+    nginx et Cloudflare servent /static/ en cache immutable 30 jours : sans empreinte dans le nom,
+    la montee d'Unfold 0.80 -> 0.108 a laisse l'admin charger d'anciens CSS/JS (adminTheme is not
+    defined...). Ces tests rejouent le collectstatic du deploiement avec le stockage de production.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.static_root = tempfile.mkdtemp()
+        cls._override = override_settings(STORAGES=PRODUCTION_STORAGES, STATIC_ROOT=cls.static_root)
+        cls._override.enable()
+        call_command("collectstatic", interactive=False, verbosity=0, clear=True)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._override.disable()
+        shutil.rmtree(cls.static_root, ignore_errors=True)
+        super().tearDownClass()
+
+    def test_collectstatic_succeeds_and_writes_a_manifest(self):
+        self.assertTrue((Path(self.static_root) / "staticfiles.json").is_file())
+
+    def test_static_urls_carry_a_content_hash(self):
+        for name in (
+            "unfold/js/app.js", "unfold/css/styles.css", "css/output.css",
+            "fonts/inter-latin-wght-normal.woff2", "django_ckeditor_5/dist/bundle.js", "css/ckeditor-admin.v1.css",
+        ):
+            with self.subTest(name=name):
+                stem, dot, extension = name.rpartition(".")
+                self.assertRegex(static(name), rf"^/static/{re.escape(stem)}\.[0-9a-f]{{12}}\.{extension}$")
+
+    def test_tailwind_source_files_are_not_published(self):
+        # `@import "tailwindcss"` n'est pas une reference CSS : il ferait echouer collectstatic
+        self.assertEqual(list(Path(self.static_root).rglob("input*.css")), [])
+
+    def test_pages_only_reference_static_files_that_exist(self):
+        for url in (reverse("home"), reverse("contact"), reverse("admin:login")):
+            with self.subTest(url=url):
+                html = self.client.get(url).content.decode()
+                referenced = set(re.findall(r'(?:src|href)="(/static/[^"?]+)', html))
+
+                self.assertTrue(referenced)
+                for path in referenced:
+                    self.assertTrue(
+                        (Path(self.static_root) / path.removeprefix("/static/")).is_file(), f"fichier manquant : {path}"
+                    )
+                    # versionne : nom de la forme nom.<12 hex>.ext
+                    self.assertRegex(path, r"\.[0-9a-f]{12}\.[a-z0-9]+$", f"URL non versionnee : {path}")
+
+    def test_obsolete_staticfiles_storage_setting_is_gone(self):
+        raw = Path(settings.BASE_DIR, "config", "settings.py").read_text(encoding="utf-8")
+
+        self.assertNotRegex(raw, r"^STATICFILES_STORAGE\s*=")

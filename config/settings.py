@@ -88,7 +88,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
+    "config.apps.ProjectStaticFilesConfig",  # = django.contrib.staticfiles, sans les sources Tailwind
     "django.contrib.sites",
     "django.contrib.sitemaps",
     # Rich text
@@ -209,7 +209,26 @@ AUTH_PASSWORD_VALIDATORS = [
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"] if (BASE_DIR / "static").exists() else []
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# Fichiers statiques VERSIONNES en production (app.8f3c2a1b.js au lieu de app.js).
+# nginx et Cloudflare servent /static/ en cache "immutable" 30 jours : sans empreinte dans
+# le nom, un changement de version (Unfold, Django, CKEditor...) laisse le HTML neuf charger
+# d'anciens CSS/JS gardes en cache -> admin casse apres la montee d'Unfold 0.80 -> 0.108
+# ("adminTheme is not defined"...). Avec l'empreinte, chaque nouveau contenu a une nouvelle URL.
+# L'ancien reglage STATICFILES_STORAGE n'existe plus depuis Django 5.1 : il etait ignore,
+# les noms n'ont donc jamais ete versionnes. Hors production (DEBUG) : stockage simple, sans
+# manifeste, pour que le serveur de dev et les tests fonctionnent sans collectstatic.
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+            if DEBUG
+            else "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        )
+    },
+}
+# Fichier absent du manifeste : hache a la volee depuis le disque plutot que lever une erreur.
+WHITENOISE_MANIFEST_STRICT = False
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
