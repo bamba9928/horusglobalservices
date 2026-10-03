@@ -6,9 +6,12 @@
 #   sudo logrotate -d /etc/logrotate.d/horuservices     # simulation, ne modifie rien
 #
 # "su" est obligatoire : le dossier logs/ est inscriptible par un groupe non root.
+# On rote sous www-data : c'est lui le proprietaire des nginx-*.log (644), et
+# copytruncate doit pouvoir les ouvrir en ecriture pour les vider (avec "su mada",
+# la troncature echouerait en silence).
 # "copytruncate" evite d'avoir a recharger nginx pour qu'il reouvre ses fichiers.
 /var/www/horusglobalservices/horusglobalservices/logs/nginx-*.log {
-    su mada www-data
+    su www-data www-data
     weekly
     rotate 8
     compress
