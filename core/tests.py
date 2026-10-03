@@ -726,7 +726,8 @@ class ContentSecurityPolicyTests(TestCase):
                     self.assertRegex(sources[1], r"^'nonce-[\w-]{16,}'$")
                     self.assertNotIn("'unsafe-inline'", sources)
                     self.assertNotIn("'unsafe-eval'", sources)
-                # Tiers autorises = Google Analytics, et RIEN d'autre (ni Cloudflare, ni un autre hote)
+                # Tiers autorises = Google Analytics + Cloudflare Web Analytics (envoi des mesures
+                # seulement : le script de la balise passe par le nonce), et RIEN d'autre
                 hosts = {
                     name: {src for src in sources if re.match(r"https?://", src)}
                     for name, sources in policy.items()
@@ -734,7 +735,12 @@ class ContentSecurityPolicyTests(TestCase):
                 self.assertEqual(hosts.pop("script-src"), {"https://www.googletagmanager.com"})
                 self.assertEqual(
                     hosts.pop("connect-src"),
-                    {"https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.googletagmanager.com"},
+                    {
+                        "https://*.google-analytics.com",
+                        "https://*.analytics.google.com",
+                        "https://*.googletagmanager.com",
+                        "https://cloudflareinsights.com",
+                    },
                 )
                 self.assertEqual({name: h for name, h in hosts.items() if h}, {}, "hote tiers inattendu")
 
@@ -796,11 +802,13 @@ class ContentSecurityPolicyTests(TestCase):
         raw = Path(settings.BASE_DIR, "nginx").read_text(encoding="utf-8")
         nginx_policy = _directives(re.search(r'add_header Content-Security-Policy "([^"]+)"', raw).group(1))
 
-        for host in settings.CSP_GOOGLE_ANALYTICS_SCRIPT_SRC:
+        for host in settings.CSP_GOOGLE_ANALYTICS_SCRIPT_SRC + settings.CSP_CLOUDFLARE_ANALYTICS_SCRIPT_SRC:
             self.assertIn(host, nginx_policy["script-src"])
-        for host in settings.CSP_GOOGLE_ANALYTICS_CONNECT_SRC:
+        for host in settings.CSP_GOOGLE_ANALYTICS_CONNECT_SRC + settings.CSP_CLOUDFLARE_ANALYTICS_CONNECT_SRC:
             self.assertIn(host, nginx_policy["connect-src"])
-        self.assertNotIn("cloudflareinsights", raw.split("add_header Content-Security-Policy")[1].split("\n")[0])
+        # Tout ce que Django autorise en connect-src doit l'etre aussi cote nginx (intersection)
+        for host in settings.CSP_DIRECTIVES["connect-src"]:
+            self.assertIn(host, nginx_policy["connect-src"])
 
     def test_google_analytics_only_loads_after_cookie_consent(self):
         """Conformite : aucune requete vers Google tant que l'utilisateur n'a pas clique Accepter."""

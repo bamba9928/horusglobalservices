@@ -425,8 +425,11 @@ CSP_EXCLUDED_PATH_PREFIXES = ("/admin-horus/", "/ckeditor5/")  # admin : Alpine.
 # bandeau cookies de base.html, qui ne charge rien tant que l'utilisateur n'a pas clique Accepter.
 # La CSP de nginx (static) doit autoriser les memes hotes, sinon GA reste bloque : les deux
 # politiques s'additionnent (voir le fichier nginx du depot).
-# La balise Cloudflare Web Analytics (injectee par Cloudflare) reste bloquee : l'autoriser serait
-# une autre decision (script-src https://static.cloudflareinsights.com, connect-src https://cloudflareinsights.com).
+# Cloudflare Web Analytics : la balise est injectee par Cloudflare (pas par nos templates), sans
+# cookie ni stockage local, et Cloudflare lui recopie le nonce de cette politique : le script
+# passe donc deja ici sans hote en script-src. Il manque seulement l'envoi des mesures
+# (connect-src). Cote nginx, la politique statique n'a pas de nonce : il lui faut aussi
+# https://static.cloudflareinsights.com en script-src (voir le fichier nginx du depot).
 # style-src-attr 'unsafe-inline' : les attributs style="..." des templates (delais
 # d'animation, variables CSS) ; sans risque d'execution de script.
 CSP_GOOGLE_ANALYTICS_SCRIPT_SRC = ["https://www.googletagmanager.com"]
@@ -435,6 +438,8 @@ CSP_GOOGLE_ANALYTICS_CONNECT_SRC = [
     "https://*.analytics.google.com",
     "https://*.googletagmanager.com",
 ]
+CSP_CLOUDFLARE_ANALYTICS_SCRIPT_SRC = ["https://static.cloudflareinsights.com"]  # nginx seulement
+CSP_CLOUDFLARE_ANALYTICS_CONNECT_SRC = ["https://cloudflareinsights.com"]
 CSP_DIRECTIVES = {
     "default-src": ["'self'"],
     "script-src": ["'self'", "'nonce-{nonce}'", *CSP_GOOGLE_ANALYTICS_SCRIPT_SRC],
@@ -442,7 +447,7 @@ CSP_DIRECTIVES = {
     "style-src-attr": ["'unsafe-inline'"],
     "img-src": ["'self'", "data:", "https:"],
     "font-src": ["'self'"],
-    "connect-src": ["'self'", *CSP_GOOGLE_ANALYTICS_CONNECT_SRC],
+    "connect-src": ["'self'", *CSP_GOOGLE_ANALYTICS_CONNECT_SRC, *CSP_CLOUDFLARE_ANALYTICS_CONNECT_SRC],
     "object-src": ["'none'"],
     "base-uri": ["'self'"],
     "form-action": ["'self'"],
