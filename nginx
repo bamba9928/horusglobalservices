@@ -42,9 +42,10 @@ server {
     # Google Analytics 4 autorise (script-src + connect-src) : memes hotes que CSP_DIRECTIVES dans
     # config/settings.py (les deux politiques s'additionnent : il faut les deux). GA ne se charge
     # qu'apres consentement (bandeau cookies). Cloudflare Web Analytics (balise injectee par
-    # Cloudflare, sans cookie) est autorise aussi : static.cloudflareinsights.com pour le script,
-    # cloudflareinsights.com pour l'envoi des mesures.
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://static.cloudflareinsights.com https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://cloudflareinsights.com; frame-ancestors 'none';" always;
+    # Cloudflare, sans cookie) est autorisee aussi : static.cloudflareinsights.com pour son script
+    # (cette politique n'a pas de nonce). Elle envoie ses mesures vers /cdn-cgi/rum sur ce domaine :
+    # connect-src 'self' suffit.
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://static.cloudflareinsights.com https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-ancestors 'none';" always;
 
     # Logs
     access_log /var/www/horusglobalservices/horusglobalservices/logs/nginx-access.log;
