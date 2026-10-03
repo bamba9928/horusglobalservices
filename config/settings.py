@@ -416,21 +416,33 @@ CSP_ENABLED = env_bool("CSP_ENABLED", "True")  # interrupteur d'urgence : CSP_EN
 CSP_REPORT_ONLY = env_bool("CSP_REPORT_ONLY", "False")  # True : signale sans bloquer (essais)
 CSP_EXCLUDED_PATH_PREFIXES = ("/admin-horus/", "/ckeditor5/")  # admin : Alpine.js exige 'unsafe-eval'
 
-# {nonce} est remplace a chaque requete. Aucun tiers autorise : ni Google Analytics, ni
-# la balise Cloudflare Web Analytics (injectee par Cloudflare) ne peuvent se charger.
-# Les autoriser est une decision a prendre en connaissance de cause : ajouter leur hote a
-# script-src ("https://www.googletagmanager.com", "https://static.cloudflareinsights.com")
-# et a connect-src, et lever aussi la restriction equivalente dans la CSP nginx.
+# {nonce} est remplace a chaque requete.
+#
+# Seul tiers autorise : Google Analytics 4 (gtag.js). Liste MINIMALE verifiee dans un navigateur
+# (une mesure part, 0 violation) ; la liste officielle de Google est plus large car elle couvre
+# aussi les fonctions publicitaires (Google Ads, Signals), non utilisees ici. img-src autorise
+# deja https: (pixel de repli). Le chargement de GA reste soumis au consentement : voir le
+# bandeau cookies de base.html, qui ne charge rien tant que l'utilisateur n'a pas clique Accepter.
+# La CSP de nginx (static) doit autoriser les memes hotes, sinon GA reste bloque : les deux
+# politiques s'additionnent (voir le fichier nginx du depot).
+# La balise Cloudflare Web Analytics (injectee par Cloudflare) reste bloquee : l'autoriser serait
+# une autre decision (script-src https://static.cloudflareinsights.com, connect-src https://cloudflareinsights.com).
 # style-src-attr 'unsafe-inline' : les attributs style="..." des templates (delais
 # d'animation, variables CSS) ; sans risque d'execution de script.
+CSP_GOOGLE_ANALYTICS_SCRIPT_SRC = ["https://www.googletagmanager.com"]
+CSP_GOOGLE_ANALYTICS_CONNECT_SRC = [
+    "https://*.google-analytics.com",
+    "https://*.analytics.google.com",
+    "https://*.googletagmanager.com",
+]
 CSP_DIRECTIVES = {
     "default-src": ["'self'"],
-    "script-src": ["'self'", "'nonce-{nonce}'"],
+    "script-src": ["'self'", "'nonce-{nonce}'", *CSP_GOOGLE_ANALYTICS_SCRIPT_SRC],
     "style-src": ["'self'", "'nonce-{nonce}'"],
     "style-src-attr": ["'unsafe-inline'"],
     "img-src": ["'self'", "data:", "https:"],
     "font-src": ["'self'"],
-    "connect-src": ["'self'"],
+    "connect-src": ["'self'", *CSP_GOOGLE_ANALYTICS_CONNECT_SRC],
     "object-src": ["'none'"],
     "base-uri": ["'self'"],
     "form-action": ["'self'"],

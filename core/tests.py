@@ -722,10 +722,17 @@ class ContentSecurityPolicyTests(TestCase):
                     self.assertRegex(sources[1], r"^'nonce-[\w-]{16,}'$")
                     self.assertNotIn("'unsafe-inline'", sources)
                     self.assertNotIn("'unsafe-eval'", sources)
-                self.assertFalse(
-                    [s for s in policy["script-src"] + policy["connect-src"] if s.startswith("http")],
-                    "aucun hote tiers autorise : decision a prendre consciemment (voir settings.CSP_DIRECTIVES)",
+                # Tiers autorises = Google Analytics, et RIEN d'autre (ni Cloudflare, ni un autre hote)
+                hosts = {
+                    name: {src for src in sources if re.match(r"https?://", src)}
+                    for name, sources in policy.items()
+                }
+                self.assertEqual(hosts.pop("script-src"), {"https://www.googletagmanager.com"})
+                self.assertEqual(
+                    hosts.pop("connect-src"),
+                    {"https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.googletagmanager.com"},
                 )
+                self.assertEqual({name: h for name, h in hosts.items() if h}, {}, "hote tiers inattendu")
 
     def test_every_inline_script_and_style_carries_the_request_nonce(self):
         for url in self.public_urls():
@@ -779,6 +786,36 @@ class ContentSecurityPolicyTests(TestCase):
                 response = self.client.get(reverse("home"))
                 self.assertNotIn("Content-Security-Policy", response)
                 self.assertNotIn("nonce-", response.content.decode().split("<body")[0][:5000])
+
+    def test_nginx_reference_policy_allows_the_same_analytics_hosts(self):
+        """nginx pose sa propre CSP en plus : les deux s'additionnent, GA n'est autorise que si les DEUX le permettent."""
+        raw = Path(settings.BASE_DIR, "nginx").read_text(encoding="utf-8")
+        nginx_policy = _directives(re.search(r'add_header Content-Security-Policy "([^"]+)"', raw).group(1))
+
+        for host in settings.CSP_GOOGLE_ANALYTICS_SCRIPT_SRC:
+            self.assertIn(host, nginx_policy["script-src"])
+        for host in settings.CSP_GOOGLE_ANALYTICS_CONNECT_SRC:
+            self.assertIn(host, nginx_policy["connect-src"])
+        self.assertNotIn("cloudflareinsights", raw.split("add_header Content-Security-Policy")[1].split("\n")[0])
+
+    def test_google_analytics_only_loads_after_cookie_consent(self):
+        """Conformite : aucune requete vers Google tant que l'utilisateur n'a pas clique Accepter."""
+        html = self.client.get(reverse("home")).content.decode()
+        scripts = re.findall(r"<script nonce=[^>]*>(.*?)</script>", html, re.S)
+        loaders = [code for code in scripts if "googletagmanager.com/gtag/js" in code]
+
+        self.assertEqual(len(loaders), 2)  # chargeur de l'en-tete (visiteur deja consentant) + bandeau cookies
+        head_loader = next(code for code in loaders if "cookie-banner" not in code)
+        # le chargeur de l'en-tete sort AVANT tout chargement si le consentement n'est pas "accepted"
+        guard = head_loader.index("localStorage.getItem('cookie_consent') !== 'accepted'")
+        self.assertLess(guard, head_loader.index("googletagmanager.com"))
+        self.assertIn("return;", head_loader[guard:guard + 120])
+        # dans le bandeau, loadGA() n'est appele que par le clic sur Accepter
+        banner = next(code for code in loaders if "cookie-banner" in code)
+        calls = [m.start() for m in re.finditer(r"loadGA\(\);", banner)]
+        self.assertEqual(len(calls), 1)
+        self.assertGreater(calls[0], banner.index("getElementById('cookie-accept')"))
+        self.assertLess(calls[0], banner.index("getElementById('cookie-reject')"))
 
     @override_settings(ROOT_URLCONF="core.test_urls")
     def test_server_error_page_gets_its_own_minimal_policy(self):

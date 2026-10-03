@@ -39,7 +39,10 @@ server {
     # disabled by security audit on 2026-07-04: header already set by upstream app
     # add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
     add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()" always;
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';" always;
+    # Google Analytics 4 autorise (script-src + connect-src) : memes hotes que CSP_DIRECTIVES dans
+    # config/settings.py (les deux politiques s'additionnent : il faut les deux). GA ne se charge
+    # qu'apres consentement (bandeau cookies). La balise Cloudflare Web Analytics reste bloquee.
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-ancestors 'none';" always;
 
     # Logs
     access_log /var/www/horusglobalservices/horusglobalservices/logs/nginx-access.log;
