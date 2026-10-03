@@ -1,30 +1,53 @@
-# 1. BLOC PAR DÉFAUT : Rejette les accès directs par adresse IP ou domaines inconnus
+# =============================================================================
+# Config nginx de horuservices.cloud  ->  /etc/nginx/sites-enabled/horuservices
+#
+# Ce fichier est la copie DE REFERENCE de la config en place (resynchronisee le
+# 2026-10-03 : l'ancienne copie du depot avait derive, sans bloc HTTPS certbot ni
+# CSP). Il n'est PAS deploye par la CI : il faut un sudo.
+#
+# Application (apres avoir relu le diff) :
+#   sudo cp /etc/nginx/sites-enabled/horuservices ~/horuservices.nginx.bak
+#   sudo cp /var/www/horusglobalservices/horusglobalservices/nginx /etc/nginx/sites-enabled/horuservices
+#   sudo nginx -t && sudo systemctl reload nginx
+# Retour arriere : recopier ~/horuservices.nginx.bak puis nginx -t et reload.
+#
+# NB : sites-available/horuservices est une vieille copie, seule la version de
+# sites-enabled est lue par nginx (fichier regulier, pas un lien symbolique).
+# =============================================================================
+
+# 1. BLOC PAR DEFAUT : Rejette les acces directs par IP
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
     server_name _;
-    return 444; # Ferme la connexion sans réponse pour économiser les ressources
+    return 444;
 }
 
-# 2. BLOC PRINCIPAL : Du site web
+# 2. BLOC PRINCIPAL
 server {
-    listen 80;
     server_name horuservices.cloud www.horuservices.cloud;
 
-    # Taille max des uploads (pour tes projets et avatars)
     client_max_body_size 20M;
 
-    # Logs de maintenance
+    # ===== HEADERS SECURITE =====
+    # disabled by security audit on 2026-07-04: header already set by upstream app
+    # add_header X-Frame-Options "DENY" always;
+    # disabled by security audit on 2026-07-04: header already set by upstream app
+    # add_header X-Content-Type-Options "nosniff" always;
+    # disabled by security audit on 2026-07-04: header already set by upstream app
+    # add_header Referrer-Policy "same-origin" always;
+    # disabled by security audit on 2026-07-04: header already set by upstream app
+    # add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';" always;
+
+    # Logs
     access_log /var/www/horusglobalservices/horusglobalservices/logs/nginx-access.log;
     error_log /var/www/horusglobalservices/horusglobalservices/logs/nginx-error.log;
 
     # Favicon : servi directement depuis les statiques.
-    # ATTENTION — la version precedente etait
-    #   location = /favicon.ico { access_log off; log_not_found off; }
-    # Un "location =" capture l'URL : sans alias ni proxy_pass, nginx cherchait
-    # le fichier dans sa racine par defaut, renvoyait 404, et la requete
-    # n'atteignait jamais Django (la redirection de config/urls.py etait donc
-    # inoperante).
+    # Un "location =" sans alias ni proxy_pass faisait chercher le fichier dans la
+    # racine par defaut de nginx : 404, la requete n'atteignait jamais Django.
     location = /favicon.ico {
         alias /var/www/horusglobalservices/horusglobalservices/staticfiles/favicon.ico;
         access_log off;
@@ -34,24 +57,24 @@ server {
 
     # robots.txt : PAS de bloc dedie. Il est genere par Django
     # (config/urls.py -> templates/robots.txt) et doit donc passer par
-    # location / vers Gunicorn. Un "location = /robots.txt" vide le shadowait.
+    # location / vers Gunicorn. L'ancien "location = /robots.txt { ... }" vide
+    # le masquait : nginx repondait 404 et le Sitemap n'etait jamais annonce.
 
-    # Gestion des fichiers statiques (CSS, JS, Images)
+    # Fichiers statiques
     location /static/ {
         alias /var/www/horusglobalservices/horusglobalservices/staticfiles/;
         expires 30d;
         add_header Cache-Control "public, max-age=2592000, immutable";
     }
 
-    # Gestion des fichiers média (Uploads utilisateurs)
+    # Fichiers media
     location /media/ {
         alias /var/www/horusglobalservices/horusglobalservices/media/;
         expires 7d;
         add_header Cache-Control "public, max-age=604800";
     }
 
-    # SÉCURITÉ : Bloque l'accès aux fichiers cachés (.env, .git, etc.)
-    # On autorise uniquement .well-known pour les certificats SSL
+    # Bloquer fichiers caches (.env, .git, etc.)
     location ~ /\.(?!well-known).* {
         deny all;
         access_log off;
@@ -62,9 +85,27 @@ server {
     location / {
         include proxy_params;
         proxy_pass http://unix:/var/www/horusglobalservices/horusglobalservices/horus.sock;
-
-        # Paramètres de sécurité proxy supplémentaires
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_redirect off;
     }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/horuservices.cloud/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/horuservices.cloud/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+server {
+    if ($host = www.horuservices.cloud) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host = horuservices.cloud) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name horuservices.cloud www.horuservices.cloud;
+    return 404; # managed by Certbot
 }

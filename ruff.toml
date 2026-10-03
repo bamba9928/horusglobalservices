@@ -1,0 +1,7 @@
+# Garde-fou minimal : erreurs de syntaxe (E9) et pyflakes (F : imports inutilises,
+# noms indefinis, variables inutilisees...). Pas de regles de style : le code
+# existant n'est pas formate pour. Lancer en local : uvx ruff check
+extend-exclude = ["core/migrations", "node_modules", "staticfiles", "venv", ".venv"]
+
+[lint]
+select = ["E9", "F"]

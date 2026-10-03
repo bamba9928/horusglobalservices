@@ -1,0 +1,19 @@
+# Rotation des logs nginx du site (35 Mo + 20 Mo sans rotation avant ce fichier).
+# app-error.log est deja gere par Django (RotatingFileHandler, config/settings.py).
+#
+# Installation (une seule fois, sur le serveur) :
+#   sudo cp /var/www/horusglobalservices/horusglobalservices/deploy/logrotate-horuservices /etc/logrotate.d/horuservices
+#   sudo logrotate -d /etc/logrotate.d/horuservices     # simulation, ne modifie rien
+#
+# "su" est obligatoire : le dossier logs/ est inscriptible par un groupe non root.
+# "copytruncate" evite d'avoir a recharger nginx pour qu'il reouvre ses fichiers.
+/var/www/horusglobalservices/horusglobalservices/logs/nginx-*.log {
+    su mada www-data
+    weekly
+    rotate 8
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+}

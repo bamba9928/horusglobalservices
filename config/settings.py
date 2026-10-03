@@ -261,18 +261,30 @@ LOGGING = {
     },
     "handlers": {
         "console": {"level": "DEBUG", "class": "logging.StreamHandler", "formatter": "simple"},
+        # Rotation : l'ancien FileHandler laissait app-error.log grossir sans limite
+        # (34 Mo, dont ~62 000 lignes de bruit DisallowedHost).
         "file": {
             "level": "ERROR",
-            "class": "logging.FileHandler",
+            "class": "logging.handlers.RotatingFileHandler",
             "filename": str(LOG_DIR / "app-error.log"),
+            "maxBytes": 5 * 1024 * 1024,
+            "backupCount": 3,
+            "encoding": "utf-8",
             "formatter": "verbose",
         },
+        "null": {"class": "logging.NullHandler"},
     },
     "loggers": {
         "django": {
             "handlers": ["console", "file"] if DEBUG else ["file"],
             "level": "INFO" if DEBUG else "ERROR",
             "propagate": True,
+        },
+        # Bots qui scannent le site par IP / avec un Host inconnu : Django les
+        # rejette deja en 400. Les logguer en ERROR noie les vraies erreurs.
+        "django.security.DisallowedHost": {
+            "handlers": ["null"],
+            "propagate": False,
         },
     },
 }

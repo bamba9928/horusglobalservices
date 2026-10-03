@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     {# SEO Global & Métadonnées — Horus Global Services #}
-    <title>{% block title %}Horus Global Services | Ingénierie Logicielle & Transformation Digitale au Sénégal{% endblock %}</title>
-    <meta name="description" content="{% block description %}Cabinet d'ingénierie logicielle spécialisé dans la conception d'applications web et mobiles. Nous développons des solutions cloud sur mesure, des architectures haute performance et des systèmes sécurisés pour propulser votre croissance.{% endblock %}">
+    <title>{% block title %}Applications web Django sécurisées au Sénégal | Horus Global{% endblock %}</title>
+    <meta name="description" content="{% block description %}Applications métier sur mesure au Sénégal : Python / Django, Rust / Go, React / Next.js, DevOps et tests. IA appliquée, cybersécurité et audit.{% endblock %}">
     <meta name="author" content="Horus Global Services">
     <meta name="robots" content="index, follow">
     <meta name="msvalidate.01" content="5A7026FF3A5B42258F0C8394DC3820BC" />
@@ -31,8 +31,8 @@
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:site_name" content="Horus Global Services">
     <meta property="og:locale" content="fr_FR">
-    <meta property="og:title" content="{% block og_title %}Horus Global Services — Solutions Digitales et Ingénierie Haut de Gamme{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Notre expertise en ingénierie logicielle est dédiée à l'accélération de votre croissance. Nous concevons et déployons des solutions sur mesure, garantissant des applications web hautement performantes, évolutives et d'une sécurité infaillible pour répondre aux exigences les plus strictes de votre entreprise.{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Horus Global Services — Applications web Django fiables et sécurisées{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Je conçois et j'industrialise vos applications métier : Python / Django / APIs, Rust / Go, TypeScript / React / Next.js / Astro, base de données, DevOps et tests. IA appliquée, cybersécurité et audit pour automatiser, durcir et optimiser vos systèmes.{% endblock %}">
     {% comment %} Image : Format recommandé 1200x630px — on sert le JPG (73 Ko) et non le
        PNG (1,8 Mo) : og:image et og:image:secure_url doivent designer le meme
        fichier, et certains scrapers rejettent les images trop lourdes. {% endcomment %}
@@ -45,8 +45,8 @@
     {# Twitter #}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@HorusGlobal">
-    <meta name="twitter:title" content="{% block twitter_title %}Horus Global Services | Ingénierie Logicielle & Innovation{% endblock %}">
-    <meta name="twitter:description" content="{% block twitter_description %}Transformez votre vision numérique en réalité. Nous créons des applications sur mesure, robustes et évolutives pour pérenniser votre succès.{% endblock %}">
+    <meta name="twitter:title" content="{% block twitter_title %}Horus Global Services | Applications web Django, Rust & Go{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Applications métier sur mesure, APIs, DevOps et cybersécurité : du cadrage à la mise en production.{% endblock %}">
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'core/og-image.jpg' %}{% endblock %}">
     <meta name="twitter:image:alt" content="Horus Global Services - Solutions Web">
 
@@ -852,6 +852,11 @@
     </script>
 </head>
 <body class="flex flex-col min-h-screen">
+<a href="#main-content"
+   class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100]
+          focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-black">
+    Aller au contenu
+</a>
 <div id="top-marquee-bar"
      class="border-b border-white/5 bg-[#08080a]/95 backdrop-blur-sm"
      style="height: var(--marquee-h);">
@@ -1320,7 +1325,7 @@
 {# ====================================================================== #}
 {# MAIN                                                                    #}
 {# ====================================================================== #}
-<main class="flex-1 w-full relative isolate" style="padding-top: var(--stack-h);">
+<main id="main-content" tabindex="-1" class="flex-1 w-full relative isolate focus:outline-none" style="padding-top: var(--stack-h);">
 
   {# Background décoratif #}
   <div aria-hidden="true" class="pointer-events-none">

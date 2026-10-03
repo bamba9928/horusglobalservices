@@ -1,0 +1,36 @@
+name: Audit des dépendances
+
+# Echoue (croix rouge) si une dépendance Python épinglée a une faille connue.
+# Volontairement SEPARE de ci.yml : une nouvelle faille ne doit pas bloquer le
+# déploiement d'un correctif de contenu. Lundi 06:00 UTC pour détecter les
+# nouveaux avis même sans commit.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  push:
+    branches: [main]
+    paths: [requirements.txt, .github/workflows/audit.yml]
+  pull_request:
+    paths: [requirements.txt]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pip-audit:
+    name: pip-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Audit de requirements.txt
+        run: |
+          pip install pip-audit
+          pip-audit -r requirements.txt --no-deps --disable-pip

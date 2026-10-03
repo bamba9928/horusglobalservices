@@ -35,6 +35,12 @@ jobs:
       - name: Dépendances Python
         run: pip install -r requirements.txt
 
+      # Erreurs de syntaxe et pyflakes (imports inutiles, noms indéfinis) : voir ruff.toml
+      - name: Lint (ruff)
+        run: |
+          pip install ruff==0.16.10
+          ruff check
+
       - name: Vérification Django
         run: python manage.py check
 
