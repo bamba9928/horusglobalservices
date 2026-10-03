@@ -1,8 +1,11 @@
 from pathlib import Path
 from unittest.mock import patch
 
+import re
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.staticfiles import finders
 from django.template.loader import get_template
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.urls import reverse
@@ -368,3 +371,37 @@ class LoggingConfigTests(SimpleTestCase):
         response = self.client.get("/", HTTP_HOST="evil.example.org")
 
         self.assertEqual(response.status_code, 400)
+
+
+class SelfHostedFontsTests(TestCase):
+    """Les polices sont servies par le site : aucune requete vers Google Fonts."""
+
+    def setUp(self):
+        self.html = self.client.get(reverse("home")).content.decode()
+
+    def test_no_request_to_google_fonts(self):
+        self.assertNotIn("fonts.googleapis.com", self.html)
+        self.assertNotIn("fonts.gstatic.com", self.html)
+
+    def test_critical_latin_subsets_are_preloaded(self):
+        for name in ("inter-latin-wght-normal", "plus-jakarta-sans-latin-wght-normal"):
+            with self.subTest(font=name):
+                self.assertRegex(
+                    self.html,
+                    rf'<link rel="preload" href="[^"]*{name}\.woff2" as="font" type="font/woff2" crossorigin>',
+                )
+
+    def test_every_declared_font_file_exists(self):
+        urls = re.findall(r'url\("([^"]+\.woff2)"\)', self.html)
+
+        self.assertGreaterEqual(len(urls), 4)  # 2 familles x (latin + latin-ext)
+        for url in urls:
+            with self.subTest(url=url):
+                relative = url.removeprefix(settings.STATIC_URL)
+                self.assertIsNotNone(finders.find(relative), f"fichier de police introuvable : {url}")
+
+    def test_font_families_match_the_tailwind_theme(self):
+        # input.css : --font-display / --font-body doivent pointer sur ces @font-face
+        for family in ("Plus Jakarta Sans", "Inter"):
+            with self.subTest(family=family):
+                self.assertIn(f'font-family: "{family}"', self.html)
