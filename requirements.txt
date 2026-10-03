@@ -1,8 +1,8 @@
 asgiref==3.11.1
-Django==6.0.8
+Django==6.1.1
 django-ckeditor-5==0.2.20
 django-resized==1.0.3
-django-unfold==0.80.1
+django-unfold==0.108.0
 gunicorn==25.1.0
 packaging==26.0
 pillow==12.3.0

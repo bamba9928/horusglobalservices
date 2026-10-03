@@ -9,7 +9,9 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.staticfiles import finders
 from django.template.loader import get_template
+from django.core import mail
 from django.core.cache import cache
+from django.core.mail.backends.smtp import EmailBackend as SmtpEmailBackend
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
@@ -18,6 +20,8 @@ from django.views.defaults import server_error
 from PIL import Image
 
 from django_ckeditor_5.fields import CKEditor5Field
+
+from config.mailers import build_mailers
 
 from .forms import ContactForm
 from .models import Article, Contact, LegalPage, Project
@@ -365,6 +369,32 @@ class AdminSmokeTests(TestCase):
             with self.subTest(url=url):
                 self.assertEqual(self.client.get(url).status_code, 200)
 
+    def test_admin_add_and_change_forms_render(self):
+        self.client.force_login(self.admin_user)
+        contact = Contact.objects.get()
+        urls = [
+            reverse("admin:core_article_add"), reverse("admin:core_project_add"),
+            reverse("admin:core_legalpage_add"), reverse("admin:core_customuser_add"),
+            reverse("admin:core_contact_change", args=[contact.pk]),
+            reverse("admin:core_project_change", args=[Project.objects.get().pk]),
+            reverse("admin:core_customuser_change", args=[self.admin_user.pk]),
+        ]
+        for url in urls:
+            with self.subTest(url=url):
+                self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_contact_admin_actions_update_the_flags(self):
+        self.client.force_login(self.admin_user)
+        contact = Contact.objects.get()
+        url = reverse("admin:core_contact_changelist")
+
+        for action, field in (("mark_as_read", "is_read"), ("mark_as_responded", "is_responded")):
+            with self.subTest(action=action):
+                response = self.client.post(url, {"action": action, "_selected_action": [contact.pk]})
+                self.assertEqual(response.status_code, 302)
+                contact.refresh_from_db()
+                self.assertTrue(getattr(contact, field))
+
     def test_admin_requires_login(self):
         response = self.client.get(reverse("admin:index"))
 
@@ -562,3 +592,75 @@ class CKEditor5Tests(TestCase):
         for fragment in ('class="image image-style-align-left"', 'class="language-python"', '<figure class="table">', "Légende"):
             with self.subTest(fragment=fragment):
                 self.assertIn(fragment, html)
+
+
+class MailersConfigTests(SimpleTestCase):
+    """Django 6.1 : MAILERS remplace EMAIL_HOST & co (depreciés). Memes variables d'environnement."""
+
+    PROD_ENV = {
+        "EMAIL_HOST": "smtp.example.org", "EMAIL_PORT": "465", "EMAIL_USE_TLS": "False",
+        "EMAIL_HOST_USER": "robot", "EMAIL_HOST_PASSWORD": "secret", "EMAIL_TIMEOUT": "7",
+    }
+
+    def test_debug_prints_emails_to_the_console(self):
+        mailers = build_mailers(True, {})
+
+        self.assertEqual(mailers["default"]["BACKEND"], "django.core.mail.backends.console.EmailBackend")
+
+    def test_production_reads_the_same_environment_variables_as_before(self):
+        mailer = build_mailers(False, self.PROD_ENV)["default"]
+
+        self.assertEqual(mailer["BACKEND"], "django.core.mail.backends.smtp.EmailBackend")
+        self.assertEqual(
+            mailer["OPTIONS"],
+            {"host": "smtp.example.org", "port": 465, "use_tls": False,
+             "username": "robot", "password": "secret", "timeout": 7},
+        )
+
+    def test_defaults_are_those_of_the_previous_settings(self):
+        options = build_mailers(False, {})["default"]["OPTIONS"]
+
+        self.assertEqual(
+            options,
+            {"host": "smtp.sendgrid.net", "port": 587, "use_tls": True,
+             "username": "", "password": "", "timeout": 20},
+        )
+
+    def test_options_are_accepted_by_the_smtp_backend(self):
+        # Meme chemin que send_mail() : mail.mailers[alias] (instancier le backend a la main
+        # est deprecie en 6.1). Aucune connexion n'est ouverte tant qu'on n'envoie rien.
+        with override_settings(MAILERS=build_mailers(False, self.PROD_ENV)):
+            backend = mail.mailers["default"]
+
+        self.assertIsInstance(backend, SmtpEmailBackend)
+        self.assertEqual((backend.host, backend.port, backend.username, backend.use_tls, backend.timeout),
+                         ("smtp.example.org", 465, "robot", False, 7))
+
+    def test_project_settings_define_mailers_and_no_deprecated_email_settings(self):
+        self.assertTrue(hasattr(__import__("config.settings", fromlist=["MAILERS"]), "MAILERS"))
+        raw = Path(settings.BASE_DIR, "config", "settings.py").read_text(encoding="utf-8")
+        for name in ("EMAIL_BACKEND", "EMAIL_HOST ", "EMAIL_PORT", "EMAIL_USE_TLS", "EMAIL_HOST_USER",
+                     "EMAIL_HOST_PASSWORD", "EMAIL_TIMEOUT"):
+            with self.subTest(setting=name):
+                self.assertNotRegex(raw, rf"^{name}\s*=", "reglage deprecie reapparu")
+
+
+@override_settings(CACHES=LOCMEM_CACHE)
+class ContactMailDeliveryTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def test_contact_form_sends_the_notification_through_the_mailers(self):
+        response = self.client.post(
+            reverse("contact"),
+            {"name": "Alice Ndiaye", "email": "alice@example.com", "phone": "+221771234567",
+             "message": "Bonjour, je souhaite un devis pour une application."},
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        self.assertIn("Alice Ndiaye", message.subject)
+        self.assertEqual(message.to, [settings.PUBLIC_EMAIL])
+        self.assertEqual(message.from_email, settings.DEFAULT_FROM_EMAIL)

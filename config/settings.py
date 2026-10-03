@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _ 
 
+from .mailers import build_mailers
+
 # ------------------------------------------------------------
 # Base / .env
 # ------------------------------------------------------------
@@ -213,17 +215,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # ------------------------------------------------------------
 # Email
 # ------------------------------------------------------------
-EMAIL_BACKEND = (
-    "django.core.mail.backends.console.EmailBackend"
-    if DEBUG
-    else "django.core.mail.backends.smtp.EmailBackend"
-)
-
-EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.sendgrid.net")
-EMAIL_PORT = env_int("EMAIL_PORT", "587")
-EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", "True")
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+# Django 6.1 : MAILERS remplace EMAIL_BACKEND/EMAIL_HOST/... (voir config/mailers.py).
+# Memes variables d'environnement qu'avant : EMAIL_HOST, EMAIL_PORT, EMAIL_USE_TLS,
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_TIMEOUT.
+MAILERS = build_mailers(DEBUG)
 
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@horuservices.cloud")
 PUBLIC_EMAIL = os.getenv("PUBLIC_EMAIL", "contact@horus-assur.digital")
@@ -449,4 +444,3 @@ CACHES = {
     }
 }
 
-EMAIL_TIMEOUT = int(os.getenv("EMAIL_TIMEOUT", "20"))

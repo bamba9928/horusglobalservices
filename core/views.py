@@ -156,7 +156,6 @@ Message :
                         message,
                         from_email,
                         [recipient_email],
-                        fail_silently=False,
                     )
                 except Exception as e:
                     logger.error(
