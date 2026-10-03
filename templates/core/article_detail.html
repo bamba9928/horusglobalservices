@@ -201,7 +201,7 @@
                 </a>
 
                 {# Copier le lien #}
-                <button onclick="navigator.clipboard.writeText(window.location.href).then(()=>{this.querySelector('.icon-copy').classList.add('hidden');this.querySelector('.icon-check').classList.remove('hidden');setTimeout(()=>{this.querySelector('.icon-copy').classList.remove('hidden');this.querySelector('.icon-check').classList.add('hidden')},2000)})"
+                <button type="button" data-copy-link
                    class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-purple-400 hover:bg-purple-400/10 transition-colors"
                    title="Copier le lien">
                     <svg class="w-5 h-5 icon-copy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
@@ -212,4 +212,16 @@
 
     </div>
 </article>
+{% comment %} Bouton "Copier le lien" : ecouteur d'evenement (un onclick en ligne serait bloque par la CSP). {% endcomment %}
+<script nonce="{{ csp_nonce }}">
+document.querySelectorAll('[data-copy-link]').forEach(function (button) {
+  button.addEventListener('click', function () {
+    navigator.clipboard.writeText(window.location.href).then(function () {
+      var copy = button.querySelector('.icon-copy'), check = button.querySelector('.icon-check');
+      copy.classList.add('hidden'); check.classList.remove('hidden');
+      setTimeout(function () { copy.classList.remove('hidden'); check.classList.add('hidden'); }, 2000);
+    });
+  });
+});
+</script>
 {% endblock %}

@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 import re
 import tempfile
+from html.parser import HTMLParser
 from io import BytesIO
 
 from django.conf import settings
@@ -13,7 +14,7 @@ from django.core import mail
 from django.core.cache import cache
 from django.core.mail.backends.smtp import EmailBackend as SmtpEmailBackend
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
+from django.test import Client, RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 from django.views.defaults import server_error
 
@@ -664,3 +665,128 @@ class ContactMailDeliveryTests(TestCase):
         self.assertIn("Alice Ndiaye", message.subject)
         self.assertEqual(message.to, [settings.PUBLIC_EMAIL])
         self.assertEqual(message.from_email, settings.DEFAULT_FROM_EMAIL)
+
+
+class _InlineCodeScanner(HTMLParser):
+    """Releve les <script>/<style> en ligne (hors JSON-LD) et les attributs on*= d'une page."""
+
+    def __init__(self):
+        super().__init__()
+        self.script_nonces, self.style_nonces, self.handlers = [], [], []
+
+    def handle_starttag(self, tag, attrs):
+        attributes = dict(attrs)
+        self.handlers += [(tag, name) for name in attributes if name.startswith("on")]
+        if tag == "script" and "src" not in attributes and attributes.get("type") != "application/ld+json":
+            self.script_nonces.append(attributes.get("nonce"))
+        if tag == "style":
+            self.style_nonces.append(attributes.get("nonce"))
+
+
+def _directives(policy):
+    return {part.split()[0]: part.split()[1:] for part in policy.split(";") if part.strip()}
+
+
+class ContentSecurityPolicyTests(TestCase):
+    """CSP stricte a nonce sur le site public (core/middleware.py)."""
+
+    @classmethod
+    def setUpTestData(cls):
+        _make_article("a")
+        _make_project("p")
+        LegalPage.objects.create(title="mentions-legales", slug="mentions-legales", content="<p>Mentions</p>")
+
+    def public_urls(self):
+        return [
+            reverse("home"), reverse("services"), reverse("skills"), reverse("portfolio"), reverse("blog"),
+            reverse("contact"), reverse("search") + "?q=django", reverse("article_detail", args=["a"]),
+            reverse("project_detail", args=["p"]), reverse("legal_page", args=["mentions-legales"]),
+            "/page-introuvable/",
+        ]
+
+    def test_public_pages_send_a_strict_nonce_based_policy(self):
+        for url in self.public_urls():
+            with self.subTest(url=url):
+                policy = _directives(self.client.get(url)["Content-Security-Policy"])
+                self.assertEqual(policy["default-src"], ["'self'"])
+                self.assertEqual(policy["object-src"], ["'none'"])
+                self.assertEqual(policy["base-uri"], ["'self'"])
+                self.assertEqual(policy["form-action"], ["'self'"])
+                self.assertEqual(policy["frame-ancestors"], ["'none'"])
+                for directive in ("script-src", "style-src"):
+                    sources = policy[directive]
+                    self.assertEqual(sources[0], "'self'")
+                    self.assertRegex(sources[1], r"^'nonce-[\w-]{16,}'$")
+                    self.assertNotIn("'unsafe-inline'", sources)
+                    self.assertNotIn("'unsafe-eval'", sources)
+                self.assertFalse(
+                    [s for s in policy["script-src"] + policy["connect-src"] if s.startswith("http")],
+                    "aucun hote tiers autorise : decision a prendre consciemment (voir settings.CSP_DIRECTIVES)",
+                )
+
+    def test_every_inline_script_and_style_carries_the_request_nonce(self):
+        for url in self.public_urls():
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                nonce = re.search(r"'nonce-([\w-]+)'", response["Content-Security-Policy"]).group(1)
+                scanner = _InlineCodeScanner()
+                scanner.feed(response.content.decode())
+
+                self.assertEqual(set(scanner.script_nonces) - {nonce}, set(), "script en ligne sans le bon nonce")
+                self.assertEqual(set(scanner.style_nonces) - {nonce}, set(), "style en ligne sans le bon nonce")
+
+    def test_inline_code_is_actually_present_so_the_check_is_meaningful(self):
+        scanner = _InlineCodeScanner()
+        scanner.feed(self.client.get(reverse("home")).content.decode())
+
+        self.assertGreaterEqual(len(scanner.script_nonces), 3)  # GA, navigation, bandeau cookies
+        self.assertGreaterEqual(len(scanner.style_nonces), 3)
+
+    def test_no_inline_event_handlers_in_public_pages(self):
+        for url in self.public_urls():
+            with self.subTest(url=url):
+                scanner = _InlineCodeScanner()
+                scanner.feed(self.client.get(url).content.decode())
+
+                self.assertEqual(scanner.handlers, [], "attribut on*= en ligne : bloque par la CSP, utiliser addEventListener")
+
+    def test_nonce_is_different_on_every_request(self):
+        nonces = {
+            re.search(r"'nonce-([\w-]+)'", self.client.get(reverse("home"))["Content-Security-Policy"]).group(1)
+            for _ in range(5)
+        }
+
+        self.assertEqual(len(nonces), 5)
+
+    def test_admin_and_non_html_responses_are_left_alone(self):
+        for url in (reverse("admin:login"), "/robots.txt", "/sitemap.xml", reverse("article_feed")):
+            with self.subTest(url=url):
+                self.assertNotIn("Content-Security-Policy", self.client.get(url))
+
+    def test_report_only_mode_does_not_enforce(self):
+        with override_settings(CSP_REPORT_ONLY=True):
+            response = self.client.get(reverse("home"))
+
+        self.assertIn("Content-Security-Policy-Report-Only", response)
+        self.assertNotIn("Content-Security-Policy", response)
+
+    def test_kill_switch_and_debug_disable_the_policy(self):
+        for overrides in ({"CSP_ENABLED": False}, {"DEBUG": True}):
+            with self.subTest(overrides=overrides), override_settings(**overrides):
+                response = self.client.get(reverse("home"))
+                self.assertNotIn("Content-Security-Policy", response)
+                self.assertNotIn("nonce-", response.content.decode().split("<body")[0][:5000])
+
+    @override_settings(ROOT_URLCONF="core.test_urls")
+    def test_server_error_page_gets_its_own_minimal_policy(self):
+        client = Client(raise_request_exception=False)
+
+        with self.assertLogs("django.request", level="ERROR"):
+            response = client.get("/boom/")
+
+        self.assertEqual(response.status_code, 500)
+        self.assertContains(response, "Erreur 500", status_code=500)
+        policy = _directives(response["Content-Security-Policy"])
+        self.assertEqual(policy["default-src"], ["'none'"])
+        self.assertEqual(policy["style-src"], ["'unsafe-inline'"])  # <style> de templates/500.html
+        self.assertNotIn("script-src", policy)

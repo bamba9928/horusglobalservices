@@ -56,7 +56,7 @@
      page utilise un de ses caracteres (unicode-range). {% endcomment %}
   <link rel="preload" href="{% static 'fonts/inter-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{% static 'fonts/plus-jakarta-sans-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
-  <style>
+  <style nonce="{{ csp_nonce }}">
       @font-face {
         font-family: "Plus Jakarta Sans"; font-style: normal; font-display: swap; font-weight: 200 800;
         src: url("{% static 'fonts/plus-jakarta-sans-latin-ext-wght-normal.woff2' %}") format("woff2");
@@ -116,7 +116,7 @@
     }
     </script>
     {% if TEMPLATE_DEBUG %}
-        <script>
+        <script nonce="{{ csp_nonce }}">
           window.tailwind = {
             config: {
               theme: {
@@ -183,7 +183,7 @@
         <link rel="stylesheet" href="{% static 'css/output.css' %}{% if CSS_VERSION %}?v={{ CSS_VERSION }}{% endif %}">
       {% endif %}
 
-      <style>
+      <style nonce="{{ csp_nonce }}">
         :root {
           --header-h:   60px;        /* Réduit pour mobile */
           --marquee-h:  44px;        /* Réduit pour mobile */
@@ -831,7 +831,7 @@
         .group:hover .group-hover\:bg-accent   { background-color: #e8e0d0; }
       </style>
       {# Animation marquee #}
-      <style>
+      <style nonce="{{ csp_nonce }}">
         @keyframes infinite-scroll {
           from { transform: translateX(0); }
           to   { transform: translateX(-50%); }
@@ -858,7 +858,7 @@
   {% block extra_head %}{% endblock %}
 
     {# Google Analytics 4 — charge UNIQUEMENT si consentement cookies accepte #}
-    <script>
+    <script nonce="{{ csp_nonce }}">
     (function(){
       if (localStorage.getItem('cookie_consent') !== 'accepted') return;
       var id = '{{ GA_MEASUREMENT_ID|default:"" }}';
@@ -1521,7 +1521,7 @@
 
   </div>
 </footer>
-    <script>
+    <script nonce="{{ csp_nonce }}">
     /**
      * Navigation Premium - 2026 (UNIFIÉ)
      * Header dynamique + Menu mobile + Accessibilité.
@@ -1718,7 +1718,7 @@
   </div>
 </div>
 
-<script>
+<script nonce="{{ csp_nonce }}">
 (function(){
   var banner = document.getElementById('cookie-banner');
   var consent = localStorage.getItem('cookie_consent');

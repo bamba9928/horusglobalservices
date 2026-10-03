@@ -103,6 +103,7 @@ INSTALLED_APPS = [
 # ------------------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "core.middleware.ContentSecurityPolicyMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -127,6 +128,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "core.context_processors.global_settings",
+                "core.context_processors.csp_nonce",
             ],
         },
     }
@@ -386,6 +388,42 @@ CKEDITOR_5_CONFIGS = {
             ]
         },
     }
+}
+
+# ------------------------------------------------------------
+# Content-Security-Policy (site public) — voir core/middleware.py
+# ------------------------------------------------------------
+CSP_ENABLED = env_bool("CSP_ENABLED", "True")  # interrupteur d'urgence : CSP_ENABLED=False dans .env
+CSP_REPORT_ONLY = env_bool("CSP_REPORT_ONLY", "False")  # True : signale sans bloquer (essais)
+CSP_EXCLUDED_PATH_PREFIXES = ("/admin-horus/", "/ckeditor5/")  # admin : Alpine.js exige 'unsafe-eval'
+
+# {nonce} est remplace a chaque requete. Aucun tiers autorise : ni Google Analytics, ni
+# la balise Cloudflare Web Analytics (injectee par Cloudflare) ne peuvent se charger.
+# Les autoriser est une decision a prendre en connaissance de cause : ajouter leur hote a
+# script-src ("https://www.googletagmanager.com", "https://static.cloudflareinsights.com")
+# et a connect-src, et lever aussi la restriction equivalente dans la CSP nginx.
+# style-src-attr 'unsafe-inline' : les attributs style="..." des templates (delais
+# d'animation, variables CSS) ; sans risque d'execution de script.
+CSP_DIRECTIVES = {
+    "default-src": ["'self'"],
+    "script-src": ["'self'", "'nonce-{nonce}'"],
+    "style-src": ["'self'", "'nonce-{nonce}'"],
+    "style-src-attr": ["'unsafe-inline'"],
+    "img-src": ["'self'", "data:", "https:"],
+    "font-src": ["'self'"],
+    "connect-src": ["'self'"],
+    "object-src": ["'none'"],
+    "base-uri": ["'self'"],
+    "form-action": ["'self'"],
+    "frame-ancestors": ["'none'"],
+}
+# Page 500 autonome (templates/500.html) : <style> en ligne, rien d'autre.
+CSP_SERVER_ERROR_DIRECTIVES = {
+    "default-src": ["'none'"],
+    "style-src": ["'unsafe-inline'"],
+    "base-uri": ["'none'"],
+    "form-action": ["'none'"],
+    "frame-ancestors": ["'none'"],
 }
 
 # ------------------------------------------------------------

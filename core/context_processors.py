@@ -41,3 +41,8 @@ def global_settings(request):
 
 def global_context(request):
     return {'TEMPLATE_DEBUG': settings.DEBUG}
+
+
+def csp_nonce(request):
+    """Nonce de la requete (cf. core.middleware) : <script nonce="{{ csp_nonce }}">."""
+    return {"csp_nonce": getattr(request, "csp_nonce", "")}
