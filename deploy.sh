@@ -1,15 +1,25 @@
 #!/bin/bash
 
-# Arrêter le script en cas d'erreur
-set -e
+# Arrêter le script en cas d'erreur (et sur variable non définie / échec dans un pipe)
+set -euo pipefail
+
+# Lancé par GitHub Actions (.github/workflows/ci.yml) via une clé SSH restreinte,
+# donc en SSH non interactif : npm vit dans ~/.local/bin, hors du PATH par défaut.
+export PATH="$HOME/.local/bin:$PATH"
+
+APP_DIR=/var/www/horusglobalservices/horusglobalservices
+SOCKET="$APP_DIR/horus.sock"
 
 echo "--- 🚀 Début du déploiement : $(date) ---"
 
 # 1. Mise à jour du code
-cd /var/www/horusglobalservices/horusglobalservices
+cd "$APP_DIR"
 echo "📥 Mise à jour via Git..."
-git reset --hard HEAD
-git pull origin main
+# fetch + reset sur origin/main : déterministe (pas de merge, pas de conflit).
+# Les fichiers non suivis (media/, .env, venv/...) ne sont pas touchés.
+git fetch origin main
+git reset --hard origin/main
+git log --oneline -1
 
 # 2. Activation de l'environnement virtuel
 echo "🐍 Activation du venv..."
@@ -42,7 +52,37 @@ python3 manage.py collectstatic --noinput --clear
 
 # 6. Redémarrage des services
 echo "⚙️ Redémarrage de Gunicorn et Nginx..."
-sudo systemctl restart gunicorn
-sudo systemctl reload nginx
+if sudo -n systemctl restart gunicorn 2>/dev/null; then
+    echo "   gunicorn redémarré (systemctl restart)"
+else
+    # sudoers : seuls certains "restart" sont autorisés sans mot de passe, pas
+    # gunicorn. Il tourne sous notre utilisateur et sans --preload : un SIGHUP
+    # relance les workers en douceur avec le nouveau code, sans coupure.
+    echo "   sudo indisponible : rechargement gracieux de gunicorn (SIGHUP)"
+    GUNICORN_PID=$(systemctl show -p MainPID --value gunicorn)
+    if [ "${GUNICORN_PID:-0}" -le 0 ]; then
+        echo "❌ gunicorn ne tourne pas (MainPID=${GUNICORN_PID:-?})" >&2
+        exit 1
+    fi
+    kill -HUP "$GUNICORN_PID"
+fi
+sudo -n systemctl reload nginx
+
+# 7. Vérification : gunicorn doit répondre sur son socket (X-Forwarded-Proto
+# évite la redirection SSL 301 de Django, qui masquerait un vrai problème).
+echo "🩺 Vérification de gunicorn..."
+HTTP_CODE=000
+for _ in 1 2 3 4 5 6 7 8 9 10; do
+    HTTP_CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 \
+        --unix-socket "$SOCKET" \
+        -H 'Host: horuservices.cloud' -H 'X-Forwarded-Proto: https' \
+        http://localhost/ || true)
+    [ "$HTTP_CODE" = "200" ] && break
+    sleep 2
+done
+if [ "$HTTP_CODE" != "200" ]; then
+    echo "❌ Healthcheck KO (HTTP $HTTP_CODE)" >&2
+    exit 1
+fi
 
 echo "--- ✅ Déploiement terminé avec succès ! ---"

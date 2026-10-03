@@ -1,5 +1,5 @@
-{# Carte projet du carrousel d'accueil. is_clone=True : copie decorative de la boucle
-   (masquee aux lecteurs d'ecran et sortie de l'ordre de tabulation). #}
+{% comment %} Carte projet du carrousel d'accueil. is_clone=True : copie decorative de la boucle
+   (masquee aux lecteurs d'ecran et sortie de l'ordre de tabulation). {% endcomment %}
 <div class="project-marquee__item{% if is_clone %} project-marquee__item--clone{% endif %}">
     <a href="{% url 'project_detail' project.slug %}"
        {% if is_clone %}aria-hidden="true" tabindex="-1"{% else %}aria-label="Voir le projet : {{ project.title }}"{% endif %}

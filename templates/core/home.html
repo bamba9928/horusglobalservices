@@ -201,8 +201,8 @@
         </a>
     </div>
 
-    {# Carrousel infini : la piste contient 2 moities identiques et glisse de -50%
-       (boucle sans saut). Seule la 1re copie est exposee aux lecteurs d'ecran. #}
+    {% comment %} Carrousel infini : la piste contient 2 moities identiques et glisse de -50%
+       (boucle sans saut). Seule la 1re copie est exposee aux lecteurs d'ecran. {% endcomment %}
     <div class="project-marquee" style="--marquee-duration: {{ marquee_duration }}s;">
         <div class="project-marquee__track">
             {% for half in "ab" %}
