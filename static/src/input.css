@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Plugin Typography : fournit les classes prose / prose-invert / prose-headings:... utilisees par
+   article_detail.html, project_detail.html et legal.html. Sans lui, elles ne produisaient aucune regle :
+   le corps des articles s'affichait en texte brut (titres a la taille du texte, listes sans puces). */
+@plugin "@tailwindcss/typography";
+
+/* Les citations servent aussi d'encadres (avertissement, remarque) : pas de guillemets automatiques.
+   (Hors @layer : doit l'emporter sur les regles du plugin.) */
+.prose blockquote p:first-of-type::before,
+.prose blockquote p:last-of-type::after { content: none; }
+
 /* ---------------------------------------------------------------------------
    Theme du projet — Tailwind v4 (configuration CSS-first)
    Sans ce bloc, les classes text-accent / bg-accent / text-muted / text-dark

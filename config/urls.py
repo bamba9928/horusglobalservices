@@ -15,6 +15,24 @@ sitemaps = {
     "projects": ProjectSitemap,
 }
 
+class FaviconRedirectView(RedirectView):
+    """/favicon.ico -> fichier statique, resolu A LA REQUETE.
+
+    Avec le stockage a empreintes (production), staticfiles_storage.url() lit le manifeste de
+    collectstatic : l'appeler a l'import de ce module faisait echouer tout `manage.py migrate`
+    (qui charge les URL pour ses verifications) sur un serveur dont les statiques ne sont pas
+    encore collectes ; deploy.sh lance migrate AVANT collectstatic.
+    """
+
+    permanent = True
+
+    def get_redirect_url(self, *args, **kwargs):
+        try:
+            return staticfiles_storage.url("favicon.ico")
+        except ValueError:  # statiques pas encore collectes
+            return settings.STATIC_URL + "favicon.ico"
+
+
 urlpatterns = [
     path("admin-horus/", admin.site.urls),
     path("", include("core.urls")),
@@ -38,10 +56,7 @@ urlpatterns = [
 
     # Les navigateurs demandent /favicon.ico a la racine, quels que soient les
     # <link rel="icon"> : sans cette redirection, chaque visite loggue un 404.
-    path(
-        "favicon.ico",
-        RedirectView.as_view(url=staticfiles_storage.url("favicon.ico"), permanent=True),
-    ),
+    path("favicon.ico", FaviconRedirectView.as_view()),
 ]
 handler404 = 'core.views.custom_bad_request_view'
 if settings.DEBUG:

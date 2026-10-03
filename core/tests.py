@@ -1,24 +1,27 @@
 from pathlib import Path
 from unittest.mock import patch
 
+import importlib
+import json
 import re
 import shutil
+import sys
 import tempfile
 from html.parser import HTMLParser
-from io import BytesIO
+from io import BytesIO, StringIO
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.staticfiles import finders
 from django.template.loader import get_template
 from django.core import mail
-from django.core.management import call_command
+from django.core.management import CommandError, call_command
 from django.core.cache import cache
 from django.core.mail.backends.smtp import EmailBackend as SmtpEmailBackend
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.templatetags.static import static
-from django.urls import reverse
+from django.urls import clear_url_caches, reverse
 from django.views.defaults import server_error
 
 from PIL import Image
@@ -27,6 +30,7 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 from config.mailers import build_mailers
 
+from .article_cleanup import clean_article_html
 from .forms import ContactForm
 from .models import Article, Contact, LegalPage, Project
 from .views import MARQUEE_MIN_CARDS
@@ -894,3 +898,121 @@ class VersionedStaticFilesTests(TestCase):
         raw = Path(settings.BASE_DIR, "config", "settings.py").read_text(encoding="utf-8")
 
         self.assertNotRegex(raw, r"^STATICFILES_STORAGE\s*=")
+
+
+class UrlconfImportTests(SimpleTestCase):
+    def test_urlconf_import_does_not_need_collected_static_files(self):
+        """deploy.sh lance `migrate` (qui charge les URL) AVANT `collectstatic` : l'import de config.urls
+        ne doit donc pas lire le manifeste des statiques (ancien bug : ValueError sur favicon.ico)."""
+        original = sys.modules["config.urls"]
+        with tempfile.TemporaryDirectory() as empty_root, override_settings(
+            STORAGES=PRODUCTION_STORAGES, STATIC_ROOT=empty_root
+        ):
+            try:
+                del sys.modules["config.urls"]
+                clear_url_caches()
+                importlib.import_module("config.urls")
+            finally:
+                sys.modules["config.urls"] = original
+                clear_url_caches()
+
+
+class ArticleCleanupTests(TestCase):
+    """Nettoyage des <h1> des anciens articles (core/article_cleanup.py)."""
+
+    TITLE = "Deployer une application Django"
+
+    def test_duplicate_title_is_removed_but_only_when_it_is_the_first_heading(self):
+        html = "<h1>Deployer une application Django</h1><h2>Intro</h2><p>Texte</p>"
+
+        cleaned, changes = clean_article_html(html, self.TITLE)
+
+        self.assertEqual(cleaned, "<h2>Intro</h2><p>Texte</p>")
+        self.assertEqual(changes["titre en double supprimé"], 1)
+
+    def test_section_h1_become_h2_and_sentences_become_paragraphs(self):
+        html = (
+            "<h1>Le deploiement d'une application est une etape critique. Une mauvaise conf.</h1>"
+            '<h1 style="text-align:center;">1. Preparer le serveur</h1><h3>Sous-section</h3>'
+        )
+
+        cleaned, changes = clean_article_html(html, self.TITLE)
+
+        self.assertIn("<p>Le deploiement d'une application est une etape critique. Une mauvaise conf.</p>", cleaned)
+        self.assertIn('<h2 style="text-align:center;">1. Preparer le serveur</h2>', cleaned)  # attributs conserves
+        self.assertIn("<h3>Sous-section</h3>", cleaned)  # les h3 ne bougent pas
+        self.assertEqual(changes["h1 → paragraphe (phrase)"], 1)
+        self.assertEqual(changes["h1 → h2 (titre de section)"], 1)
+
+    def test_empty_headings_and_spacer_paragraphs_are_removed(self):
+        html = "<h1>&nbsp;</h1><h2></h2><p>&nbsp;</p><p><br /></p><p>Vrai texte</p><h3>  </h3>"
+
+        cleaned, changes = clean_article_html(html, self.TITLE)
+
+        self.assertEqual(cleaned, "<p>Vrai texte</p>")
+        self.assertEqual(changes["titre vide supprimé"], 3)
+        self.assertEqual(changes["paragraphe vide supprimé"], 2)
+
+    def test_text_content_is_never_altered(self):
+        html = "<h1>Titre A</h1><p>Un <strong>texte</strong> &amp; du <code>code</code></p><h1>Titre B</h1><pre>x = 1</pre>"
+
+        cleaned, _ = clean_article_html(html, self.TITLE)
+
+        def words(fragment):
+            return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", fragment)).split()
+
+        self.assertEqual(words(cleaned), words(html))
+
+    def test_cleanup_is_idempotent_and_leaves_well_formed_articles_alone(self):
+        html = "<h2>Intro</h2><p>Texte</p><ul><li>a</li></ul><pre><code>x</code></pre>"
+        messy = "<h1>Deployer une application Django</h1><h1>1. Etape</h1><p>&nbsp;</p><p>Texte</p>"
+
+        self.assertEqual(clean_article_html(html, self.TITLE), (html, {}))
+        once, _ = clean_article_html(messy, self.TITLE)
+        self.assertEqual(clean_article_html(once, self.TITLE), (once, {}))
+
+    def test_command_simulates_by_default_and_requires_a_backup_to_write(self):
+        article = _make_article("sale", title=self.TITLE, content="<h1>1. Etape</h1><p>Texte</p>")
+        out = tempfile.mkdtemp()
+
+        call_command("clean_article_headings", stdout=StringIO())
+        article.refresh_from_db()
+        self.assertEqual(article.content, "<h1>1. Etape</h1><p>Texte</p>")  # simulation : rien d'ecrit
+        with self.assertRaises(CommandError):
+            call_command("clean_article_headings", apply=True, stdout=StringIO())
+
+        backup = Path(out) / "sauvegarde.json"
+        call_command("clean_article_headings", apply=True, backup=str(backup), stdout=StringIO())
+        article.refresh_from_db()
+        self.assertEqual(article.content, "<h2>1. Etape</h2><p>Texte</p>")
+        saved = json.loads(backup.read_text(encoding="utf-8"))
+        self.assertEqual(saved[0]["content"], "<h1>1. Etape</h1><p>Texte</p>")  # contenu ORIGINAL sauvegarde
+        shutil.rmtree(out, ignore_errors=True)
+
+
+class ArticleTypographyTests(TestCase):
+    """Les classes `prose` des templates ne servent a rien sans le plugin Typography compile dans output.css."""
+
+    def test_compiled_css_contains_the_typography_rules(self):
+        css = Path(settings.BASE_DIR, "static", "css", "output.css").read_text(encoding="utf-8")
+
+        self.assertGreater(css.count(".prose"), 100)
+        self.assertIn(".prose-invert", css)
+        # citations sans guillemets automatiques (encadres d'avertissement)
+        self.assertRegex(css, r"\.prose blockquote p:first-of-type::?before[^{]*\{content:none\}")
+
+    def test_legal_page_uses_the_dark_variant(self):
+        """Sans prose-invert, le plugin donne du texte gris fonce illisible sur le fond sombre du site."""
+        LegalPage.objects.create(title="cookies", slug="cookies", content="<h2>Cookies</h2><p>Texte</p>")
+
+        html = self.client.get(reverse("legal_page", args=["cookies"])).content.decode()
+
+        self.assertRegex(html, r'class="prose prose-invert[^"]*"')
+
+    def test_article_page_keeps_the_dark_variant_and_blockquote_styling(self):
+        _make_article("a", content="<blockquote><p>Citation</p></blockquote>")
+
+        html = self.client.get(reverse("article_detail", args=["a"])).content.decode()
+
+        self.assertIn("prose-invert", html)
+        self.assertIn("prose-blockquote:not-italic", html)
