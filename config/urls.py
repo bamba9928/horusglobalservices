@@ -5,7 +5,6 @@ from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic.base import TemplateView, RedirectView
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.contrib.admin.views.decorators import staff_member_required
 
 from core.sitemaps import StaticViewSitemap, ArticleSitemap, ProjectSitemap
 
@@ -20,8 +19,8 @@ urlpatterns = [
     path("admin-horus/", admin.site.urls),
     path("", include("core.urls")),
 
-    # CKEditor uploader protégé (admin interne / staff uniquement)
-    path("ckeditor/", staff_member_required(include("ckeditor_uploader.urls"))),
+    # CKEditor 5 : envoi d'images depuis l'éditeur (la vue refuse les non-staff : 403)
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
 
     # SEO : Sitemap.xml
     path(

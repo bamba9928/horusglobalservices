@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from ckeditor_uploader.fields import RichTextUploadingField
+from django_ckeditor_5.fields import CKEditor5Field
 from django_resized import ResizedImageField
 
 CATEGORY_CHOICES = [
@@ -39,7 +39,7 @@ class Article(models.Model):
     slug = models.SlugField(unique=True, blank=True, verbose_name="URL (Slug)")
     summary = models.TextField(max_length=500, verbose_name="Résumé pour SEO")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, blank=True)
-    content = RichTextUploadingField(verbose_name="Contenu")
+    content = CKEditor5Field(verbose_name="Contenu")
     image = ResizedImageField(
         size=[1200, 675],
         crop=['middle', 'center'],
@@ -205,7 +205,7 @@ class LegalPage(models.Model):
 
     title = models.CharField(max_length=200, choices=TITLE_CHOICES, unique=True, verbose_name="Type de page")
     slug = models.SlugField(unique=True, help_text="Ex: mentions-legales")
-    content = RichTextUploadingField(verbose_name="Contenu de la page")
+    content = CKEditor5Field(verbose_name="Contenu de la page")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Dernière mise à jour")
 
     class Meta:

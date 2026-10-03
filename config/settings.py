@@ -90,8 +90,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.sitemaps",
     # Rich text
-    "ckeditor",
-    "ckeditor_uploader",
+    "django_ckeditor_5",
     # Project
     "core",
     "django_resized",
@@ -312,51 +311,85 @@ if IS_PROD:
     SECURE_HSTS_PRELOAD = True
 
 # ------------------------------------------------------------
-# CKEditor (sans duplication)
+# Uploads / limites de requete
 # ------------------------------------------------------------
-CKEDITOR_UPLOAD_PATH = os.getenv("CKEDITOR_UPLOAD_PATH", "uploads/")
-CKEDITOR_IMAGE_BACKEND = os.getenv("CKEDITOR_IMAGE_BACKEND", "pillow")
-CKEDITOR_ALLOW_NONIMAGE_FILES = env_bool("CKEDITOR_ALLOW_NONIMAGE_FILES", "False")
-
 FILE_UPLOAD_MAX_MEMORY_SIZE = env_int("FILE_UPLOAD_MAX_MEMORY_SIZE", str(5 * 1024 * 1024))
 DATA_UPLOAD_MAX_MEMORY_SIZE = env_int("DATA_UPLOAD_MAX_MEMORY_SIZE", str(10 * 1024 * 1024))
 
-CKEDITOR_CONFIGS = {
+# ------------------------------------------------------------
+# CKEditor 5 (django-ckeditor-5) — editeur riche de l'admin
+# Remplace CKEditor 4 (fin de vie, failles XSS connues). Le paquet fixe
+# licenseKey='GPL' : CKEditor 5 est utilise sous licence GPL (voir ckeditor.com/legal).
+# ------------------------------------------------------------
+CKEDITOR_5_FILE_STORAGE = "core.storage.CKEditorUploadStorage"  # media/uploads/AAAA/MM/
+CKEDITOR_5_UPLOAD_FILE_TYPES = ["jpeg", "jpg", "png", "gif", "webp"]
+CKEDITOR_5_MAX_FILE_SIZE = 5  # Mo
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"  # seuls les comptes staff peuvent envoyer des images
+CKEDITOR_5_CUSTOM_CSS = "css/ckeditor-admin.v1.css"  # theme sombre (classe "dark" d'Unfold)
+
+# Titres h1 a h4 autorises : les articles existants contiennent des <h1> (30) qu'il faut
+# conserver tels quels lors d'une reedition.
+CKEDITOR_5_CONFIGS = {
     "default": {
-        "toolbar": "Custom",
-        "height": 400,
-        "width": "100%",
-        "uiColor": "#F3F4F6",
         "language": "fr",
-        "toolbarCanCollapse": True,
-        "removePlugins": "elementspath",
-        "extraPlugins": ",".join(
-            [
-                "autolink",
-                "justify",
-                "pastetext",
-                "pastefromword",
-                "image2",
-                "uploadimage",
-                "table",
-                "tabletools",
+        "toolbar": {
+            "items": [
+                "sourceEditing", "|",
+                "heading", "|",
+                "bold", "italic", "underline", "code", "removeFormat", "|",
+                "alignment", "|",
+                "bulletedList", "numberedList", "outdent", "indent", "|",
+                "blockQuote", "codeBlock", "|",
+                "link", "insertImage", "insertTable", "horizontalLine", "|",
+                "undo", "redo",
+            ],
+            "shouldNotGroupWhenFull": True,
+        },
+        "heading": {
+            "options": [
+                {"model": "paragraph", "title": "Paragraphe", "class": "ck-heading_paragraph"},
+                {"model": "heading1", "view": "h1", "title": "Titre 1", "class": "ck-heading_heading1"},
+                {"model": "heading2", "view": "h2", "title": "Titre 2", "class": "ck-heading_heading2"},
+                {"model": "heading3", "view": "h3", "title": "Titre 3", "class": "ck-heading_heading3"},
+                {"model": "heading4", "view": "h4", "title": "Titre 4", "class": "ck-heading_heading4"},
             ]
-        ),
-        "filebrowserBrowseUrl": "/ckeditor/browse/",
-        "filebrowserUploadUrl": "/ckeditor/upload/",
-        "imageUploadUrl": "/ckeditor/upload/",
-        "linkDefaultProtocol": "https://",
-        "linkShowAdvancedTab": False,
-        "linkShowTargetTab": True,
-        "toolbar_Custom": [
-            ["Maximize", "Source"],
-            ["Format", "Styles"],
-            ["Bold", "Italic", "Underline", "-", "RemoveFormat"],
-            ["JustifyLeft", "JustifyCenter", "JustifyRight", "JustifyBlock"],
-            ["NumberedList", "BulletedList", "-", "Outdent", "Indent", "-", "Blockquote"],
-            ["Link", "Unlink"],
-            ["Image", "Table", "HorizontalRule"],
-        ],
+        },
+        "codeBlock": {
+            "languages": [
+                {"language": "plaintext", "label": "Texte brut"},
+                {"language": "bash", "label": "Bash / Shell"},
+                {"language": "python", "label": "Python"},
+                {"language": "javascript", "label": "JavaScript"},
+                {"language": "typescript", "label": "TypeScript"},
+                {"language": "html", "label": "HTML"},
+                {"language": "css", "label": "CSS"},
+                {"language": "json", "label": "JSON"},
+                {"language": "yaml", "label": "YAML"},
+                {"language": "sql", "label": "SQL"},
+                {"language": "dockerfile", "label": "Dockerfile"},
+                {"language": "rust", "label": "Rust"},
+                {"language": "go", "label": "Go"},
+                {"language": "nginx", "label": "Nginx"},
+            ]
+        },
+        "link": {
+            "defaultProtocol": "https://",
+            "addTargetToExternalLinks": True,
+        },
+        "list": {"properties": {"styles": True, "startIndex": True, "reversed": True}},
+        "image": {
+            "toolbar": [
+                "imageTextAlternative", "toggleImageCaption", "|",
+                "imageStyle:alignLeft", "imageStyle:alignCenter", "imageStyle:alignRight", "|",
+                "resizeImage",
+            ],
+            "styles": ["alignLeft", "alignCenter", "alignRight"],
+        },
+        "table": {
+            "contentToolbar": [
+                "tableColumn", "tableRow", "mergeTableCells", "tableProperties", "tableCellProperties",
+            ]
+        },
     }
 }
 

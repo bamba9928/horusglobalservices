@@ -1,7 +1,6 @@
 asgiref==3.11.1
 Django==6.0.8
-django-ckeditor==6.7.3
-django-js-asset==3.1.2
+django-ckeditor-5==0.2.20
 django-resized==1.0.3
 django-unfold==0.80.1
 gunicorn==25.1.0

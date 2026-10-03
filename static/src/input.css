@@ -47,3 +47,35 @@
 @utility pause {
   animation-play-state: paused;
 }
+
+/* ---------------------------------------------------------------------------
+   Contenu edite avec CKEditor 5 (admin) : mise en forme des seuls elements que
+   l'editeur emet avec ses propres classes (images, tableaux, blocs de code).
+   Sans effet sur les anciens articles : ils n'ont ni ces classes ni <code class="language-*">.
+   Volontairement hors @layer : doit l'emporter sur les utilitaires.
+   --------------------------------------------------------------------------- */
+.prose figure.image { display: table; max-width: 100%; margin: 1.5rem auto; }
+.prose figure.image > img { display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 1rem; }
+.prose figure.image > figcaption {
+  display: table-caption; caption-side: bottom; padding-top: .5rem;
+  font-size: .875rem; text-align: center; color: #9ca3af;
+}
+.prose figure.image_resized { display: block; box-sizing: border-box; max-width: 100%; }
+.prose figure.image_resized > img { width: 100%; }
+.prose figure.image-style-align-left  { float: left;  margin: .5rem 1.5rem 1rem 0; }
+.prose figure.image-style-align-right { float: right; margin: .5rem 0 1rem 1.5rem; }
+.prose figure.image-style-align-center { margin-left: auto; margin-right: auto; }
+
+.prose figure.table { margin: 1.5rem 0; overflow-x: auto; }
+.prose figure.table table { width: 100%; border-collapse: collapse; }
+.prose figure.table th, .prose figure.table td { padding: .5rem .75rem; border: 1px solid rgb(255 255 255 / .15); }
+.prose figure.table th { font-weight: 700; background: rgb(255 255 255 / .05); }
+
+.prose pre:has(> code[class*="language-"]) {
+  overflow-x: auto; margin: 1.5rem 0; padding: 1rem 1.25rem;
+  background: #111114; border: 1px solid rgb(255 255 255 / .1); border-radius: 1rem;
+}
+.prose pre > code[class*="language-"] {
+  display: block; padding: 0; background: none; color: #e5e7eb; white-space: pre;
+  font: .875rem/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from unfold.admin import ModelAdmin
 
-from .models import CustomUser, Contact, Article, Project
+from .models import CustomUser, Contact, Article, LegalPage, Project
 
 
 @admin.register(Contact)
@@ -34,6 +34,13 @@ class ArticleAdmin(ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     ordering = ("-created_at",)
     date_hierarchy = "created_at"
+
+
+@admin.register(LegalPage)
+class LegalPageAdmin(ModelAdmin):
+    icon = "gavel"
+    list_display = ("title", "slug", "updated_at")
+    readonly_fields = ("updated_at",)
 
 
 @admin.register(Project)
