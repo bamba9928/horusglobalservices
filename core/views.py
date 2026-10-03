@@ -23,6 +23,11 @@ AUDIT_PREFILL_MESSAGE = (
 )
 
 
+# Carrousel "Projets recents" de l'accueil
+MARQUEE_MIN_CARDS = 6          # cartes minimum par moitie de piste (> largeur ecran)
+MARQUEE_SECONDS_PER_CARD = 7   # vitesse constante quel que soit le nombre de projets
+
+
 def _get_client_ip(request):
     """Récupère l'IP client (proxy-aware)."""
     x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
@@ -36,11 +41,20 @@ def home(request):
     """Page d'accueil optimisée"""
     # On limite les requêtes SQL pour accélérer le FCP
     recent_articles = Article.objects.filter(is_published=True).order_by("-created_at")[:3]
-    featured_projects = Project.objects.filter(is_featured=True).order_by("-id")[:3]
+    # Carrousel defilant : on prend tous les projets mis en avant.
+    featured_projects = list(Project.objects.filter(is_featured=True).order_by("-id"))
+
+    # La boucle CSS (translateX -50%) n'est continue que si chaque moitie de la
+    # piste est plus large que le conteneur : on repete donc la liste jusqu'a
+    # avoir au moins MARQUEE_MIN_CARDS cartes par moitie.
+    marquee_repeat = range(-(-MARQUEE_MIN_CARDS // len(featured_projects))) if featured_projects else range(0)
+    cards_per_half = len(featured_projects) * len(marquee_repeat)
 
     return render(request, "core/home.html", {
         "recent_articles": recent_articles,
         "featured_projects": featured_projects,
+        "marquee_repeat": marquee_repeat,
+        "marquee_duration": cards_per_half * MARQUEE_SECONDS_PER_CARD,
     })
 
 

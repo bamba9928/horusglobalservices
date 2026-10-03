@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {# Carte Python #}
             <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-blue-500/30 transition-all hover:-translate-y-1">
                 <div class="flex justify-between items-start mb-4">
@@ -91,6 +91,32 @@
                     <div class="bg-yellow-500 h-1.5 rounded-full w-[70%]"></div>
                 </div>
             </div>
+
+            {# Carte Rust #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-orange-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">🦀</span>
+                    <span class="text-xs font-bold text-orange-400 bg-orange-400/10 px-2 py-1 rounded">Intermédiaire</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">Rust</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Services performants, mémoire maîtrisée, concurrence sûre.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-orange-500 h-1.5 rounded-full w-[70%]"></div>
+                </div>
+            </div>
+
+            {# Carte Go #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl font-bold text-cyan-400">Go</span>
+                    <span class="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-2 py-1 rounded">Intermédiaire</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Go</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">APIs légères, goroutines, binaires statiques faciles à déployer.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-cyan-400 h-1.5 rounded-full w-[70%]"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -107,7 +133,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all hover:-translate-y-1">
                 <div class="flex justify-between items-start mb-4">
-                    <span class="text-3xl">⚛️</span>
+                    <span class="text-3xl">🌊</span>
                     <span class="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-2 py-1 rounded">Avancé</span>
                 </div>
                 <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Tailwind CSS</h3>
@@ -148,6 +174,58 @@
                 </div>
                 <h3 class="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Alpine.js</h3>
                 <p class="text-sm text-gray-400 mb-4 h-10">Micro-framework pour la réactivité légère.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-purple-500 h-1.5 rounded-full w-[70%]"></div>
+                </div>
+            </div>
+
+            {# Carte TypeScript #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-blue-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl font-bold text-blue-500">TS</span>
+                    <span class="text-xs font-bold text-blue-400 bg-blue-400/10 px-2 py-1 rounded">Avancé</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">TypeScript</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Typage statique, génériques, code maintenable à l'échelle.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-blue-500 h-1.5 rounded-full w-[85%]"></div>
+                </div>
+            </div>
+
+            {# Carte React #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-cyan-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">⚛️</span>
+                    <span class="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-2 py-1 rounded">Avancé</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">React</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Composants, Hooks, gestion d'état, interfaces réactives.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-cyan-400 h-1.5 rounded-full w-[85%]"></div>
+                </div>
+            </div>
+
+            {# Carte Next.js #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-gray-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl text-white">▲</span>
+                    <span class="text-xs font-bold text-gray-400 bg-white/5 px-2 py-1 rounded">Intermédiaire</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-gray-300 transition-colors">Next.js</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">App Router, SSR/SSG, routes API, SEO et performance.</p>
+                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-gray-400 h-1.5 rounded-full w-[75%]"></div>
+                </div>
+            </div>
+
+            {# Carte Astro #}
+            <div class="group bg-[#111114] border border-white/5 p-6 rounded-2xl hover:border-purple-500/30 transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-3xl">🪐</span>
+                    <span class="text-xs font-bold text-purple-400 bg-purple-400/10 px-2 py-1 rounded">Intermédiaire</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Astro</h3>
+                <p class="text-sm text-gray-400 mb-4 h-10">Sites ultra-rapides, architecture en îlots, peu de JS.</p>
                 <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
                     <div class="bg-purple-500 h-1.5 rounded-full w-[70%]"></div>
                 </div>
