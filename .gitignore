@@ -22,6 +22,14 @@ staticfiles/
 # Cache de fichiers Django (FileBasedCache)
 cache/
 
+# Fichiers televerses (avatars, portfolio, blog...) : propres au serveur, ecrits par le service web.
+# Ne pas les versionner : un deploiement (git reset --hard) ne doit pas les reecrire.
+/media/
+
+# Journaux applicatifs et socket gunicorn (crees par le service sur le serveur)
+/logs/
+/horus.sock
+
 # Outils locaux (config de lancement du serveur de dev)
 .claude/
 
