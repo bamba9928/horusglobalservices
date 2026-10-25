@@ -102,6 +102,7 @@ class ContactViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Contact.objects.count(), 1)
+        self.assertEqual(response.redirect_chain, [(f"{reverse('contact')}?type=audit", 302)])
 
         send_mail_mock.assert_called_once()
         args, _ = send_mail_mock.call_args
