@@ -2,6 +2,7 @@ import logging
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -188,7 +189,8 @@ Message :
 
             # ✅ conserve le contexte audit après redirection
             if is_audit_request:
-                return redirect(f"{request.path}?type={AUDIT_REQUEST_TYPE}")
+                # URL résolue côté serveur, jamais reconstruite depuis la requête
+                return redirect(f"{reverse('contact')}?type={AUDIT_REQUEST_TYPE}")
             return redirect("contact")
 
         # ✅ Log utile si validation échoue (anti-spam / erreurs)
