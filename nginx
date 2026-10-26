@@ -29,42 +29,6 @@ server {
 
     client_max_body_size 20M;
 
-    # ===== IP REELLE DU VISITEUR =====
-    # Le site passe par Cloudflare : $remote_addr est donc l'IP d'un serveur
-    # Cloudflare. Django lisait la premiere valeur de X-Forwarded-For, que le
-    # visiteur choisit librement (limite du formulaire de contact contournable,
-    # fausses IP dans les logs).
-    # Ici, CF-Connecting-IP n'est cru QUE si la connexion vient d'une adresse
-    # Cloudflare ; une connexion directe au serveur garde sa vraie IP.
-    # $remote_addr devient l'IP du visiteur, et proxy_params la transmet a
-    # Django dans X-Real-IP (lu par core.forms.get_client_ip).
-    # A APPLIQUER AVANT de deployer le code Django qui lit X-Real-IP : sinon
-    # tous les visiteurs d'un meme serveur Cloudflare partagent la meme limite.
-    # Plages : https://www.cloudflare.com/ips/ (relevees le 2026-10-26).
-    set_real_ip_from 173.245.48.0/20;
-    set_real_ip_from 103.21.244.0/22;
-    set_real_ip_from 103.22.200.0/22;
-    set_real_ip_from 103.31.4.0/22;
-    set_real_ip_from 141.101.64.0/18;
-    set_real_ip_from 108.162.192.0/18;
-    set_real_ip_from 190.93.240.0/20;
-    set_real_ip_from 188.114.96.0/20;
-    set_real_ip_from 197.234.240.0/22;
-    set_real_ip_from 198.41.128.0/17;
-    set_real_ip_from 162.158.0.0/15;
-    set_real_ip_from 104.16.0.0/13;
-    set_real_ip_from 104.24.0.0/14;
-    set_real_ip_from 172.64.0.0/13;
-    set_real_ip_from 131.0.72.0/22;
-    set_real_ip_from 2400:cb00::/32;
-    set_real_ip_from 2606:4700::/32;
-    set_real_ip_from 2803:f800::/32;
-    set_real_ip_from 2405:b500::/32;
-    set_real_ip_from 2405:8100::/32;
-    set_real_ip_from 2a06:98c0::/29;
-    set_real_ip_from 2c0f:f248::/32;
-    real_ip_header CF-Connecting-IP;
-
     # ===== HEADERS SECURITE =====
     # disabled by security audit on 2026-07-04: header already set by upstream app
     # add_header X-Frame-Options "DENY" always;
@@ -124,6 +88,10 @@ server {
     }
 
     # Proxy vers Django (Gunicorn)
+    # IP du visiteur : /etc/nginx/conf.d/cloudflare-realip.conf (global, hors de
+    # ce fichier) ne croit CF-Connecting-IP que pour les adresses Cloudflare,
+    # donc $remote_addr est la vraie IP. proxy_params la passe dans X-Real-IP,
+    # que lit core.forms.get_client_ip. X-Forwarded-For, lui, reste falsifiable.
     location / {
         include proxy_params;
         proxy_pass http://unix:/var/www/horusglobalservices/horusglobalservices/horus.sock;

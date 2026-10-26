@@ -50,8 +50,8 @@ def get_client_ip(request):
     """IP du visiteur, telle que nginx la transmet dans X-Real-IP.
 
     nginx ne la tire de CF-Connecting-IP que pour les connexions venant de
-    Cloudflare (module real_ip, voir le fichier nginx du dépôt) : une connexion
-    directe au serveur garde sa vraie adresse. Jamais X-Forwarded-For : sa
+    Cloudflare (/etc/nginx/conf.d/cloudflare-realip.conf sur le serveur) : une
+    connexion directe garde sa vraie adresse. Jamais X-Forwarded-For : sa
     première valeur est choisie librement par le visiteur.
     """
     return request.META.get("HTTP_X_REAL_IP") or request.META.get("REMOTE_ADDR", "")
