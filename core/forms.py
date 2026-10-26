@@ -46,12 +46,15 @@ RATE_LIMIT_MAX = 5  # max 5 soumissions
 RATE_LIMIT_WINDOW = 3600  # par heure (en secondes)
 
 
-def _get_client_ip(request):
-    """Récupère l'IP client (proxy-aware)."""
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        return x_forwarded_for.split(",")[0].strip()
-    return request.META.get("REMOTE_ADDR", "")
+def get_client_ip(request):
+    """IP du visiteur, telle que nginx la transmet dans X-Real-IP.
+
+    nginx ne la tire de CF-Connecting-IP que pour les connexions venant de
+    Cloudflare (module real_ip, voir le fichier nginx du dépôt) : une connexion
+    directe au serveur garde sa vraie adresse. Jamais X-Forwarded-For : sa
+    première valeur est choisie librement par le visiteur.
+    """
+    return request.META.get("HTTP_X_REAL_IP") or request.META.get("REMOTE_ADDR", "")
 
 
 class ContactForm(forms.ModelForm):
@@ -205,7 +208,7 @@ class ContactForm(forms.ModelForm):
 
         # Rate limiting par IP
         if self.request:
-            ip = _get_client_ip(self.request)
+            ip = get_client_ip(self.request)
             cache_key = f"contact_rate_{ip}"
             submissions = cache.get(cache_key, 0)
             if submissions >= RATE_LIMIT_MAX:
