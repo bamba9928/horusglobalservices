@@ -7,8 +7,11 @@
 #
 # Application (apres avoir relu le diff) :
 #   sudo cp /etc/nginx/sites-enabled/horuservices ~/horuservices.nginx.bak
+#   sudo install -m 644 /var/www/horusglobalservices/horusglobalservices/deploy/nginx-cloudflare-origine.conf /etc/nginx/conf.d/cloudflare-origine.conf
 #   sudo cp /var/www/horusglobalservices/horusglobalservices/nginx /etc/nginx/sites-enabled/horuservices
 #   sudo nginx -t && sudo systemctl reload nginx
+# (cloudflare-origine.conf definit $acces_origine_autorise, utilise plus bas :
+# il doit etre installe avant, sinon nginx -t echoue.)
 # Retour arriere : recopier ~/horuservices.nginx.bak puis nginx -t et reload.
 #
 # NB : sites-available/horuservices est une vieille copie, seule la version de
@@ -28,6 +31,17 @@ server {
     server_name horuservices.cloud www.horuservices.cloud;
 
     client_max_body_size 20M;
+
+    # ===== ACCES RESERVE A CLOUDFLARE =====
+    # Le VPS repondait aussi en direct a qui connait son IP, sans passer par le
+    # pare-feu ni la protection anti-DDoS de Cloudflare. Seules les connexions
+    # venant de Cloudflare (ou du serveur lui-meme, pour sa surveillance) sont
+    # servies ; les autres sont fermees sans reponse (444).
+    # Variable definie dans /etc/nginx/conf.d/cloudflare-origine.conf
+    # (copie : deploy/nginx-cloudflare-origine.conf).
+    if ($acces_origine_autorise = 0) {
+        return 444;
+    }
 
     # ===== HEADERS SECURITE =====
     # disabled by security audit on 2026-07-04: header already set by upstream app
