@@ -1,5 +1,8 @@
 # Mises a jour automatiques sous forme de pull requests : le CI (tests + admin)
 # les valide avant fusion. Rien n'est deploye tant que rien n'est fusionne dans main.
+# cooldown : une nouvelle version doit avoir 7 jours avant d'être proposée ; une
+# release piégée est en général repérée et retirée avant. Les correctifs de
+# sécurité ne sont pas retardés.
 version: 2
 updates:
   - package-ecosystem: pip
@@ -7,6 +10,8 @@ updates:
     schedule:
       interval: weekly
       day: monday
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     groups:
       python-minor-patch:
@@ -20,6 +25,8 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 3
     groups:
       securite:
@@ -30,6 +37,8 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    cooldown:
+      default-days: 7
     groups:
       actions:
         patterns: ["*"]
