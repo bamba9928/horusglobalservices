@@ -18,3 +18,6 @@ nginx  text eol=lf
 *.ico  binary
 *.woff binary
 *.woff2 binary
+
+# Hook Gitleaks : exécuté par le sh de Git, il doit rester en LF même sous Windows.
+.githooks/* text eol=lf
