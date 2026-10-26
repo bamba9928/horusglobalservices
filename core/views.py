@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 
 from django.db import models
 from .models import LegalPage, Article, Project
-from .forms import ContactForm
+from .forms import ContactForm, get_client_ip
 
 
 # Configuration du logger
@@ -27,15 +27,6 @@ AUDIT_PREFILL_MESSAGE = (
 # Carrousel "Projets recents" de l'accueil
 MARQUEE_MIN_CARDS = 6          # cartes minimum par moitie de piste (> largeur ecran)
 MARQUEE_SECONDS_PER_CARD = 7   # vitesse constante quel que soit le nombre de projets
-
-
-def _get_client_ip(request):
-    """Récupère l'IP client (proxy-aware)."""
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        # premier IP = client d'origine (souvent)
-        return x_forwarded_for.split(",")[0].strip()
-    return request.META.get("REMOTE_ADDR", "")
 
 
 def _for_log(value):
@@ -137,7 +128,7 @@ def contact(request):
             if is_audit_request:
                 subject = f"🚨 DEMANDE D'AUDIT - {contact_obj.name}"
 
-            client_ip = _get_client_ip(request)
+            client_ip = get_client_ip(request)
             user_agent = request.META.get("HTTP_USER_AGENT", "N/A")
 
             message = f"""
@@ -203,7 +194,7 @@ Message :
         # ✅ Log utile si validation échoue (anti-spam / erreurs)
         logger.warning(
             "Contact form invalide | ip=%s ua=%s errors=%s",
-            _for_log(_get_client_ip(request)),
+            _for_log(get_client_ip(request)),
             _for_log(request.META.get("HTTP_USER_AGENT", "N/A")),
             form.errors.as_json(),
         )

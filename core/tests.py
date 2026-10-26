@@ -111,10 +111,10 @@ class ContactViewTests(TestCase):
 
     @patch("core.views.send_mail")
     def test_contact_view_logs_cannot_be_forged_with_line_breaks(self, send_mail_mock):
-        # En-têtes et nom contrôlés par le visiteur : un retour à la ligne y
+        # En-têtes et nom venus de la requête : un retour à la ligne y
         # fabriquerait une fausse ligne de log s'il était écrit tel quel.
         forged = {
-            "HTTP_X_FORWARDED_FOR": "203.0.113.7\nINFO faux evenement",
+            "HTTP_X_REAL_IP": "203.0.113.7\nINFO faux evenement",
             "HTTP_USER_AGENT": "Mozilla\r\nERROR faux evenement",
         }
         valid = {
@@ -137,6 +137,26 @@ class ContactViewTests(TestCase):
             self.assertIn("203.0.113.7\\nINFO faux evenement", line)
         self.assertIn("name=Alice\\nNdiaye", logs.records[0].getMessage())
         self.assertIn("ua=Mozilla\\r\\nERROR faux evenement", logs.records[1].getMessage())
+
+    @patch("core.views.send_mail")
+    def test_contact_rate_limit_ignores_forged_x_forwarded_for(self, send_mail_mock):
+        # Changer X-Forwarded-For à chaque envoi ne doit pas remettre le compteur
+        # à zéro : seule l'IP transmise par nginx (X-Real-IP) compte.
+        data = {
+            "name": "Alice Ndiaye",
+            "email": "alice@example.com",
+            "phone": "+221771234567",
+            "message": "Bonjour, je souhaite un audit applicatif complet.",
+        }
+        for i in range(6):
+            self.client.post(
+                reverse("contact"),
+                data=data,
+                HTTP_X_FORWARDED_FOR=f"198.51.100.{i}",
+                HTTP_X_REAL_IP="203.0.113.7",
+            )
+
+        self.assertEqual(Contact.objects.count(), 5)
 
     def test_contact_view_prefills_audit_message_on_get(self):
         response = self.client.get(reverse("contact"), {"type": "audit"})

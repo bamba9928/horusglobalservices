@@ -88,6 +88,10 @@ server {
     }
 
     # Proxy vers Django (Gunicorn)
+    # IP du visiteur : /etc/nginx/conf.d/cloudflare-realip.conf (global, hors de
+    # ce fichier) ne croit CF-Connecting-IP que pour les adresses Cloudflare,
+    # donc $remote_addr est la vraie IP. proxy_params la passe dans X-Real-IP,
+    # que lit core.forms.get_client_ip. X-Forwarded-For, lui, reste falsifiable.
     location / {
         include proxy_params;
         proxy_pass http://unix:/var/www/horusglobalservices/horusglobalservices/horus.sock;
