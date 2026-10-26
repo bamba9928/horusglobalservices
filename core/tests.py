@@ -109,6 +109,35 @@ class ContactViewTests(TestCase):
         self.assertIn("DEMANDE D'AUDIT", args[0])
         self.assertIn("Type : Audit", args[1])
 
+    @patch("core.views.send_mail")
+    def test_contact_view_logs_cannot_be_forged_with_line_breaks(self, send_mail_mock):
+        # En-têtes et nom contrôlés par le visiteur : un retour à la ligne y
+        # fabriquerait une fausse ligne de log s'il était écrit tel quel.
+        forged = {
+            "HTTP_X_FORWARDED_FOR": "203.0.113.7\nINFO faux evenement",
+            "HTTP_USER_AGENT": "Mozilla\r\nERROR faux evenement",
+        }
+        valid = {
+            "name": "Alice\nNdiaye",
+            "email": "alice@example.com",
+            "phone": "+221771234567",
+            "message": "Bonjour, je souhaite un audit applicatif complet.",
+        }
+        invalid = {**valid, "phone": "invalid-phone"}
+
+        with self.assertLogs("core.views", level="INFO") as logs:
+            self.client.post(reverse("contact"), data=valid, **forged)
+            self.client.post(reverse("contact"), data=invalid, **forged)
+
+        self.assertEqual(len(logs.records), 2)
+        for record in logs.records:
+            line = record.getMessage()
+            self.assertNotIn("\n", line)
+            self.assertNotIn("\r", line)
+            self.assertIn("203.0.113.7\\nINFO faux evenement", line)
+        self.assertIn("name=Alice\\nNdiaye", logs.records[0].getMessage())
+        self.assertIn("ua=Mozilla\\r\\nERROR faux evenement", logs.records[1].getMessage())
+
     def test_contact_view_prefills_audit_message_on_get(self):
         response = self.client.get(reverse("contact"), {"type": "audit"})
 

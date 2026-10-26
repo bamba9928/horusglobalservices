@@ -38,6 +38,13 @@ def _get_client_ip(request):
     return request.META.get("REMOTE_ADDR", "")
 
 
+def _for_log(value):
+    """Neutralise les retours à la ligne d'une valeur fournie par le visiteur
+    (en-tête, champ de formulaire) avant de la journaliser : sans cela, une
+    valeur forgée pourrait inventer de fausses lignes dans les logs."""
+    return str(value).replace("\r", "\\r").replace("\n", "\\n")
+
+
 def home(request):
     """Page d'accueil optimisée"""
     # On limite les requêtes SQL pour accélérer le FCP
@@ -161,8 +168,8 @@ Message :
                 except Exception as e:
                     logger.error(
                         "Erreur envoi email contact | email=%s ip=%s err=%s",
-                        contact_obj.email,
-                        client_ip,
+                        _for_log(contact_obj.email),
+                        _for_log(client_ip),
                         e,
                         exc_info=True,
                     )
@@ -177,9 +184,9 @@ Message :
             logger.info(
                 "Contact enregistré | type=%s name=%s email=%s ip=%s",
                 "audit" if is_audit_request else "standard",
-                contact_obj.name,
-                contact_obj.email,
-                client_ip,
+                _for_log(contact_obj.name),
+                _for_log(contact_obj.email),
+                _for_log(client_ip),
             )
 
             messages.success(
@@ -196,8 +203,8 @@ Message :
         # ✅ Log utile si validation échoue (anti-spam / erreurs)
         logger.warning(
             "Contact form invalide | ip=%s ua=%s errors=%s",
-            _get_client_ip(request),
-            request.META.get("HTTP_USER_AGENT", "N/A"),
+            _for_log(_get_client_ip(request)),
+            _for_log(request.META.get("HTTP_USER_AGENT", "N/A")),
             form.errors.as_json(),
         )
 
