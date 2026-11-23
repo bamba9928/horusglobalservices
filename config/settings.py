@@ -468,7 +468,7 @@ CSP_SERVER_ERROR_DIRECTIVES = {
 # ------------------------------------------------------------
 UNFOLD = {
     "SITE_TITLE": "Horus Global Admin",
-    "SITE_HEADER": "Horus Global Service",
+    "SITE_HEADER": "Horus Global Services",
     "SITE_SYMBOL": "speed",
     "COLORS": {
         "primary": {
