@@ -1,0 +1,150 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}À propos — Bamba Dieng, développeur Django & sécurité | Horus Global{% endblock %}
+{% block description %}Bamba Dieng, fondateur de Horus Global Services : applications métier sécurisées en Django pour l'assurance et les PME d'Afrique de l'Ouest.{% endblock %}
+{% block og_title %}À propos — Bamba Dieng · Horus Global Services{% endblock %}
+{% block og_description %}Je conçois, déploie et maintiens des applications métier sécurisées en Django pour l'assurance et les PME d'Afrique de l'Ouest.{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Bamba Dieng",
+  "jobTitle": "Développeur Django & sécurité",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Horus Global Services",
+    "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'home' %}"
+  },
+  "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'about' %}",
+  "knowsAbout": ["Python", "Django", "PostgreSQL", "Sécurité des applications web", "DevOps"]{% if GITHUB_URL %},
+  "sameAs": ["{{ GITHUB_URL }}"]{% endif %}
+}
+</script>
+{% endblock %}
+
+{% block content %}
+{# --- EN-TÊTE : la personne --- #}
+<section class="relative pt-12 pb-12 sm:pt-16 md:pt-24 md:pb-16 px-4 sm:px-6 md:px-12 overflow-clip">
+  <div class="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
+    <div class="absolute top-0 left-1/4 w-[420px] h-[320px] bg-blue-500/10 blur-[110px] rounded-full"></div>
+  </div>
+
+  <div class="max-w-5xl mx-auto grid md:grid-cols-[auto,1fr] gap-8 md:gap-12 items-center">
+    <div class="mx-auto md:mx-0 w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-3xl overflow-hidden
+                border border-white/10 bg-card shadow-2xl shadow-black/50 flex items-center justify-center">
+      {% if about_photo %}
+        <img src="{% static about_photo %}" alt="Bamba Dieng"
+             width="224" height="224" class="w-full h-full object-cover" loading="eager" decoding="async">
+      {% else %}
+        <img src="{% static 'img/horus-logo-mark-256.webp' %}" alt="Logo Horus Global Services"
+             width="160" height="160" class="w-3/4 h-3/4 object-contain" loading="eager" decoding="async">
+      {% endif %}
+    </div>
+
+    <div class="text-center md:text-left">
+      <p class="font-display text-xs font-bold uppercase tracking-widest text-accent mb-3">À propos</p>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white font-display mb-3">
+        Bamba Dieng
+      </h1>
+      <p class="text-base sm:text-lg text-gray-300 font-semibold mb-5">
+        Fondateur de Horus Global Services · Développeur Django &amp; sécurité
+      </p>
+      <p class="text-base sm:text-lg text-gray-400 leading-relaxed max-w-2xl mx-auto md:mx-0">
+        Je construis des applications métier pour les entreprises qui ne peuvent pas se permettre
+        de perdre leurs données ni leurs clients : assureurs, intermédiaires, PME.
+        Je m'occupe de tout, de l'analyse du besoin à la mise en production, puis de la maintenance.
+        Vous avez un seul interlocuteur, qui connaît votre code de bout en bout.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 md:px-12 pb-8 space-y-16 md:space-y-20">
+
+  {# --- CE QUE JE FAIS --- #}
+  <section aria-labelledby="about-do">
+    <h2 id="about-do" class="text-2xl sm:text-3xl font-bold text-white font-display mb-6">Ce que je fais</h2>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div class="p-6 rounded-2xl border border-white/10 bg-card">
+        <h3 class="text-lg font-bold text-white mb-2">Applications métier</h3>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          Devis, contrats, clients, échéances, documents PDF, tableaux de bord et droits d'accès par rôle.
+          Le métier de l'assurance auto, je l'ai déjà modélisé plusieurs fois.
+        </p>
+      </div>
+      <div class="p-6 rounded-2xl border border-white/10 bg-card">
+        <h3 class="text-lg font-bold text-white mb-2">Paiements et intégrations</h3>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          Paiements Wave et Orange Money, API partenaires, notifications.
+          Des API REST documentées pour vos applications web et mobiles.
+        </p>
+      </div>
+      <div class="p-6 rounded-2xl border border-white/10 bg-card">
+        <h3 class="text-lg font-bold text-white mb-2">Sécurité et audit</h3>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          Audit d'applications Django existantes, durcissement du serveur, contrôle d'accès,
+          gestion des secrets. Avec un rapport clair et les corrections priorisées.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {# --- COMMENT JE TRAVAILLE : pratiques appliquées sur ce site même --- #}
+  <section aria-labelledby="about-how">
+    <h2 id="about-how" class="text-2xl sm:text-3xl font-bold text-white font-display mb-2">Comment je travaille</h2>
+    <p class="text-gray-400 mb-6">Ces pratiques ne sont pas une promesse : ce site lui-même en bénéficie.</p>
+    <ul class="grid sm:grid-cols-2 gap-4">
+      <li class="p-5 rounded-2xl border border-white/10 bg-white/[0.03]">
+        <p class="font-bold text-white mb-1">La sécurité dès le départ</p>
+        <p class="text-sm text-gray-400 leading-relaxed">Politique de sécurité du contenu (CSP), serveur qui n'accepte que le trafic de Cloudflare, en-têtes durcis, limitation des abus sur les formulaires.</p>
+      </li>
+      <li class="p-5 rounded-2xl border border-white/10 bg-white/[0.03]">
+        <p class="font-bold text-white mb-1">Aucun secret dans le code</p>
+        <p class="text-sm text-gray-400 leading-relaxed">Clés et mots de passe sont détectés avant même de quitter mon poste (Gitleaks), puis vérifiés à nouveau à chaque envoi.</p>
+      </li>
+      <li class="p-5 rounded-2xl border border-white/10 bg-white/[0.03]">
+        <p class="font-bold text-white mb-1">Tests et déploiement contrôlé</p>
+        <p class="text-sm text-gray-400 leading-relaxed">Chaque modification passe des tests automatisés et une analyse de vulnérabilités, puis un déploiement scripté qui vérifie que le site répond.</p>
+      </li>
+      <li class="p-5 rounded-2xl border border-white/10 bg-white/[0.03]">
+        <p class="font-bold text-white mb-1">Vous restez propriétaire</p>
+        <p class="text-sm text-gray-400 leading-relaxed">Le code, la documentation et les accès vous sont remis. Vous n'êtes pas prisonnier de votre prestataire.</p>
+      </li>
+    </ul>
+  </section>
+
+  {# --- PRODUITS --- #}
+  <section aria-labelledby="about-products">
+    <h2 id="about-products" class="text-2xl sm:text-3xl font-bold text-white font-display mb-2">Des produits que j'exploite</h2>
+    <p class="text-gray-400 mb-6">Je ne fais pas que livrer : je fais aussi tourner mes propres plateformes en production.</p>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <a href="https://assur-manager.pro/" target="_blank" rel="noopener noreferrer"
+         class="group p-6 rounded-2xl border border-white/10 bg-card hover:border-white/25 transition-colors">
+        <p class="text-lg font-bold text-white mb-1">Assur Manager <span aria-hidden="true" class="text-gray-500 group-hover:text-white">↗</span></p>
+        <p class="text-sm text-gray-400">Gestion d'assurance auto : devis, clients, véhicules, polices, paiements et échéances.</p>
+      </a>
+      <a href="https://horus-assur.digital/" target="_blank" rel="noopener noreferrer"
+         class="group p-6 rounded-2xl border border-white/10 bg-card hover:border-white/25 transition-colors">
+        <p class="text-lg font-bold text-white mb-1">Horus Assur <span aria-hidden="true" class="text-gray-500 group-hover:text-white">↗</span></p>
+        <p class="text-sm text-gray-400">Plateforme B2B d'assurance automobile : devis, paiement et attestation depuis un téléphone.</p>
+      </a>
+    </div>
+    <p class="mt-4 text-sm">
+      <a href="{% url 'portfolio' %}" class="text-white font-semibold hover:underline">Voir tous les projets →</a>
+    </p>
+  </section>
+
+  {# --- APPEL À L'ACTION --- #}
+  <section class="text-center p-8 sm:p-12 rounded-3xl border border-white/10 bg-white/[0.03]" aria-labelledby="about-cta">
+    <h2 id="about-cta" class="text-2xl sm:text-3xl font-bold text-white font-display mb-3">Parlons de votre projet</h2>
+    <p class="text-gray-400 mb-6 max-w-xl mx-auto">Un outil à construire, une application à sécuriser ou à reprendre : décrivez-moi votre besoin, je vous réponds personnellement.</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="{% url 'contact' %}" class="px-7 py-3.5 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors">Me contacter</a>
+      <a href="{% url 'contact' %}?type=audit" class="px-7 py-3.5 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors">Demander un audit</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

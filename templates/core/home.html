@@ -67,10 +67,10 @@
                     will-change-transform"></div>
     </div>
 
-    {# Surtitre : la marque. Le h1 porte l'offre, pas le nom de l'entreprise. #}
+    {# Surtitre : la personne et la marque. Le h1 porte l'offre. #}
     <p class="relative z-10 mb-3 sm:mb-4 font-display text-xs
               font-bold uppercase tracking-widest text-accent">
-        Horus Global Services
+        Bamba Dieng · Horus Global Services
     </p>
 
     {# Titre h1 — LCP probable sur desktop (pas d'image au-dessus) #}
@@ -78,31 +78,39 @@
                font-extrabold tracking-tighter mb-4 sm:mb-6 md:mb-8
                text-white relative z-10 font-display leading-[1.1] sm:leading-[1.05]
                max-w-4xl mx-auto">
-        Applications web, mobile, SaaS,
+        Applications métier sécurisées
         <br class="hidden sm:block">
-        logiciel de gestion
+        pour l'assurance et les PME
         <br class="hidden sm:block">
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500">
-            fiables et sécurisées
+            d'Afrique de l'Ouest
         </span>
     </h1>
 
     <p class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-400
-              max-w-xl sm:max-w-2xl md:max-w-3xl mx-auto leading-relaxed mb-6 sm:mb-8 md:mb-10
+              max-w-xl sm:max-w-2xl md:max-w-3xl mx-auto leading-relaxed mb-5 sm:mb-6
               relative z-10 px-2 sm:px-4 md:px-1">
-        Horus Global Services conçoit et industrialise vos applications métier :
-        <strong class="text-white font-semibold">Python / Django / APIs</strong>,
-        <strong class="text-white font-semibold">Rust / Go</strong>,
-        <strong class="text-white font-semibold">TypeScript / React / Next.js / Astro</strong>,
-        <strong class="text-white font-semibold">Base de données</strong>,
-        <strong class="text-white font-semibold">DevOps</strong>,
-        <strong class="text-white font-semibold">tests</strong>.
-        <br class="hidden md:inline">
-        <strong class="text-white font-semibold">IA appliquée</strong>,
-        <strong class="text-white font-semibold">cybersécurité</strong> et
-        <strong class="text-white font-semibold">audit</strong>
-        pour automatiser, durcir et optimiser vos systèmes.
+        Je conçois, déploie et maintiens vos outils de gestion en
+        <strong class="text-white font-semibold">Python / Django</strong> :
+        devis, contrats, clients, échéances, tableaux de bord et paiements
+        <strong class="text-white font-semibold">Wave</strong> et
+        <strong class="text-white font-semibold">Orange Money</strong>.
+        La sécurité est intégrée dès la première ligne, pas ajoutée à la fin.
     </p>
+
+    {# Preuves courtes : ce qui existe déjà, vérifiable #}
+    <ul class="relative z-10 flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-8 md:mb-10 px-2"
+        aria-label="En bref">
+        <li class="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs sm:text-sm text-gray-300">
+            Assur Manager et Horus Assur en production
+        </li>
+        <li class="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs sm:text-sm text-gray-300">
+            Paiements mobile money intégrés
+        </li>
+        <li class="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs sm:text-sm text-gray-300">
+            Audit de sécurité Django
+        </li>
+    </ul>
 
     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center
                 relative z-10 px-4 sm:px-0 max-w-md sm:max-w-none mx-auto">
@@ -115,19 +123,19 @@
             Démarrer un projet
             <span class="inline-block transition-transform group-hover:translate-x-1 ml-1" aria-hidden="true">→</span>
         </a>
-        <a href="{% url 'services' %}"
-           class="px-6 py-3 sm:px-7 sm:py-3.5 md:px-8 md:py-4
-                  bg-white/5 border border-white/10 text-white font-semibold rounded-full
-                  hover:bg-white/10 hover:border-white/30 transition-colors backdrop-blur-sm
-                  text-sm sm:text-base text-center">
-            Voir mes services
-        </a>
         <a href="{% url 'contact' %}?type=audit"
            class="px-6 py-3 sm:px-7 sm:py-3.5 md:px-8 md:py-4
                   bg-white/5 border border-white/10 text-white font-semibold rounded-full
                   hover:bg-white/10 hover:border-white/30 transition-colors backdrop-blur-sm
                   text-sm sm:text-base text-center">
             Demander un audit
+        </a>
+        <a href="{% url 'about' %}"
+           class="px-6 py-3 sm:px-7 sm:py-3.5 md:px-8 md:py-4
+                  bg-white/5 border border-white/10 text-white font-semibold rounded-full
+                  hover:bg-white/10 hover:border-white/30 transition-colors backdrop-blur-sm
+                  text-sm sm:text-base text-center">
+            Qui suis-je ?
         </a>
     </div>
 

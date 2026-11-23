@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib.staticfiles import finders
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -59,6 +60,16 @@ def home(request):
 
 def services(request):
     return render(request, "core/services.html")
+
+
+# Photo de la page « À propos ». Tant que le fichier n'est pas déposé dans
+# static/img/, la page affiche le logo à la place (pas d'image cassée).
+ABOUT_PHOTO = "img/bamba-dieng.webp"
+
+
+def about(request):
+    photo = ABOUT_PHOTO if finders.find(ABOUT_PHOTO) else None
+    return render(request, "core/about.html", {"about_photo": photo})
 
 
 def skills(request):
