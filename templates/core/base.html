@@ -188,12 +188,17 @@
           --header-h:   60px;        /* Réduit pour mobile */
           --marquee-h:  44px;        /* Réduit pour mobile */
           --platforms-h: 52px;       /* Barre plateformes (2e header) */
-          --gap:        12px;        /* Réduit pour mobile */
+          /* Pas d'espace entre le bandeau et le header : un vide laissait voir le
+             contenu défiler entre les deux barres fixes. */
+          --gap:        0px;
           --safe-top:   env(safe-area-inset-top, 0px);
           --safe-bottom: env(safe-area-inset-bottom, 0px);
           --header-top: calc(var(--marquee-h) + var(--gap) + var(--safe-top));
           /* Hauteur totale de l'empilement fixe : marquee + gap + header + plateformes */
           --stack-h:    calc(var(--header-top) + var(--header-h) + var(--platforms-h));
+          /* Hauteur réservée en haut de <main> : toujours l'empilement complet, pour que
+             le contenu ne saute pas quand l'empilement se replie (html.stack-compact). */
+          --stack-full: calc(var(--marquee-h) + var(--gap) + var(--safe-top) + var(--header-h) + var(--platforms-h));
           --bg:         #08080a;
           --fg:         #f0ece4;
           --muted:      rgba(240,236,228,.70);
@@ -207,7 +212,6 @@
             --header-h:   64px;
             --marquee-h:  48px;
             --platforms-h: 56px;
-            --gap:        16px;
             --section-py: 4rem;
             --container-px: 1.5rem;
           }
@@ -217,7 +221,6 @@
             --header-h:   70px;
             --marquee-h:  54px;
             --platforms-h: 58px;
-            --gap:        25px;
             --section-py: 5rem;
             --container-px: 2rem;
           }
@@ -295,9 +298,26 @@
             width: auto;
           }
         }
+        /* Empilement replié en défilant vers le bas : seul le menu reste visible.
+           --stack-h suit (scroll-padding, toasts) puisqu'il dépend de --header-top. */
+        html.stack-compact {
+          --header-top: var(--safe-top);
+          --stack-h:    calc(var(--header-top) + var(--header-h));
+        }
+        html.stack-compact #top-marquee-bar {
+          transform: translateY(-100%);
+        }
+        html.stack-compact #platforms-bar {
+          transform: translateY(-100%);
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+        }
+
         #top-marquee-bar {
           position: fixed;
           top: 0;
+          transition: transform .3s ease;
           left: 0;
           right: 0;
           height: var(--marquee-h);
@@ -312,6 +332,7 @@
           right: 0;
           top: var(--header-top);
           transition:
+            top             .3s ease,
             background      .35s ease,
             border-color    .35s ease,
             box-shadow      .35s ease,
@@ -355,6 +376,7 @@
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           contain: layout style;
+          transition: top .3s ease, transform .3s ease, opacity .3s ease, visibility .3s;
         }
 
         @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -771,6 +793,11 @@
           #mobile-menu {
             max-height: calc(100dvh - var(--header-top) - var(--header-h));
           }
+          /* Le logo (48px) débordait d'un header de 50px */
+          #site-header .site-logo-mark {
+            width: 2.5rem;
+            height: 2.5rem;
+          }
         }
         @media (prefers-reduced-motion: reduce) {
           *,
@@ -1055,7 +1082,7 @@
        aria-label="Horus Global Services — Accueil">
 
       <span
-      class="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center
+      class="site-logo-mark w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center
              group-hover:scale-105 transition-transform duration-200
              shadow-lg shadow-accent/20 overflow-hidden"
       aria-hidden="true">
@@ -1074,7 +1101,7 @@
       />
     </span>
       <span class="font-display font-bold text-xl tracking-wide text-white hidden sm:block">
-        Horus<span class="text-muted font-normal text-base"> Global Service</span>
+        Horus<span class="text-muted font-normal text-base"> Global Services</span>
       </span>
     </a>
     {% with url_name=request.resolver_match.url_name %}
@@ -1304,7 +1331,7 @@
 {# ====================================================================== #}
 {# 2e HEADER FIXE — Acces direct aux plateformes                          #}
 {# ====================================================================== #}
-<div id="platforms-bar" role="navigation" aria-label="Nos plateformes metier">
+<div id="platforms-bar" role="navigation" aria-label="Nos plateformes métier">
   <div class="platforms-inner">
 
     <span class="platforms-label" aria-hidden="true">Nos plateformes</span>
@@ -1349,7 +1376,7 @@
 {# ====================================================================== #}
 {# MAIN                                                                    #}
 {# ====================================================================== #}
-<main id="main-content" tabindex="-1" class="flex-1 w-full relative isolate focus:outline-none" style="padding-top: var(--stack-h);">
+<main id="main-content" tabindex="-1" class="flex-1 w-full relative isolate focus:outline-none" style="padding-top: var(--stack-full);">
 
   {# Background décoratif #}
   <div aria-hidden="true" class="pointer-events-none">
@@ -1511,9 +1538,9 @@
         &copy; {% now "Y" %} Horus Global Services. <span class="hidden sm:inline">Tous droits réservés.</span>
       </p>
       <div class="flex items-center gap-3 text-xs text-gray-500">
-        <a href="{% url 'legal_page' 'mentions-legales' %}" class="hover:text-white transition-colors">Mentions legales</a>
+        <a href="{% url 'legal_page' 'mentions-legales' %}" class="hover:text-white transition-colors">Mentions légales</a>
         <span class="text-white/10">|</span>
-        <a href="{% url 'legal_page' 'confidentialite' %}" class="hover:text-white transition-colors">Confidentialite</a>
+        <a href="{% url 'legal_page' 'confidentialite' %}" class="hover:text-white transition-colors">Confidentialité</a>
         <span class="text-white/10">|</span>
         <a href="{% url 'legal_page' 'cookies' %}" class="hover:text-white transition-colors">Cookies</a>
       </div>
@@ -1546,8 +1573,21 @@
         // -----------------------------
         // Header scroll effect (rAF)
         // -----------------------------
+        // Empilement replié (bandeau + barre plateformes masqués) en descendant,
+        // déplié dès qu'on remonte : seul le menu occupe le haut de l'écran.
+        const root = document.documentElement;
+        let lastY = window.scrollY;
         const updateHeader = () => {
-          header.classList.toggle('scrolled', window.scrollY > 20);
+          const y = window.scrollY;
+          header.classList.toggle('scrolled', y > 20);
+          if (isMenuOpen || y < 120) {
+            root.classList.remove('stack-compact');
+          } else if (y > lastY + 4) {
+            root.classList.add('stack-compact');
+          } else if (y < lastY - 4) {
+            root.classList.remove('stack-compact');
+          }
+          lastY = y;
           ticking = false;
         };
 
@@ -1699,8 +1739,8 @@
     <div class="bg-[#111114] border border-white/10 rounded-2xl p-5 md:p-6 shadow-2xl shadow-black/60 backdrop-blur-xl flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
       <div class="flex-1 min-w-0">
         <p class="text-sm text-gray-300 leading-relaxed">
-          Nous utilisons des cookies pour mesurer l'audience et ameliorer votre experience.
-          En cliquant <strong class="text-white">Accepter</strong>, vous consentez a l'utilisation de cookies analytiques.
+          Nous utilisons des cookies pour mesurer l'audience et améliorer votre expérience.
+          En cliquant <strong class="text-white">Accepter</strong>, vous consentez à l'utilisation de cookies analytiques.
           <a href="{% url 'legal_page' 'cookies' %}" class="text-blue-400 hover:underline">En savoir plus</a>
         </p>
       </div>
