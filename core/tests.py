@@ -264,7 +264,7 @@ def _make_project(slug="mon-projet", **extra):
 
 class PublicPagesTests(TestCase):
     def test_main_pages_return_200(self):
-        for name in ("home", "services", "skills", "portfolio", "blog", "contact", "search"):
+        for name in ("home", "about", "services", "skills", "portfolio", "blog", "contact", "search"):
             with self.subTest(page=name):
                 self.assertEqual(self.client.get(reverse(name)).status_code, 200)
 
@@ -290,8 +290,22 @@ class PublicPagesTests(TestCase):
     def test_seo_defaults_match_the_current_positioning(self):
         html = self.client.get(reverse("home")).content.decode()
 
-        self.assertIn("Rust / Go", html)
+        self.assertIn("l'assurance et les PME", html)
         self.assertNotIn("infaillible", html)
+
+    def test_about_page_presents_the_person_and_is_linked(self):
+        html = self.client.get(reverse("about")).content.decode()
+
+        self.assertIn("Bamba Dieng", html)
+        self.assertIn('"@type": "Person"', html)
+        self.assertIn('href="%s"' % reverse("about"), self.client.get(reverse("home")).content.decode())
+
+    def test_about_page_falls_back_to_logo_without_photo(self):
+        with patch("core.views.ABOUT_PHOTO", "img/absente.webp"):
+            html = self.client.get(reverse("about")).content.decode()
+
+        self.assertNotIn("absente.webp", html)
+        self.assertIn("horus-logo-mark-256", html)
 
 
 class BlogTests(TestCase):

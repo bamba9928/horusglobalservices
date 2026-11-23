@@ -8,7 +8,7 @@
 
     {# SEO Global & Métadonnées — Horus Global Services #}
     <title>{% block title %}Applications web Django sécurisées au Sénégal | Horus Global{% endblock %}</title>
-    <meta name="description" content="{% block description %}Applications métier sur mesure au Sénégal : Python / Django, Rust / Go, React / Next.js, DevOps et tests. IA appliquée, cybersécurité et audit.{% endblock %}">
+    <meta name="description" content="{% block description %}Applications métier sécurisées en Django pour l'assurance et les PME d'Afrique de l'Ouest : gestion, paiements Wave et Orange Money, audit de sécurité.{% endblock %}">
     <meta name="author" content="Horus Global Services">
     <meta name="robots" content="index, follow">
     <meta name="msvalidate.01" content="5A7026FF3A5B42258F0C8394DC3820BC" />
@@ -32,7 +32,7 @@
     <meta property="og:site_name" content="Horus Global Services">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:title" content="{% block og_title %}Horus Global Services — Applications web Django fiables et sécurisées{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Je conçois et j'industrialise vos applications métier : Python / Django / APIs, Rust / Go, TypeScript / React / Next.js / Astro, base de données, DevOps et tests. IA appliquée, cybersécurité et audit pour automatiser, durcir et optimiser vos systèmes.{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Je conçois, déploie et maintiens des applications métier sécurisées en Django pour l'assurance et les PME d'Afrique de l'Ouest : gestion, paiements Wave et Orange Money, audit de sécurité.{% endblock %}">
     {% comment %} Image : Format recommandé 1200x630px — on sert le JPG (73 Ko) et non le
        PNG (1,8 Mo) : og:image et og:image:secure_url doivent designer le meme
        fichier, et certains scrapers rejettent les images trop lourdes. {% endcomment %}
@@ -1118,7 +1118,18 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
         </svg>
-        <span>Home</span>
+        <span>Accueil</span>
+      </a>
+
+      <a href="{% url 'about' %}"
+         class="group hidden xl:flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                {% if url_name == 'about' %}bg-white/10 text-white shadow-inner{% else %}text-muted hover:text-white hover:bg-white/5{% endif %}">
+        <svg class="w-5 h-5 {% if url_name == 'about' %}text-accent{% else %}text-gray-500 group-hover:text-accent{% endif %} transition-colors"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        <span>À propos</span>
       </a>
 
       <a href="{% url 'portfolio' %}"
@@ -1159,7 +1170,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
         </svg>
-        <span>Article</span>
+        <span>Blog</span>
       </a>
     </nav>
     {# Desktop CTA #}
@@ -1239,6 +1250,26 @@
           <span class="block text-xs text-gray-400 mt-0.5">Case studies & portfolio</span>
         </div>
         {% if url_name == 'portfolio' %}
+          <div class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
+        {% endif %}
+      </a>
+
+      {# ---- À propos ---- #}
+      <a href="{% url 'about' %}"
+         class="group flex items-center gap-4 px-3 py-3 rounded-2xl border transition-all
+                {% if url_name == 'about' %}nav-item-active{% else %}border-transparent hover:bg-white/[0.06] hover:border-white/10{% endif %}">
+        <div class="nav-icon w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border transition-transform group-hover:scale-105">
+          <svg class="w-5 h-5 {% if url_name == 'about' %}text-accent{% else %}text-gray-300{% endif %}"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <span class="block text-[15px] font-bold {% if url_name == 'about' %}text-white{% else %}text-gray-100{% endif %} leading-snug">À propos</span>
+          <span class="block text-xs text-gray-400 mt-0.5">Qui je suis, comment je travaille</span>
+        </div>
+        {% if url_name == 'about' %}
           <div class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
         {% endif %}
       </a>
@@ -1493,6 +1524,7 @@
       <div class="md:col-span-3 text-center md:text-left">
         <h3 class="font-display text-xs font-bold text-white uppercase tracking-widest mb-6">Explorer</h3>
         <ul class="space-y-3">
+          <li><a href="{% url 'about' %}" class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline"><span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>À propos</a></li>
           <li><a href="{% url 'portfolio' %}" class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline"><span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>Case studies</a></li>
           <li><a href="{% url 'services' %}" class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline"><span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>Services</a></li>
           <li><a href="{% url 'skills' %}" class="group flex items-center justify-center md:justify-start gap-2 text-sm text-muted hover:text-white transition-colors py-1 no-underline"><span class="w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity"></span>Tech stack</a></li>
